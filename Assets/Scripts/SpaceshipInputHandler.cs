@@ -10,6 +10,7 @@ public class SpaceshipInputHandler : MonoBehaviour
     public float yawDelta {get; private set;}
     public float rollDelta {get; private set;}
     public float forwardMovement {get; private set;}
+    public float verticalMovement {get; private set;}
 
     private void Awake()
     {
@@ -21,14 +22,23 @@ public class SpaceshipInputHandler : MonoBehaviour
         inputSystemActions.Player.Look.canceled += OnMouseMove;
         inputSystemActions.Player.Move.performed += OnMove;
         inputSystemActions.Player.Move.canceled += OnMove;
+        inputSystemActions.Player.VerticalMovement.performed += OnVerticalMovement;
+        inputSystemActions.Player.VerticalMovement.canceled += OnVerticalMovement;
+    }
+
+    private void OnVerticalMovement(InputAction.CallbackContext context)
+    {
+        float vertical =  context.ReadValue<float>();
+        
+        verticalMovement = vertical;
     }
 
     private void OnMove(InputAction.CallbackContext context)
     {
         Vector2 moveVec =  context.ReadValue<Vector2>();
         
-        rollDelta = moveVec.x;
-        forwardMovement = -moveVec.y;
+        rollDelta = -moveVec.x;
+        forwardMovement = moveVec.y;
     }
 
     private void OnMouseMove(InputAction.CallbackContext context)
@@ -36,6 +46,6 @@ public class SpaceshipInputHandler : MonoBehaviour
         Vector2 lookVec = context.ReadValue<Vector2>();
         
         yawDelta = lookVec.x;
-        pitchDelta = lookVec.y;
+        pitchDelta = -lookVec.y;
     }
 }

@@ -10,8 +10,9 @@ public class SpaceshipController : MonoBehaviour
     private Rigidbody rb;
     
     [SerializeField] private float torqueForce;
-    [SerializeField] private float rollTorqueForceMultiplier;
+    [SerializeField] private float rollTorqueForce;
     [SerializeField] private float movementSpeed;
+    [SerializeField] private float verticalMovementSpeed;
 
     private void Awake()
     {
@@ -26,8 +27,9 @@ public class SpaceshipController : MonoBehaviour
     {
         rb.AddTorque(transform.right * (input.pitchDelta * torqueForce), ForceMode.Force);
         rb.AddTorque(transform.up * (input.yawDelta * torqueForce), ForceMode.Force);
-        rb.AddTorque(transform.forward * (input.rollDelta * rollTorqueForceMultiplier * torqueForce), ForceMode.Force);
+        rb.AddTorque(transform.forward * (input.rollDelta * rollTorqueForce), ForceMode.Force);
         
         rb.AddForce(transform.forward * (input.forwardMovement * movementSpeed), ForceMode.Force);
+        rb.AddForce(transform.up * (input.verticalMovement * verticalMovementSpeed), ForceMode.Force);
     }
 }
