@@ -1,0 +1,174 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &950404385683837438
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8672339183317336025}
+  - component: {fileID: 68420066467202353}
+  - component: {fileID: 4003047047334425931}
+  m_Layer: 6
+  m_Name: AISpaceship
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8672339183317336025
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950404385683837438}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 20.228668, y: -7.3944364, z: 196.22847}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3740156947654058504}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &68420066467202353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950404385683837438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddfc69f954fb27c70a9dd71f5b505626, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 4003047047334425931}
+  target: {fileID: 0}
+  speed: 15
+  rotationLerpSpeed: 3
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 55
+  obstacleClearance: 7
+  otherAIMask:
+    serializedVersion: 2
+    m_Bits: 64
+  otherAICheckRadius: 30
+  repelFromOthersForce: 1
+  repelLerpSpeed: 3
+  move: 1
+  repelMagnitude: 0
+  repelClampedMagnitude: 0
+--- !u!54 &4003047047334425931
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950404385683837438}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 1
+  m_AngularDrag: 1
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 1
+--- !u!1001 &2792979500076776167
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8672339183317336025}
+    m_Modifications:
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1913219601686888552, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_Name
+      value: FighterMediumPrefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1913219601686888552, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2389110541745235775, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3326787085259082352, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3566645241938111381, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9137379658629303533, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+--- !u!4 &3740156947654058504 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+  m_PrefabInstance: {fileID: 2792979500076776167}
+  m_PrefabAsset: {fileID: 0}

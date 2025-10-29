@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SpaceshipInputHandler : MonoBehaviour
+public class SpaceshipInputHandler : MonoBehaviour, IShootInput
 {
     private InputSystem_Actions inputSystemActions;
     
@@ -11,6 +11,8 @@ public class SpaceshipInputHandler : MonoBehaviour
     public float rollDelta {get; private set;}
     public float forwardMovement {get; private set;}
     public float verticalMovement {get; private set;}
+
+    private bool isShooting;
 
     private void Awake()
     {
@@ -24,6 +26,13 @@ public class SpaceshipInputHandler : MonoBehaviour
         inputSystemActions.Player.Move.canceled += OnMove;
         inputSystemActions.Player.VerticalMovement.performed += OnVerticalMovement;
         inputSystemActions.Player.VerticalMovement.canceled += OnVerticalMovement;
+        inputSystemActions.Player.Attack.performed += OnShoot;
+        inputSystemActions.Player.Attack.canceled += OnShoot;
+    }
+
+    private void OnShoot(InputAction.CallbackContext context)
+    {
+        isShooting = !context.canceled;
     }
 
     private void OnVerticalMovement(InputAction.CallbackContext context)
@@ -48,4 +57,6 @@ public class SpaceshipInputHandler : MonoBehaviour
         yawDelta = lookVec.x;
         pitchDelta = -lookVec.y;
     }
+
+    public bool IsShooting() => isShooting;
 }

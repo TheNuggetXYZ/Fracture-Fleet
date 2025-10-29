@@ -18,9 +18,6 @@ public class SpaceshipController : MonoBehaviour
     {
         input = GetComponent<SpaceshipInputHandler>();
         rb = GetComponent<Rigidbody>();
-        
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
     private void FixedUpdate()

@@ -58,13 +58,15 @@ Material:
     - _DistortionStrength: 1
     - _HighDetailMovementImpact: 1
     - _HighDetailMovementSpeed: 0.3
-    - _HighDetailScale: 30
+    - _HighDetailScale: 100
+    - _HighDetailStrength: 1
     - _MovementImpact: 2
     - _MovementSpeed: 0.3
     - _NoiseScale: 2
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 45.254833, g: 5.019608, b: 0.2509804, a: 1}
+    - _Color: {r: 357.81638, g: 18.733849, b: 1.8733847, a: 1}
+    - _HighDetailScaleRange: {r: 20, g: 1000, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
