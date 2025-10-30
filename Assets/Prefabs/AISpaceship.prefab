@@ -9,7 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8672339183317336025}
+  - component: {fileID: 6542346062070833488}
   - component: {fileID: 68420066467202353}
+  - component: {fileID: 7415194380431963632}
   - component: {fileID: 4003047047334425931}
   m_Layer: 6
   m_Name: AISpaceship
@@ -34,6 +36,32 @@ Transform:
   - {fileID: 3740156947654058504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6542346062070833488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950404385683837438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62ee70036fb8a300aa77e7dda23dc1c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <rb>k__BackingField: {fileID: 4003047047334425931}
+  target: {fileID: 0}
+  findPlayer: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 55
+  obstacleClearance: 7
+  obstacleAvoidAheadMultiplier: 0.25
+  otherAIMask:
+    serializedVersion: 2
+    m_Bits: 64
+  otherAICheckRadius: 30
+  repelFromOthersForce: 1
+  repelLerpSpeed: 3
 --- !u!114 &68420066467202353
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,23 +74,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfc69f954fb27c70a9dd71f5b505626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 4003047047334425931}
-  target: {fileID: 0}
+  brain: {fileID: 6542346062070833488}
   speed: 15
   rotationLerpSpeed: 3
-  obstacleMask:
-    serializedVersion: 2
-    m_Bits: 55
-  obstacleClearance: 7
-  otherAIMask:
-    serializedVersion: 2
-    m_Bits: 64
-  otherAICheckRadius: 30
-  repelFromOthersForce: 1
-  repelLerpSpeed: 3
   move: 1
-  repelMagnitude: 0
-  repelClampedMagnitude: 0
+--- !u!114 &7415194380431963632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 950404385683837438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6a735908f634f59aac5336c2e693c6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 728642134031025129, guid: a809af2b372b3f769bc40f04928c0c21, type: 3}
+  gunPoints:
+  - {fileID: 9087289188917206478}
+  shootCooldown: 0.1
 --- !u!54 &4003047047334425931
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -170,5 +201,10 @@ PrefabInstance:
 --- !u!4 &3740156947654058504 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1523655813609494767, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
+  m_PrefabInstance: {fileID: 2792979500076776167}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9087289188917206478 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6403592349186680617, guid: 8711bc65a1ef352f0b9417fdd3e88225, type: 3}
   m_PrefabInstance: {fileID: 2792979500076776167}
   m_PrefabAsset: {fileID: 0}

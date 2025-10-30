@@ -23,7 +23,7 @@ public static class Utils
             Reset();
         }
         
-        public void Reset() => timer = cooldown;
+        public void Reset(float newCooldown = -1f) => timer = newCooldown == -1f ? cooldown : newCooldown;
 
         public bool IsDone() => timer <= 0;
         
