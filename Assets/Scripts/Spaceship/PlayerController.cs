@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(SpaceshipInputHandler), typeof(Rigidbody))]
-public class SpaceshipController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     private SpaceshipInputHandler input;
     private Rigidbody rb;
@@ -13,6 +13,12 @@ public class SpaceshipController : MonoBehaviour
     [SerializeField] private float rollTorqueForce;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float verticalMovementSpeed;
+    [SerializeField] private bool counteractRigidbodyMass = true;
+    
+    [Header("Debug")]
+    [SerializeField] private float velocity;
+    
+    public float speedFactor {get; private set;}
 
     private void Awake()
     {
@@ -22,11 +28,18 @@ public class SpaceshipController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.AddTorque(transform.right * (input.pitchDelta * torqueForce), ForceMode.Force);
-        rb.AddTorque(transform.up * (input.yawDelta * torqueForce), ForceMode.Force);
-        rb.AddTorque(transform.forward * (input.rollDelta * rollTorqueForce), ForceMode.Force);
+        velocity = rb.linearVelocity.magnitude;
+        speedFactor = Mathf.InverseLerp(0, movementSpeed, velocity); // stationary - 0, max speed - 1
         
-        rb.AddForce(transform.forward * (input.forwardMovement * movementSpeed), ForceMode.Force);
-        rb.AddForce(transform.up * (input.verticalMovement * verticalMovementSpeed), ForceMode.Force);
+        float forceMultiplier = 1;
+        if (counteractRigidbodyMass)
+            forceMultiplier = rb.mass;
+        
+        rb.AddTorque(transform.right * (input.pitchDelta * torqueForce * forceMultiplier), ForceMode.Force);
+        rb.AddTorque(transform.up * (input.yawDelta * torqueForce * forceMultiplier), ForceMode.Force);
+        rb.AddTorque(transform.forward * (input.rollDelta * rollTorqueForce * forceMultiplier), ForceMode.Force);
+        
+        rb.AddForce(transform.forward * (input.forwardMovement * movementSpeed * forceMultiplier), ForceMode.Force);
+        rb.AddForce(transform.up * (input.verticalMovement * verticalMovementSpeed * forceMultiplier), ForceMode.Force);
     }
 }
