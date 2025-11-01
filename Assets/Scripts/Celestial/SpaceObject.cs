@@ -1,11 +1,15 @@
+using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
 public class SpaceObject : MonoBehaviour
 {
-    private Rigidbody rb;
+    [SerializeField] private Rigidbody rb;
     
     [field: SerializeField] public float mass {get; private set;}
+    [SerializeField] private float radius;
+    [SerializeField] private float densityKgPerMeter;
+    [SerializeField] private bool calculateMass;
     [field: SerializeField] public Vector3 initialVelocity {get; private set;}
     [field: SerializeField] public bool lockedPosition {get; private set;}
     
@@ -35,5 +39,18 @@ public class SpaceObject : MonoBehaviour
     public void UpdatePosition()
     {
         rb.MovePosition(transform.position + currentVelocity * Time.fixedDeltaTime);
+    }
+
+    private void OnValidate()
+    {
+        transform.localScale = Vector3.one * radius * 2;
+        
+        if (calculateMass)
+        {
+            // sphere mass
+            float massNoDensity = 2.3561945f * Mathf.Pow(radius, 3); // 2.35... is 3/4 * pi
+            mass = massNoDensity * densityKgPerMeter * SpaceGravitySimulator.densityMultiplier;
+            rb.mass = mass;
+        }
     }
 }

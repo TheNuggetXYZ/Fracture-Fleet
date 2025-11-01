@@ -38,7 +38,9 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private Vector3 previousRepelVector;
     private bool shouldShoot;
+    private Vector3 zoomTargetPositionLocalToPlayer;
     private Vector3 zoomTargetPosition;
+    private Vector3 targetPosForGizmos;
     
     public enum AIState
     {
@@ -56,9 +58,12 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void Update()
     {
+        zoomTargetPosition = zoomTargetPositionLocalToPlayer + target.position;
+        
         Think(out var targetPosition, out var upVector, out var repelVector);
         CalculateRotation(targetPosition, upVector, repelVector);
         AfterBrainUpdate?.Invoke();
+        targetPosForGizmos = targetPosition;
     }
 
     private void CalculateRotation(Vector3 targetPosition, Vector3 upVector, Vector3 repelVector)
@@ -81,6 +86,11 @@ public class AIBrain : MonoBehaviour, IShootInput
 
         DecideShooting(foundObstacle);
 
+        DecideZooming(ref targetPosition, ref newTransformUp, foundObstacle);
+    }
+
+    private void DecideZooming(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
+    {
         if (!foundObstacle && currentState != AIState.zoomingPast && Random.value < zoomPastRatePerMinute / 60 * Time.deltaTime)
         {
             Debug.Log("zoom " + gameObject.name);
@@ -93,8 +103,9 @@ public class AIBrain : MonoBehaviour, IShootInput
                 Vector3 playerDirection = target.position - transform.position;
                 Vector3 directionOfThePlayerWeAreFacing =
                     Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
-                zoomTargetPosition = target.position + Utils.ResizeVector(directionOfThePlayerWeAreFacing, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
-                zoomTargetPosition = transform.position + Utils.ExtendVector(zoomTargetPosition - transform.position, zoomExtendedDistance);
+                zoomTargetPositionLocalToPlayer = target.position + Utils.ResizeVector(directionOfThePlayerWeAreFacing, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
+                zoomTargetPositionLocalToPlayer = transform.position + Utils.ExtendVector(zoomTargetPositionLocalToPlayer - transform.position, zoomExtendedDistance);
+                zoomTargetPositionLocalToPlayer = zoomTargetPositionLocalToPlayer - target.position;
             }
         }
         else if (!foundObstacle && currentState == AIState.zoomingPast)
@@ -120,12 +131,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         Vector3 forward = transform.forward;
         Vector3 toTarget = (target.position - transform.position).normalized;
 
-        if (Vector3.Dot(forward, toTarget) > differenceInDirectionThatAllowsShooting)
-        {
-            shouldShoot = true;
-        }
-        else
-            shouldShoot = false;
+        shouldShoot = Vector3.Dot(forward, toTarget) > differenceInDirectionThatAllowsShooting;
     }
 
     private void RepelFromOthers(bool foundObstacle, Vector3 obstacleNormal, out Vector3 repelVector)
@@ -195,4 +201,10 @@ public class AIBrain : MonoBehaviour, IShootInput
     }
 
     public bool IsShooting() => shouldShoot;
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, targetPosForGizmos);
+    }
 }

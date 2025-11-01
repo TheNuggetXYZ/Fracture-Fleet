@@ -1,7 +1,5 @@
 using System;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(SpaceshipInputHandler), typeof(Rigidbody))]
 public class PlayerController : MonoBehaviour
@@ -9,10 +7,12 @@ public class PlayerController : MonoBehaviour
     private SpaceshipInputHandler input;
     private Rigidbody rb;
     
+    [SerializeField] private WorldMenu worldMenu;
     [SerializeField] private float torqueForce;
     [SerializeField] private float rollTorqueForce;
     [SerializeField] private float movementSpeed;
     [SerializeField] private float verticalMovementSpeed;
+    [SerializeField] private float linearDrag;
     [SerializeField] private bool counteractRigidbodyMass = true;
     
     [Header("Debug")]
@@ -26,11 +26,16 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         velocity = rb.linearVelocity.magnitude;
         speedFactor = Mathf.InverseLerp(0, movementSpeed, velocity); // stationary - 0, max speed - 1
-        
+
+        worldMenu.ShowCriticalSpeedWarning(rb.linearVelocity.magnitude > movementSpeed + verticalMovementSpeed - 5);
+    }
+
+    private void FixedUpdate()
+    {
         float forceMultiplier = 1;
         if (counteractRigidbodyMass)
             forceMultiplier = rb.mass;
