@@ -49,4 +49,9 @@ public static partial class Utils
     {
         return vectorToExtend.normalized * (vectorToExtend.magnitude + addedMagnitude);
     }
+
+    public static bool RandomEventInTime(float ratePerMinute)
+    {
+        return UnityEngine.Random.value < ratePerMinute / 60 * Time.deltaTime;
+    }
 }

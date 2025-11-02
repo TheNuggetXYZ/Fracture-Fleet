@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class CannonBullet : MonoBehaviour
 {
+    [SerializeField] private int damage;
     [SerializeField] private float speed;
     [SerializeField] private float despawnDistanceFromSender = 2000;
     [SerializeField] private LayerMask hitMask;
@@ -34,6 +35,8 @@ public class CannonBullet : MonoBehaviour
         Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, targetDistance, hitMask);
         if (hit.transform is not null && hit.transform != owner&& (hit.transform.parent is null || hit.transform.parent != owner))
         {
+            hit.transform.GetComponent<ITakeDamage>()?.TakeDamage(damage, hit.collider.transform);
+            
             targetPosition = hit.point;
             ReturnObjectToPool();
         }

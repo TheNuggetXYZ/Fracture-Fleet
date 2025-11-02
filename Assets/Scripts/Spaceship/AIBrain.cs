@@ -11,8 +11,8 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     [Header("Obstacles")]
     [SerializeField] private LayerMask obstacleMask;
-    [SerializeField] private float obstacleClearance = 7f;
-    [SerializeField] private float obstacleAvoidAheadMultiplier = 0.25f;
+    [SerializeField] private float obstacleClearance = 10f;
+    [SerializeField] private float obstacleAvoidAheadMultiplier = 0.3f;
 
     [Header("Avoid others")] 
     [SerializeField] private LayerMask otherAIMask;
@@ -22,22 +22,27 @@ public class AIBrain : MonoBehaviour, IShootInput
     [SerializeField] private float repelForceOnRotationMultiplier = 0.5f;
     
     [Header("Shooting")] 
-    [SerializeField] private float differenceInDirectionThatAllowsShooting = 0.9f;
+    [SerializeField] private float differenceInDirectionThatAllowsShooting = 0.95f;
+    [SerializeField] private float startShootingRatePerMinute = 20;
+    [SerializeField] private float stopShootingRatePerMinute = 10;
     
     [Header("Movement")]
-    [SerializeField] private float zoomPastRatePerMinute;
-    [SerializeField] private float zoomOffsetFromPlayerPerPlayerDistance;
-    [SerializeField] private float zoomExtendedDistance;
-    [SerializeField] private float zoomTargetStateExitDistance;
+    [SerializeField] private float zoomPastRatePerMinute = 5;
+    [SerializeField] private float zoomOffsetFromPlayerPerPlayerDistance = 0.3f;
+    [SerializeField] private float zoomExtendedDistance = 120;
+    [SerializeField] private float zoomTargetStateExitDistance = 20;
     
     
-    [Header("Output (readonly)")] 
+    [Header("Output")] 
     public Action AfterBrainUpdate;
     public Quaternion targetRotation { get; private set; }
     public AIState currentState { get; private set; }
+    
 
+    [Header("Other")] 
     private Vector3 previousRepelVector;
     private bool shouldShoot;
+    private bool wantsToShoot;
     private Vector3 zoomTargetPositionLocalToPlayer;
     private Vector3 zoomTargetPosition;
     private Vector3 targetPosForGizmos;
@@ -91,7 +96,7 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void DecideZooming(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
     {
-        if (!foundObstacle && currentState != AIState.zoomingPast && Random.value < zoomPastRatePerMinute / 60 * Time.deltaTime)
+        if (!foundObstacle && currentState != AIState.zoomingPast && Utils.RandomEventInTime(zoomPastRatePerMinute))
         {
             Debug.Log("zoom " + gameObject.name);
             
@@ -122,6 +127,11 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void DecideShooting(bool foundObstacle)
     {
+        if (Utils.RandomEventInTime(startShootingRatePerMinute))
+            wantsToShoot = true;
+        else if (Utils.RandomEventInTime(stopShootingRatePerMinute))
+            wantsToShoot = false;
+        
         if (foundObstacle || currentState == AIState.zoomingPast)
         {
             shouldShoot = false;
@@ -200,7 +210,7 @@ public class AIBrain : MonoBehaviour, IShootInput
             currentState = AIState.following;
     }
 
-    public bool IsShooting() => shouldShoot;
+    public bool IsShooting() => shouldShoot && wantsToShoot;
 
     private void OnDrawGizmosSelected()
     {

@@ -8,7 +8,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float noiseAmplitudeAtMaxSpeed;
     [SerializeField] private float noiseFrequencyAtMaxSpeed;
     
-    [SerializeField] private CinemachineCamera camera;
+    [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private Vector2 FOVRange;
 
     private PlayerController player;
@@ -23,6 +23,6 @@ public class CameraController : MonoBehaviour
         noiseModule.AmplitudeGain = noiseAmplitudeAtMaxSpeed * player.speedFactor;
         noiseModule.FrequencyGain = noiseFrequencyAtMaxSpeed * player.speedFactor;
         
-        camera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, FOVRange.y, player.speedFactor);
+        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, FOVRange.y, player.speedFactor);
     }
 }
