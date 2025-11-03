@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 8108914546563857864}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: -0.07}
+  m_LocalPosition: {x: 0.112, y: -0.5, z: -0.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51,7 +51,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6, y: 1.6, z: 9}
+  m_Size: {x: 0.7, y: 1.6, z: 9.3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8109302871874570364
 GameObject:
@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 8107228150627621052}
   - component: {fileID: 8141232665934747230}
   - component: {fileID: 8132971327555779556}
+  - component: {fileID: 5959467478154827416}
   m_Layer: 0
   m_Name: MainBody13_Mirrored
   m_TagString: Untagged
@@ -226,3 +227,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5959467478154827416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8109707735324806988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainPart: {fileID: 0}
+  partCollider: {fileID: 8098730326472386546}
+  partHealth: 2
+  partMass: 2
+  partToAlsoKill: {fileID: 0}

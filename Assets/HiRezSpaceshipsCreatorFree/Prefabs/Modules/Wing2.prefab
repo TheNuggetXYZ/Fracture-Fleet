@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 4413083218773408}
   - component: {fileID: 33809853604901568}
   - component: {fileID: 23898131435206986}
+  - component: {fileID: 8788520557453789149}
   m_Layer: 0
   m_Name: Wing2
   m_TagString: Untagged
@@ -172,3 +173,20 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8788520557453789149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917032075865298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainPart: {fileID: 0}
+  partCollider: {fileID: 65653665734877490}
+  partHealth: 1
+  partMass: 1
+  partToAlsoKill: {fileID: 0}

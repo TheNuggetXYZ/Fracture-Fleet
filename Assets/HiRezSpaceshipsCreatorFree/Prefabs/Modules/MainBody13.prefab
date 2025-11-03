@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1606341335890348}
   serializedVersion: 2
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: -0.07}
+  m_LocalPosition: {x: 0.112, y: -0.5, z: -0.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51,7 +51,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6, y: 1.6, z: 9}
+  m_Size: {x: 0.7, y: 1.6, z: 9.3}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1805482198879016
 GameObject:
@@ -64,6 +64,7 @@ GameObject:
   - component: {fileID: 4427908452834520}
   - component: {fileID: 33326051266515514}
   - component: {fileID: 23376103783481216}
+  - component: {fileID: 8649671736203896856}
   m_Layer: 0
   m_Name: MainBody13
   m_TagString: Untagged
@@ -140,6 +141,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8649671736203896856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1805482198879016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainPart: {fileID: 0}
+  partCollider: {fileID: 65700728777794454}
+  partHealth: 2
+  partMass: 2
+  partToAlsoKill: {fileID: 0}
 --- !u!1 &1813422271736068
 GameObject:
   m_ObjectHideFlags: 0

@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 6862420380326820344}
   - component: {fileID: 6866730176711904920}
   - component: {fileID: 6874600170234103058}
+  - component: {fileID: 6286634694735097643}
   m_Layer: 0
   m_Name: Wing2_Mirrored
   m_TagString: Untagged
@@ -119,6 +120,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6286634694735097643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6860482863502905482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainPart: {fileID: 0}
+  partCollider: {fileID: 6907014391184301418}
+  partHealth: 1
+  partMass: 1
+  partToAlsoKill: {fileID: 0}
 --- !u!1 &6860919335147633864
 GameObject:
   m_ObjectHideFlags: 0
