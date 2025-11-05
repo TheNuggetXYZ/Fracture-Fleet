@@ -7,6 +7,7 @@ public class CannonBullet : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float despawnDistanceFromSender = 2000;
     [SerializeField] private LayerMask hitMask;
+    [SerializeField] private Transform hitEffect;
 
     private float actualSpeed;
 
@@ -45,11 +46,18 @@ public class CannonBullet : MonoBehaviour
         
         if (hit.transform && !IsOwner(hit.transform))
         {
-            hit.transform.GetComponent<ITakeDamage>()?.TakeDamage(damage, hit.collider.transform);
+            hit.transform.GetComponent<ITakeDamage>()?.TakeDamage(damage, hit.collider.transform, targetPosition - transform.position);
 
+            SpawnEffect(hit.point, hit.normal, hit.transform);
+            
             targetPosition = hit.point;
             ReturnObjectToPool();
         }
+    }
+
+    private void SpawnEffect(Vector3 position, Vector3 direction, Transform parent)
+    {
+        ObjectPoolManager.SpawnObject(hitEffect.gameObject, position, Quaternion.LookRotation(direction), parent);
     }
 
     private void ReturnObjectToPool()

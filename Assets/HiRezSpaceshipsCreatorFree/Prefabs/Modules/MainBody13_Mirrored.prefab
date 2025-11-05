@@ -243,4 +243,6 @@ MonoBehaviour:
   partCollider: {fileID: 8098730326472386546}
   partHealth: 2
   partMass: 2
+  onKillModifier: 2
+  onKillModifierValue: 1.1
   partToAlsoKill: {fileID: 0}

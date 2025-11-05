@@ -9,6 +9,10 @@ public class SpaceshipController : MonoBehaviour
     [SerializeField] private float rollTorqueForce = 2;
     [SerializeField] private float verticalMovementSpeed = 10;
     [SerializeField] protected bool counteractRigidbodyMass = true;
+
+    private float movementSpeedMultiplier = 1f;
+    private float torqueForceMultiplier = 1f;
+    private float unstabilityMultiplier = 0;
     
     protected float MovementSpeed => movementSpeed;
     protected float VerticalMovementSpeed => verticalMovementSpeed;
@@ -22,8 +26,8 @@ public class SpaceshipController : MonoBehaviour
     {
         float forceMultiplier = counteractRigidbodyMass ? rb.mass : 1f;
         
-        rb.AddForce(transform.forward * (forwardMovement * forwardMovementSpeed * forceMultiplier * forwardMovementMultiplier), ForceMode.Force);
-        rb.AddForce(transform.up * (verticalMovement * verticalMovementSpeed * forceMultiplier), ForceMode.Force);
+        rb.AddForce(transform.forward * (forwardMovement * forwardMovementSpeed * movementSpeedMultiplier * forceMultiplier * forwardMovementMultiplier), ForceMode.Force);
+        rb.AddForce(transform.up * (verticalMovement * verticalMovementSpeed * movementSpeedMultiplier * forceMultiplier), ForceMode.Force);
     }
 
     protected void Rotate(Vector3 pitch, Vector3 yaw, Vector3 roll)
@@ -43,6 +47,22 @@ public class SpaceshipController : MonoBehaviour
     private void Rotate_Internal(Vector3 finalTorque)
     {
         float forceMultiplier = counteractRigidbodyMass ? rb.mass : 1f;
-        rb.AddTorque(finalTorque * forceMultiplier, ForceMode.Force);
+        float unstability = Random.Range((1-unstabilityMultiplier), (1+unstabilityMultiplier));
+        rb.AddTorque(finalTorque * (torqueForceMultiplier * unstability * forceMultiplier), ForceMode.Force);
+    }
+
+    public void AddRotationModifier(float value)
+    {
+        torqueForceMultiplier *= value;
+    }
+    
+    public void AddMovementModifier(float value)
+    {
+        movementSpeedMultiplier *= value;
+    }
+    
+    public void AddUnstableRotationModifier(float value)
+    {
+        unstabilityMultiplier += value;
     }
 }

@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 15
-  torqueForce: 0.2
+  torqueForce: 5
   rollTorqueForce: 0
   verticalMovementSpeed: 0
   counteractRigidbodyMass: 1
@@ -137,6 +137,8 @@ MonoBehaviour:
   - {fileID: 6684977611926352449}
   - {fileID: 0}
   - {fileID: 0}
+  collisionMagnitudeThreshold: 15
+  metalSparkEffect: {fileID: 3291639850392082436, guid: 1a0a66631b7d30ddd982714ddc4f3a0d, type: 3}
 --- !u!54 &4003047047334425931
 Rigidbody:
   m_ObjectHideFlags: 0

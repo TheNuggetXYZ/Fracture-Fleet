@@ -5180,7 +5180,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 3.3914898e-12, y: 0.99977356, z: -0.021281822, w: 1.5932478e-10}
+  m_LocalRotation: {x: 1.8753107e-10, y: 0.99977356, z: -0.021281822, w: 0.0000000088098}
   m_LocalPosition: {x: 0, y: 3, z: 238}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5506,7 +5506,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 820885276}
   serializedVersion: 2
-  m_LocalRotation: {x: -1.8620345e-11, y: 0.9999744, z: 0.0071528754, w: 0.0000000022298767}
+  m_LocalRotation: {x: 4.346556e-11, y: 0.9999744, z: 0.007152876, w: -0.0000000046970614}
   m_LocalPosition: {x: 0, y: 0.5, z: 229.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -5730,7 +5730,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854622852}
   serializedVersion: 2
-  m_LocalRotation: {x: -8.167328e-14, y: 0.99977356, z: -0.021281824, w: 1.5925086e-10}
+  m_LocalRotation: {x: 3.1655586e-10, y: 0.99977356, z: -0.021281824, w: 0.000000008812548}
   m_LocalPosition: {x: 0, y: 3, z: 238}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -6994,6 +6994,8 @@ MonoBehaviour:
   - {fileID: 1324179916}
   - {fileID: 1324179915}
   - {fileID: 1324179914}
+  collisionMagnitudeThreshold: 15
+  metalSparkEffect: {fileID: 4000014129045996, guid: 511c459a6e44be82d93169ae1de6687e, type: 3}
 --- !u!1001 &1306642293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7002,14 +7004,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 68420066467202353, guid: 20c19de84abe74b7baf5869ddaa58477, type: 3}
-      propertyPath: torqueForce
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 950404385683837438, guid: 20c19de84abe74b7baf5869ddaa58477, type: 3}
       propertyPath: m_Name
       value: AISpaceship
       objectReference: {fileID: 0}
+    - target: {fileID: 8012751404401307342, guid: 20c19de84abe74b7baf5869ddaa58477, type: 3}
+      propertyPath: metalSparkEffect
+      value: 
+      objectReference: {fileID: 4000014129045996, guid: 511c459a6e44be82d93169ae1de6687e, type: 3}
     - target: {fileID: 8672339183317336025, guid: 20c19de84abe74b7baf5869ddaa58477, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.228668
@@ -8183,6 +8185,10 @@ PrefabInstance:
     - target: {fileID: 4941566804334779565, guid: 05611d4619d874dad96a7b50b318a83b, type: 3}
       propertyPath: m_Name
       value: Sun
+      objectReference: {fileID: 0}
+    - target: {fileID: 5733066914491816387, guid: 05611d4619d874dad96a7b50b318a83b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7300874674793256438, guid: 05611d4619d874dad96a7b50b318a83b, type: 3}
       propertyPath: m_Radius

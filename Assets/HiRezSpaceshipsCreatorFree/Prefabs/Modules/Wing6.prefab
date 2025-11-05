@@ -157,6 +157,8 @@ MonoBehaviour:
   partCollider: {fileID: 65470181696870956}
   partHealth: 2
   partMass: 2
+  onKillModifier: 1
+  onKillModifierValue: 0.7
   partToAlsoKill: {fileID: 0}
 --- !u!1 &1976993582343610
 GameObject:

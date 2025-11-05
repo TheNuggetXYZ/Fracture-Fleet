@@ -7,6 +7,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private bool fetchChildParts;
     [SerializeField] private Transform childPartsParent;
     [SerializeField] private SpaceshipPart[] killableParts;
+    [SerializeField] private float collisionMagnitudeThreshold;
+    [SerializeField] private Transform metalSparkEffect;
     
     private Rigidbody spaceshipRigidbody;
 
@@ -68,15 +70,30 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             switch (types[i])
             {
                 case SpaceshipPart.OnKillModifierType.rotation:
-                    
+                    spaceshipController.AddRotationModifier(values[i]);
                     break;
                 
                 case SpaceshipPart.OnKillModifierType.speed:
-
+                    spaceshipController.AddMovementModifier(values[i]);
+                    break;
+                
+                case SpaceshipPart.OnKillModifierType.unstableRotation:
+                    spaceshipController.AddUnstableRotationModifier(values[i]);
                     break;
             }
         }
     }
 
     private Vector3 GetVelocity() => spaceshipRigidbody ? spaceshipRigidbody.linearVelocity : Vector3.zero;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        float collisionMagnitude = collision.relativeVelocity.magnitude;
+
+        if (collisionMagnitude >= collisionMagnitudeThreshold)
+        {
+            ContactPoint cp = collision.GetContact(0);
+            Instantiate(metalSparkEffect, cp.point, Quaternion.LookRotation(-cp.normal), transform);
+        }
+    }
 }

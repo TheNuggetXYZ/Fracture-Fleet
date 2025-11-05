@@ -22,6 +22,7 @@ public class SpaceshipPart : MonoBehaviour
     {
         none = 0,
         rotation = 1,
+        unstableRotation = 3,
         speed = 2,
     }
 
