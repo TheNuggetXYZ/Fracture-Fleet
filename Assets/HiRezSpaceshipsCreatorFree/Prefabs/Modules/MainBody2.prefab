@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4285492860463886
 Transform:
   m_ObjectHideFlags: 0
@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 33725346248492040}
   - component: {fileID: 23406357282621202}
   - component: {fileID: 3112893102785924502}
+  - component: {fileID: 7345047741955121900}
   m_Layer: 0
   m_Name: MainBody2
   m_TagString: Untagged
@@ -133,12 +134,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainPart: {fileID: 0}
-  partCollider: {fileID: 65923034915139470}
+  partCollider: {fileID: 7345047741955121900}
   partHealth: 10
   partMass: 4
   onKillModifier: 2
   onKillModifierValue: 1.2
   partToAlsoKill: {fileID: 0}
+--- !u!64 &7345047741955121900
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1411094145064986}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300070, guid: 660686678d5f55947881d7fe1a8292c1, type: 3}
 --- !u!1 &1913306734541696
 GameObject:
   m_ObjectHideFlags: 0

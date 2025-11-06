@@ -1,19 +1,16 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(IShootInput))]
 public class SpaceshipCannon : MonoBehaviour
 {
     private IShootInput input;
 
+    [SerializeField] private Rigidbody rb;
     [SerializeField] private CannonBullet bulletPrefab;
     [SerializeField] private Transform[] gunPoints;
     [SerializeField] private float shootCooldown;
     
     private Utils.Timer shootTimer;
-
-    private Vector3 lastPos;
-    private float cannonVelocity;
     
     private void Awake()
     {
@@ -26,7 +23,7 @@ public class SpaceshipCannon : MonoBehaviour
     {
         shootTimer.Decrement();
         
-        if (input.IsShooting())
+        if (!Utils.IsNull(input) && input.IsShooting())
         {
             if (shootTimer.IsDone())
             {
@@ -37,17 +34,11 @@ public class SpaceshipCannon : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
-    {
-        cannonVelocity = (transform.position - lastPos).magnitude / Time.deltaTime;
-        lastPos = transform.position;
-    }
-
     private void Shoot()
     {
         foreach (Transform gunPoint in gunPoints)
         {
-            ObjectPoolManager.SpawnObject(bulletPrefab, transform, cannonVelocity, gunPoint.position, gunPoint.rotation);
+            ObjectPoolManager.SpawnObject(bulletPrefab, transform, rb.linearVelocity, gunPoint.position, gunPoint.rotation);
         }
     }
 }

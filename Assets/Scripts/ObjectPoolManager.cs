@@ -24,6 +24,8 @@ public class ObjectPoolManager : MonoBehaviour
             if (!parent && dontDestroyOnLoad)
                 DontDestroyOnLoad(spawnableObject.transform.parent);
         }
+        else if (parent)
+            spawnableObject.transform.parent = parent;
 
         return spawnableObject;
     }
@@ -33,7 +35,7 @@ public class ObjectPoolManager : MonoBehaviour
         return FindObject(spawnObject.transform, spawnPosition, spawnRotation, parent, dontDestroyOnload).gameObject;
     }
     
-    public static CannonBullet SpawnObject(CannonBullet spawnObject, Transform sender, float initialVelocity, Vector3 spawnPosition, Quaternion spawnRotation, Transform parent = null, bool dontDestroyOnload = false)
+    public static CannonBullet SpawnObject(CannonBullet spawnObject, Transform sender, Vector3 initialVelocity, Vector3 spawnPosition, Quaternion spawnRotation, Transform parent = null, bool dontDestroyOnload = false)
     {
         CannonBullet cb = FindObject(spawnObject, spawnPosition, spawnRotation, parent, dontDestroyOnload);
         cb.Initialize(sender, initialVelocity);

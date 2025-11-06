@@ -24,6 +24,8 @@ public class SpaceshipController : MonoBehaviour
     
     protected void Move(float forwardMovementSpeed, float forwardMovement = 1, float verticalMovement = 0, float forwardMovementMultiplier = 1)
     {
+        if (!enabled) return;
+        
         float forceMultiplier = counteractRigidbodyMass ? rb.mass : 1f;
         
         rb.AddForce(transform.forward * (forwardMovement * forwardMovementSpeed * movementSpeedMultiplier * forceMultiplier * forwardMovementMultiplier), ForceMode.Force);
@@ -46,6 +48,8 @@ public class SpaceshipController : MonoBehaviour
 
     private void Rotate_Internal(Vector3 finalTorque)
     {
+        if (!enabled) return;
+        
         float forceMultiplier = counteractRigidbodyMass ? rb.mass : 1f;
         float unstability = Random.Range((1-unstabilityMultiplier), (1+unstabilityMultiplier));
         rb.AddTorque(finalTorque * (torqueForceMultiplier * unstability * forceMultiplier), ForceMode.Force);
@@ -64,5 +68,10 @@ public class SpaceshipController : MonoBehaviour
     public void AddUnstableRotationModifier(float value)
     {
         unstabilityMultiplier += value;
+    }
+
+    public void KillShip()
+    {
+        enabled = false;
     }
 }

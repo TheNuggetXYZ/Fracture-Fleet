@@ -9,17 +9,17 @@ public class CannonBullet : MonoBehaviour
     [SerializeField] private LayerMask hitMask;
     [SerializeField] private Transform hitEffect;
 
-    private float actualSpeed;
+    private Vector3 inheritedVelocity;
 
     private Transform owner;
 
     private bool returnedObjectToPool = false;
 
-    public void Initialize(Transform sender, float inheritedSpeed)
+    public void Initialize(Transform sender, Vector3 inheritedVelocity)
     {
         returnedObjectToPool = false;
         owner = sender;
-        actualSpeed = inheritedSpeed + speed;
+        this.inheritedVelocity = inheritedVelocity;
     }
 
     private void Update()
@@ -30,7 +30,7 @@ public class CannonBullet : MonoBehaviour
         if (Vector3.Distance(transform.position, owner.position) >= despawnDistanceFromSender)
             ReturnObjectToPool();
 
-        Vector3 targetPosition = transform.position + transform.forward * (actualSpeed * Time.deltaTime);
+        Vector3 targetPosition = transform.position + transform.forward * (speed * Time.deltaTime) + inheritedVelocity * Time.deltaTime;
 
         DetectCollisions(ref targetPosition);
 
@@ -57,6 +57,7 @@ public class CannonBullet : MonoBehaviour
 
     private void SpawnEffect(Vector3 position, Vector3 direction, Transform parent)
     {
+        position += direction.normalized * 0.1f;
         ObjectPoolManager.SpawnObject(hitEffect.gameObject, position, Quaternion.LookRotation(direction), parent);
     }
 

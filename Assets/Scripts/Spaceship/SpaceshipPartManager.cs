@@ -4,11 +4,23 @@ using UnityEngine;
 public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 {
     [SerializeField] private SpaceshipController spaceshipController;
+    
+    [Header("Ship Condition")]
+    [SerializeField] private int shipHealth;
+    [SerializeField] private int lostHealthOnPartKill;
+    [SerializeField] private float onDeathExplosionForce;
+    [SerializeField] private Transform deathExplosionEffect;
+    
+    [Header("Collisions")]
+    [SerializeField] private float collisionMagnitudeThreshold;
+    [SerializeField] private Transform metalSparkEffect;
+    
+    [Header("Parts")]
     [SerializeField] private bool fetchChildParts;
     [SerializeField] private Transform childPartsParent;
     [SerializeField] private SpaceshipPart[] killableParts;
-    [SerializeField] private float collisionMagnitudeThreshold;
-    [SerializeField] private Transform metalSparkEffect;
+    
+    private bool isDead;
     
     private Rigidbody spaceshipRigidbody;
 
@@ -41,6 +53,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     
     public void TakeDamage(int damage, Transform hitCollider, Vector3 hitVelocity = default)
     {
+        shipHealth -= damage;
+        if (CheckIfShipIsDead()) return;
+        
         foreach (SpaceshipPart part in killableParts)
         {
             if (part && part.PartCollider.transform == hitCollider)
@@ -53,10 +68,41 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                     
                     if (successfullyKilled)
                     {
+                        shipHealth -= lostHealthOnPartKill;
+                        
+                        if (CheckIfShipIsDead()) return;
+                        
                         part.GetOnKillModifiers(out SpaceshipPart.OnKillModifierType[] types, out float[] values);
                         ApplyOnKillModifiers(types, values);
                     }
                 }
+            }
+        }
+    }
+
+    private bool CheckIfShipIsDead()
+    {
+        if (shipHealth <= 0 && !isDead)
+        {
+            isDead = true;
+            ObjectPoolManager.SpawnObject(deathExplosionEffect.gameObject, transform.position);
+            spaceshipController.KillShip();
+            GetComponent<AIBrain>()?.ShipDied();
+            SpawnScrap();
+            return true;
+        }
+
+        return false;
+    }
+
+    private void SpawnScrap()
+    {
+        foreach (SpaceshipPart part in killableParts)
+        {
+            if (part)
+            {
+                Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
+                part.Kill(GetVelocity() + explosionVelocity, out bool _);
             }
         }
     }

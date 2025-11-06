@@ -54,4 +54,9 @@ public static partial class Utils
     {
         return UnityEngine.Random.value < ratePerMinute / 60 * Time.deltaTime;
     }
+
+    public static bool IsNull<T>(T obj)
+    {
+        return obj == null || obj.Equals(null);
+    }
 }

@@ -46,6 +46,9 @@ public class AIBrain : MonoBehaviour, IShootInput
     private Vector3 zoomTargetPositionLocalToPlayer;
     private Vector3 zoomTargetPosition;
     private Vector3 targetPosForGizmos;
+
+    private bool debug_detectsObstacle;
+    private bool shipDied;
     
     public enum AIState
     {
@@ -86,6 +89,7 @@ public class AIBrain : MonoBehaviour, IShootInput
     private void Think(out Vector3 targetPosition, out Vector3 newTransformUp, out Vector3 repelVector)
     {
         DetectObstacle(out bool foundObstacle, out targetPosition, out newTransformUp);
+        debug_detectsObstacle = foundObstacle;
         
         RepelFromOthers(foundObstacle, newTransformUp, out repelVector);
 
@@ -216,5 +220,10 @@ public class AIBrain : MonoBehaviour, IShootInput
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, targetPosForGizmos);
+    }
+
+    public void ShipDied()
+    {
+        Destroy(this);
     }
 }
