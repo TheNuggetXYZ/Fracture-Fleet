@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 012aef1adeedab647803d098822d9496
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143661
+  packageName: Asteroid Field Creator 1.5
+  packageVersion: 1.5.3
+  assetPath: Assets/Asteroid Field Creator/Sctipts/AsteroidFieldCreator.cs
+  uploadId: 393442
