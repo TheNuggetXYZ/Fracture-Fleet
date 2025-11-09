@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 4299018308365020}
   - component: {fileID: 33575212921176900}
   - component: {fileID: 23676270725572456}
+  - component: {fileID: 7087004010471195308}
   m_Layer: 0
   m_Name: Big_Launcher
   m_TagString: Untagged
@@ -120,6 +121,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &7087004010471195308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308823675597282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unkillable: 1
+  mainPart: {fileID: 0}
+  partCollider: {fileID: 0}
+  partHealth: 1
+  partMass: 2
+  onKillModifier: 0
+  onKillModifierValue: 0
+  partToAlsoKill: {fileID: 0}
 --- !u!1 &1341712623725502
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SpaceshipInputHandler : MonoBehaviour, IShootInput
+public class PlayerInputHandler : MonoBehaviour, IShootInput
 {
     private InputSystem_Actions inputSystemActions;
     

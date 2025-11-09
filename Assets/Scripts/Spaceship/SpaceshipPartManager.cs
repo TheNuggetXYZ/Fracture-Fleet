@@ -36,7 +36,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             {
                 Transform child = childPartsParent.GetChild(i);
 
-                if (child && child.gameObject.activeInHierarchy )
+                if (child && child.gameObject.activeInHierarchy)
                 {
                     SpaceshipPart childPart = child.GetComponent<SpaceshipPart>();
                     if(childPart && childPart.enabled)
@@ -58,13 +58,13 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         
         foreach (SpaceshipPart part in killableParts)
         {
-            if (part && part.PartCollider.transform == hitCollider)
+            if (part && !part.IsUnkillable && part.PartCollider.transform == hitCollider)
             {
                 part.TakeDamage(damage);
                 
                 if (part.PartHealth <= 0)
                 {
-                    part.Kill(GetVelocity() + hitVelocity, out bool successfullyKilled);
+                    part.Kill(GetVelocity() + hitVelocity, false, out bool successfullyKilled);
                     
                     if (successfullyKilled)
                     {
@@ -102,7 +102,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             if (part)
             {
                 Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
-                part.Kill(GetVelocity() + explosionVelocity, out bool _);
+                part.Kill(GetVelocity() + explosionVelocity, true, out bool _);
             }
         }
     }

@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class SpaceshipPart : MonoBehaviour
 {
+    [SerializeField] private bool unkillable;
+    
     [SerializeField] private Transform mainPart;
     [SerializeField] private Collider partCollider;
     
@@ -17,6 +19,7 @@ public class SpaceshipPart : MonoBehaviour
     private Transform MainPart => mainPart ? mainPart : transform;
     public Collider PartCollider => partCollider;
     public int PartHealth => partHealth;
+    public bool IsUnkillable => unkillable;
     
     public enum OnKillModifierType
     {
@@ -34,11 +37,11 @@ public class SpaceshipPart : MonoBehaviour
         partHealth -= damage;
     }
 
-    public void Kill(Vector3 velocity, out bool successfullyKilled)
+    public void Kill(Vector3 velocity, bool forceKill, out bool successfullyKilled)
     {
         successfullyKilled = false;
         
-        if (isKilled) return;
+        if (isKilled || (unkillable && !forceKill)) return;
         
         isKilled = true;
         
@@ -47,12 +50,13 @@ public class SpaceshipPart : MonoBehaviour
         partRb.transform.parent = null; // set parent to scene
         partRb.useGravity = false;
         partRb.mass = partMass;
-        partCollider.isTrigger = false; // make sure it now has collisions if it didn't previously
+        if (partCollider)
+            partCollider.isTrigger = false; // make sure it now has collisions if it didn't previously
         
         killedParts.Add(this);
         successfullyKilled = true;
         
-        partToAlsoKill?.Kill(velocity, out bool _);
+        partToAlsoKill?.Kill(velocity, false, out bool _);
     }
 
     public void GetOnKillModifiers(out OnKillModifierType[] _onKillModifiers, out float[] _onKillModifierValues)

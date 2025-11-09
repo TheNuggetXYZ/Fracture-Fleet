@@ -72,6 +72,7 @@ public class SpaceshipController : MonoBehaviour
 
     public void KillShip()
     {
+        rb.linearDamping = 0;
         enabled = false;
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SpaceshipEngine : MonoBehaviour
+public class SpaceshipEngine : SpaceshipPart
 {
     [SerializeField] private SpaceshipController controller;
     [SerializeField] private Transform thrusterTexture;

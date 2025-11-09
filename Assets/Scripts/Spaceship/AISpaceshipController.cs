@@ -5,11 +5,6 @@ public class AISpaceshipController : SpaceshipController
     [Header("Stats")]
     [SerializeField] private AIBrain brain;
     [SerializeField] private float zoomSpeed = 30f;
-    /*[SerializeField] private AIBrain brain;
-    [SerializeField] private float speed = 15f;
-    [SerializeField] private float zoomSpeed = 30f;
-    [SerializeField] private float rotationLerpSpeed = 3f;
-    [SerializeField] private bool counteractRigidbodyMass = true;*/
 
     [Header("Debug")] 
     public bool move = true;

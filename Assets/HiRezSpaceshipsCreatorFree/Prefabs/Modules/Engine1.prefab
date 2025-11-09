@@ -273,6 +273,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fd31b7149cb761a5a678f1940e7fa7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unkillable: 1
+  mainPart: {fileID: 0}
+  partCollider: {fileID: 0}
+  partHealth: 1
+  partMass: 9
+  onKillModifier: 0
+  onKillModifierValue: 0
+  partToAlsoKill: {fileID: 0}
   controller: {fileID: 0}
   thrusterTexture: {fileID: 4977278546497330}
   thrusterEffect: {fileID: 3175011293466028508}

@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 0a0802ba9b3f99d4f9b3bcb7160b6dd8
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 143661
+  packageName: Asteroid Field Creator 1.5
+  packageVersion: 1.5.3
+  assetPath: Assets/Asteroid Field Creator/Demo/Demo Prefabs/SpawnPoint.prefab
+  uploadId: 393442

@@ -1,21 +1,13 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(SpaceshipInputHandler), typeof(Rigidbody))]
+[RequireComponent(typeof(PlayerInputHandler), typeof(Rigidbody))]
 public class PlayerController : SpaceshipController
 {
-    private SpaceshipInputHandler input;
+    private PlayerInputHandler input;
     
     [SerializeField] private WorldMenu worldMenu;
     [SerializeField] private float rollSpeedBoostMultiplier = 1.3f;
-    /*[SerializeField] private WorldMenu worldMenu;
-    [SerializeField] private float torqueForce = 0.3f;
-    [SerializeField] private float rollTorqueForce = 2;
-    [SerializeField] private float rollSpeedBoostMultiplier = 1.3f;
-    [SerializeField] private float movementSpeed = 20;
-    [SerializeField] private float verticalMovementSpeed = 10;
-    [SerializeField] private float linearDrag = 1;
-    [SerializeField] private bool counteractRigidbodyMass = true;*/
     
     [Header("Debug")]
     [SerializeField] private float velocity;
@@ -25,7 +17,7 @@ public class PlayerController : SpaceshipController
     private new void Awake()
     {
         base.Awake();
-        input = GetComponent<SpaceshipInputHandler>();
+        input = GetComponent<PlayerInputHandler>();
     }
 
     private void Update()

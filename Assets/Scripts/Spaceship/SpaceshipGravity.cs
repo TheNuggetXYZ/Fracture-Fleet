@@ -3,11 +3,15 @@ using UnityEngine;
 
 public class SpaceshipGravity : MonoBehaviour
 {
+    [SerializeField] private SpaceshipController controller;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float gravityConstantMultiplier = 2f;
 
     public void ApplyGravity(SpaceObject otherObject)
     {
+        if (controller && !controller.enabled)
+            return;
+        
         Vector3 forceDirection = (otherObject.transform.position - transform.position).normalized;
         float objectDistanceSqr = (otherObject.transform.position - transform.position).sqrMagnitude;
         float G = SpaceGravitySimulator.Instance.gravitationalConstant * gravityConstantMultiplier;
