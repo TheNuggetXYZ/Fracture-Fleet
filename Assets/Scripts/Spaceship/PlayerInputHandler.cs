@@ -13,6 +13,7 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
     public float verticalMovement {get; private set;} 
     public bool isShooting {get; private set;}
     public bool isWarping {get; private set;}
+    public Action onWarp;
 
     private void Awake()
     {
@@ -35,6 +36,9 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
     private void OnWarp(InputAction.CallbackContext context)
     {
         isWarping = !context.canceled;
+        
+        if (context.performed)
+            onWarp?.Invoke();
     }
 
     private void OnShoot(InputAction.CallbackContext context)

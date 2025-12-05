@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 
+// TODO: spaceship melting near sun
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager I;
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour
 
 public static class Utils
 {
+    // TODO: add class that has a current value and a max value, useful for e.g. health (no need for two variable)
+    
     public class Timer
     {
         private float cooldown;

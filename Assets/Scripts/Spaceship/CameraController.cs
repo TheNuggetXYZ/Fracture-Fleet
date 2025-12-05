@@ -10,6 +10,7 @@ public class CameraController : MonoBehaviour
     
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private Vector2 FOVRange;
+    [SerializeField] private int WarpFOV;
 
     private PlayerController player;
     
@@ -24,5 +25,6 @@ public class CameraController : MonoBehaviour
         noiseModule.FrequencyGain = noiseFrequencyAtMaxSpeed * player.speedFactor;
         
         cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, FOVRange.y, player.speedFactor);
+        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, WarpFOV, player.warpSpeedFactor);
     }
 }
