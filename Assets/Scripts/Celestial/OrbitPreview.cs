@@ -28,7 +28,7 @@ public class OrbitPreview : MonoBehaviour
         if (!alwaysVisible && !UnityEditor.Selection.Contains(gameObject))
             return;
 
-        var spaceObjects = FindObjectsByType<SpaceObject>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        var spaceObjects = SpaceGravitySimulator.FindCelestialBodies();
         if (spaceObjects.Length == 0)
             return;
 

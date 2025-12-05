@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager I;
     public PlayerController player {get; private set;}
+    public WorldMenu worldMenu {get; private set;}
     
     private void Awake()
     {
@@ -17,10 +18,11 @@ public class GameManager : MonoBehaviour
         Cursor.visible = false;
         
         player = FindAnyObjectByType<PlayerController>();
+        worldMenu = FindAnyObjectByType<WorldMenu>();
     }
 }
 
-public static partial class Utils
+public static class Utils
 {
     public class Timer
     {

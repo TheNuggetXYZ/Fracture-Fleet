@@ -48,7 +48,7 @@ public class CannonBullet : MonoBehaviour
         {
             hit.transform.GetComponent<ITakeDamage>()?.TakeDamage(damage, hit.collider.transform, targetPosition - transform.position);
 
-            SpawnEffect(hit.point, hit.normal, hit.transform);
+            SpawnEffect(hit.point, hit.normal, hit.collider.transform);
             
             targetPosition = hit.point;
             ReturnObjectToPool();
@@ -58,7 +58,7 @@ public class CannonBullet : MonoBehaviour
     private void SpawnEffect(Vector3 position, Vector3 direction, Transform parent)
     {
         position += direction.normalized * 0.1f;
-        ObjectPoolManager.SpawnObject(hitEffect.gameObject, position, Quaternion.LookRotation(direction), parent);
+        ObjectPoolManager.SpawnObject(hitEffect.gameObject, position, Quaternion.LookRotation(direction), null, parent);
     }
 
     private void ReturnObjectToPool()

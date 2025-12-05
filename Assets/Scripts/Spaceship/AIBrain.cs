@@ -27,10 +27,16 @@ public class AIBrain : MonoBehaviour, IShootInput
     [SerializeField] private float stopShootingRatePerMinute = 10;
     
     [Header("Movement")]
-    [SerializeField] private float zoomPastRatePerMinute = 5;
-    [SerializeField] private float zoomOffsetFromPlayerPerPlayerDistance = 0.3f;
-    [SerializeField] private float zoomExtendedDistance = 120;
-    [SerializeField] private float zoomTargetStateExitDistance = 20;
+    [SerializeField, Tooltip("Controls how much the AI will zoom diagonally instead of straight to the target")]
+    private float zoomOffsetFromPlayerPerPlayerDistance = 0.3f;
+    [SerializeField, Tooltip("How much it zooms past the target")] 
+    private float zoomExtendedDistance = 120;
+    [SerializeField, Tooltip("How close the zoom target position has to be for the AI to stop zooming")] 
+    private float zoomTargetStateExitDistance = 20;
+    [SerializeField, Tooltip("How close the target has to be for the AI to start zooming no matter what")]
+    private float startZoomingDistance;
+    [SerializeField, Tooltip("How often to attempt to zoom per minute")]
+    private float zoomPastRatePerMinute = 5;
     
     
     [Header("Output")] 
@@ -100,24 +106,31 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void DecideZooming(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
     {
-        if (!foundObstacle && currentState != AIState.zoomingPast && Utils.RandomEventInTime(zoomPastRatePerMinute))
+        if (foundObstacle)
         {
-            Debug.Log("zoom " + gameObject.name);
-            
+            currentState = AIState.following;
+            return;
+        }
+        
+        // START ZOOMING
+        if ((currentState != AIState.zoomingPast && Utils.RandomEventInTime(zoomPastRatePerMinute)) || Vector3.Distance(target.position, transform.position) < startZoomingDistance)
+        {
             float playerDistance = Vector3.Distance(transform.position, target.position);
             if (playerDistance > zoomTargetStateExitDistance)
             {
                 currentState = AIState.zoomingPast;
 
                 Vector3 playerDirection = target.position - transform.position;
-                Vector3 directionOfThePlayerWeAreFacing =
-                    Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
-                zoomTargetPositionLocalToPlayer = target.position + Utils.ResizeVector(directionOfThePlayerWeAreFacing, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
-                zoomTargetPositionLocalToPlayer = transform.position + Utils.ExtendVector(zoomTargetPositionLocalToPlayer - transform.position, zoomExtendedDistance);
-                zoomTargetPositionLocalToPlayer = zoomTargetPositionLocalToPlayer - target.position;
+                Vector3 directionTheShipIsFacingFromThePlayer = Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
+
+                Vector3 offsetedPositionFromPlayWhereTheShipIsFacingMore = target.position + Utils.ResizeVector(directionTheShipIsFacingFromThePlayer, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
+                Vector3 globalTargetPosition = transform.position + Utils.ExtendVector(offsetedPositionFromPlayWhereTheShipIsFacingMore - transform.position, zoomExtendedDistance);
+                // TODO: make it be local in a way it rotates around, if you go to the opposite of the AI the zoom target will be much closer and in a direction that's still as if the player was on the original position
+                zoomTargetPositionLocalToPlayer = globalTargetPosition - target.position; 
             }
         }
-        else if (!foundObstacle && currentState == AIState.zoomingPast)
+        // ZOOMING UPDATE
+        else if (currentState == AIState.zoomingPast)
         {
             if (Vector3.Distance(transform.position, zoomTargetPosition) < zoomTargetStateExitDistance)
                 currentState = AIState.following;

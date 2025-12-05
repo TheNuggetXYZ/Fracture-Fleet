@@ -6,8 +6,8 @@ public class PlayerController : SpaceshipController
 {
     private PlayerInputHandler input;
     
-    [SerializeField] private WorldMenu worldMenu;
     [SerializeField] private float rollSpeedBoostMultiplier = 1.3f;
+    [SerializeField] private float warpSpeedBoostMultiplier = 5f;
     
     [Header("Debug")]
     [SerializeField] private float velocity;
@@ -25,14 +25,36 @@ public class PlayerController : SpaceshipController
         velocity = rb.linearVelocity.magnitude;
         speedFactor = Mathf.InverseLerp(0, MovementSpeed, velocity); // stationary - 0, max speed - 1
         
-        float somethingCloseToMaxSpeed = MovementSpeed * rollSpeedBoostMultiplier + VerticalMovementSpeed;
-        worldMenu.ShowCriticalSpeedWarning(rb.linearVelocity.magnitude > somethingCloseToMaxSpeed - 5);
+        
     }
 
     private void FixedUpdate()
     {
-        Rotate(transform.right * input.pitchDelta, transform.up * input.yawDelta, transform.forward * input.rollDelta);
+        float forwardMovementMultiplier = 1;
+        if (input.isWarping)
+            forwardMovementMultiplier = warpSpeedBoostMultiplier;
+        else if (input.rollDelta != 0)
+            forwardMovementMultiplier = rollSpeedBoostMultiplier;
 
-        Move(MovementSpeed, input.forwardMovement, input.verticalMovement, input.rollDelta != 0 ? rollSpeedBoostMultiplier : 1);
+        // move only forward during warping
+        float forwardMovement = input.isWarping ? 1 : input.forwardMovement;
+        float verticalMovement = input.isWarping ? 0 : input.verticalMovement;
+
+        Move(MovementSpeed, 
+            forwardMovement, 
+            verticalMovement, 
+            forwardMovementMultiplier);
+        
+        if (!input.isWarping)
+            Rotate(transform.right * input.pitchDelta, 
+                transform.up * input.yawDelta, 
+                transform.forward * input.rollDelta);
+    }
+
+    private void ManageCriticalSpeedWarning()
+    {
+        float somethingCloseToMaxSpeed = MovementSpeed * rollSpeedBoostMultiplier + VerticalMovementSpeed;
+        GameManager.I.worldMenu.ShowObject(GameManager.I.worldMenu.criticalSpeedWarning,  
+            !input.isWarping && rb.linearVelocity.magnitude > somethingCloseToMaxSpeed - 5);
     }
 }

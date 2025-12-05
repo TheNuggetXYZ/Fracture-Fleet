@@ -10,9 +10,9 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
     public float yawDelta {get; private set;}
     public float rollDelta {get; private set;}
     public float forwardMovement {get; private set;}
-    public float verticalMovement {get; private set;}
-
-    private bool isShooting;
+    public float verticalMovement {get; private set;} 
+    public bool isShooting {get; private set;}
+    public bool isWarping {get; private set;}
 
     private void Awake()
     {
@@ -28,6 +28,13 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
         inputSystemActions.Player.VerticalMovement.canceled += OnVerticalMovement;
         inputSystemActions.Player.Attack.performed += OnShoot;
         inputSystemActions.Player.Attack.canceled += OnShoot;
+        inputSystemActions.Player.Jump.performed += OnWarp;
+        inputSystemActions.Player.Jump.canceled += OnWarp;
+    }
+
+    private void OnWarp(InputAction.CallbackContext context)
+    {
+        isWarping = !context.canceled;
     }
 
     private void OnShoot(InputAction.CallbackContext context)

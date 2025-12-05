@@ -5,7 +5,7 @@ public class SpaceshipPart : MonoBehaviour
 {
     [SerializeField] private bool unkillable;
     
-    [SerializeField] private Transform mainPart;
+    [SerializeField] private Transform _mainPart;
     [SerializeField] private Collider partCollider;
     
     [SerializeField] private int partHealth = 1;
@@ -16,10 +16,13 @@ public class SpaceshipPart : MonoBehaviour
     
     [SerializeField] private SpaceshipPart partToAlsoKill;
     
-    private Transform MainPart => mainPart ? mainPart : transform;
+    private Transform mainPart => _mainPart ? _mainPart : transform;
     public Collider PartCollider => partCollider;
     public int PartHealth => partHealth;
     public bool IsUnkillable => unkillable;
+    public bool IsKilled => isKilled;
+    public Vector3 OriginalPositionLocalToParent => localOriginalPosition;
+    public Transform OriginalParent => isKilled ? originalParent : transform.parent;
     
     public enum OnKillModifierType
     {
@@ -31,6 +34,12 @@ public class SpaceshipPart : MonoBehaviour
 
     private List<SpaceshipPart> killedParts = new();
     private bool isKilled;
+    private Rigidbody addedRb;
+
+    private bool originalIsTrigger;
+    private Vector3 localOriginalPosition;
+    private Quaternion originalLocalRotation;
+    private Transform originalParent;
 
     public void TakeDamage(int damage)
     {
@@ -44,15 +53,26 @@ public class SpaceshipPart : MonoBehaviour
         if (isKilled || (unkillable && !forceKill)) return;
         
         isKilled = true;
+
+        originalParent = mainPart.parent;
+        localOriginalPosition = mainPart.localPosition;
+        originalLocalRotation = mainPart.localRotation;
+
+        if (!addedRb)
+        {
+            addedRb = mainPart.gameObject.AddComponent<Rigidbody>();
+            addedRb.linearVelocity = velocity;
+            addedRb.transform.parent = null; // set parent to scene
+            addedRb.useGravity = false;
+            addedRb.mass = partMass;
+        }
         
-        Rigidbody partRb = MainPart.gameObject.AddComponent<Rigidbody>();
-        partRb.linearVelocity = velocity;
-        partRb.transform.parent = null; // set parent to scene
-        partRb.useGravity = false;
-        partRb.mass = partMass;
         if (partCollider)
+        {
+            originalIsTrigger = partCollider.isTrigger;
             partCollider.isTrigger = false; // make sure it now has collisions if it didn't previously
-        
+        }
+
         killedParts.Add(this);
         successfullyKilled = true;
         
@@ -71,4 +91,39 @@ public class SpaceshipPart : MonoBehaviour
             _onKillModifierValues[i] = killedParts[i].onKillModifierValue;
         }
     }
+
+    public void Repair(bool setPosition)
+    {
+        isKilled = false;
+
+        mainPart.parent = originalParent;
+        
+        if (setPosition)
+            mainPart.localPosition = localOriginalPosition;
+        
+        mainPart.localRotation = originalLocalRotation;
+
+        RemoveRigidbody();
+        
+        if (partCollider)
+            partCollider.isTrigger = originalIsTrigger;
+        
+        killedParts.Clear();
+    }
+
+    public void RemoveRigidbody()
+    {
+        if (addedRb)
+        {
+            Destroy(addedRb);
+        }
+    }
+
+    public void TurnOffCollisions()
+    {
+        if (partCollider)
+            partCollider.isTrigger = true;
+    }
+    
+    public void SetPosition(Vector3 position) => mainPart.position = position;
 }

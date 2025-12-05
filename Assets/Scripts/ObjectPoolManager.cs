@@ -6,7 +6,7 @@ public class ObjectPoolManager : MonoBehaviour
 {
     private static readonly Dictionary<string, PooledObjectInfo<Component>> objectPools = new();
 
-    private static T FindObject<T>(T spawnObject, Vector3 spawnPosition, Quaternion spawnRotation = default, Transform parent = null, bool dontDestroyOnLoad = true) where T : Component
+    private static T FindObject<T>(T spawnObject, Vector3 spawnPosition, Quaternion spawnRotation, Vector3 spawnSize, Transform parent, bool dontDestroyOnLoad) where T : Component
     {
         string key = spawnObject.gameObject.name;
 
@@ -16,10 +16,11 @@ public class ObjectPoolManager : MonoBehaviour
             objectPools.Add(key, pool);
         }
 
-        T spawnableObject = pool.GetInactiveObject(spawnPosition, spawnRotation) as T;
+        T spawnableObject = pool.GetInactiveObject(spawnPosition, spawnRotation, spawnSize) as T;
         if (!spawnableObject)
         {
             spawnableObject = Instantiate(spawnObject, spawnPosition, spawnRotation, !parent ? pool.poolParent : parent);
+            spawnableObject.transform.localScale = spawnSize;
 
             if (!parent && dontDestroyOnLoad)
                 DontDestroyOnLoad(spawnableObject.transform.parent);
@@ -30,14 +31,14 @@ public class ObjectPoolManager : MonoBehaviour
         return spawnableObject;
     }
 
-    public static GameObject SpawnObject(GameObject spawnObject, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Transform parent = null, bool dontDestroyOnload = true)
+    public static GameObject SpawnObject(GameObject spawnObject, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
     {
-        return FindObject(spawnObject.transform, spawnPosition, spawnRotation, parent, dontDestroyOnload).gameObject;
+        return FindObject(spawnObject.transform, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload).gameObject;
     }
     
-    public static CannonBullet SpawnObject(CannonBullet spawnObject, Transform sender, Vector3 initialVelocity, Vector3 spawnPosition, Quaternion spawnRotation, Transform parent = null, bool dontDestroyOnload = false)
+    public static CannonBullet SpawnObject(CannonBullet spawnObject, Transform sender, Vector3 initialVelocity, Vector3 spawnPosition, Quaternion spawnRotation, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = false)
     {
-        CannonBullet cb = FindObject(spawnObject, spawnPosition, spawnRotation, parent, dontDestroyOnload);
+        CannonBullet cb = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
         cb.Initialize(sender, initialVelocity);
         return cb;
     }
@@ -61,13 +62,14 @@ public class PooledObjectInfo<T> where T : Component
     public System.Type component;
     public readonly List<T> inactiveObjects = new();
 
-    public T GetInactiveObject(Vector3 position, Quaternion rotation)
+    public T GetInactiveObject(Vector3 position, Quaternion rotation, Vector3 scale)
     {
         if (inactiveObjects.Count > 0 && !inactiveObjects[0].IsDestroyed())
         {
             T obj = inactiveObjects[0];
             inactiveObjects.RemoveAt(0);
             obj.transform.SetPositionAndRotation(position, rotation);
+            obj.transform.localScale = scale;
             obj.gameObject.SetActive(true);
             return obj;
         }

@@ -7,11 +7,12 @@ public class SpaceObject : MonoBehaviour
     [SerializeField] private Rigidbody rb;
     
     [field: SerializeField] public float mass {get; private set;}
-    [SerializeField] private float radius;
+    [SerializeField] protected float radius;
     [SerializeField] private float densityKgPerMeter;
     [SerializeField] private bool calculateMass;
-    [field: SerializeField] public Vector3 initialVelocity {get; private set;}
+    [field: SerializeField] public Vector3 initialVelocity { get; protected set; }
     [field: SerializeField] public bool lockedPosition {get; private set;}
+    [field: SerializeField] public bool isCelestialBody { get; private set; }
     
     private Vector3 currentVelocity;
 
@@ -41,7 +42,7 @@ public class SpaceObject : MonoBehaviour
         rb.MovePosition(transform.position + currentVelocity * Time.fixedDeltaTime);
     }
 
-    private void OnValidate()
+    protected void OnValidate()
     {
         transform.localScale = Vector3.one * radius * 2;
         

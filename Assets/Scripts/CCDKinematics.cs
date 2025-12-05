@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class CCDKinematics : MonoBehaviour
@@ -35,6 +36,32 @@ public class CCDKinematics : MonoBehaviour
             
             // Enforce Joint Limits
             //joint.localRotation.clampEuler(joint.minLimit, joint.maxLimit);
+        }
+    }
+
+    public void SetGoalPosition(Vector3 position)
+    {
+        goal.position = position;
+    }
+    
+    public void SetGoalPositionSmooth(Vector3 position, float time)
+    {
+        StopAllCoroutines();
+        StartCoroutine(SmoothMove(position, time));
+    }
+
+    private IEnumerator SmoothMove(Vector3 position, float time)
+    {
+        float i = 0;
+        Vector3 start = goal.position;
+
+        while (i < time)
+        {
+            i += Time.deltaTime;
+            
+            goal.position = Vector3.Lerp(start, position, i / time);
+            
+            yield return null;
         }
     }
 }

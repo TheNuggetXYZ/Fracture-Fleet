@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class WorldMenu : MonoBehaviour
 {
-    [SerializeField] private Transform criticalSpeedWarning;
-
-    public void ShowCriticalSpeedWarning(bool show)
+    [field: SerializeField] public Transform criticalSpeedWarning {get; private set;}
+    [field: SerializeField] public Transform repairKeyPopup {get; private set;}
+    
+    public void ShowObject(GameObject obj, bool show)
     {
-        criticalSpeedWarning.gameObject.SetActive(show);
+        ShowObject(obj.transform, show);
+    }
+    
+    public void ShowObject(Transform obj, bool show)
+    {
+        obj.gameObject.SetActive(show);
     }
 }
