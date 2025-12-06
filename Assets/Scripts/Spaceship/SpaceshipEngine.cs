@@ -3,13 +3,26 @@ using UnityEngine;
 
 public class SpaceshipEngine : SpaceshipPart
 {
-    [SerializeField] private SpaceshipController controller;
+    [SerializeField] private AudioSource audioSource;
     [SerializeField] private Transform thrusterTexture;
     [SerializeField] private Transform thrusterEffect;
 
-    private void Update()
+    private float originalVolume;
+
+    private void Awake()
     {
-        thrusterTexture.gameObject.SetActive(controller.enabled);
-        thrusterEffect.gameObject.SetActive(controller.enabled);
+        originalVolume = audioSource.volume;
+    }
+
+    public void SetVolume(float originalVolumeMultiplier)
+    {
+        audioSource.volume = originalVolume * originalVolumeMultiplier;
+    }
+    
+    public void TurnOff()
+    {
+        thrusterTexture.gameObject.SetActive(false);
+        thrusterEffect.gameObject.SetActive(false);
+        audioSource.enabled = false;
     }
 }

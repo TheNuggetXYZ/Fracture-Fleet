@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.VisualScripting;
+using UnityEngine.Audio;
 
 public class ObjectPoolManager : MonoBehaviour
 {
@@ -31,9 +32,17 @@ public class ObjectPoolManager : MonoBehaviour
         return spawnableObject;
     }
 
-    public static GameObject SpawnObject(Transform spawnObject, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
+    public static Transform SpawnObject(Transform spawnObject, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
     {
-        return FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload).gameObject;
+        var obj = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
+        return obj;
+    }
+    
+    public static AudioSource SpawnObject(AudioSource spawnObject, AudioMixerGroup audioMixerGroup, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
+    {
+        var obj = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
+        obj.outputAudioMixerGroup = audioMixerGroup;
+        return obj;
     }
     
     public static CannonBullet SpawnObject(CannonBullet spawnObject, Transform sender, Vector3 initialVelocity, Vector3 spawnPosition, Quaternion spawnRotation, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = false)

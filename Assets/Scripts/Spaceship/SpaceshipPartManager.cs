@@ -24,6 +24,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     
     private bool shipDead;
     private int maxShipHealth;
+    private List<SpaceshipEngine> engines = new();
     private List<Transform> metalSparkEffectList = new();
     
     private Rigidbody spaceshipRigidbody;
@@ -44,7 +45,13 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                 {
                     SpaceshipPart childPart = child.GetComponent<SpaceshipPart>();
                     if(childPart && childPart.enabled)
+                    {
                         allParts[i] = childPart;
+
+                        var engine = allParts[i] as SpaceshipEngine;
+                        if (engine)
+                            engines.Add(engine);
+                    }
                 }
             }
         }
@@ -55,7 +62,15 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         spaceshipRigidbody = GetComponent<Rigidbody>();
         maxShipHealth = shipHealth;
     }
-    
+
+    private void Update()
+    {
+        foreach (SpaceshipEngine engine in engines)
+        {
+            engine.SetVolume(spaceshipController.speedFactor);
+        }
+    }
+
     public void TakeDamage(int damage, Transform hitCollider, Vector3 hitVelocity = default)
     {
         ShipTakeDamage(damage);
@@ -104,6 +119,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         spaceshipController.KillShip();
         GetComponent<AIBrain>()?.ShipDied();
         SpawnScrap();
+        TurnOffEngines();
         
         ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipDeathExplosionVFX, transform.position, default, onDeathExplosionSize * Vector3.one);
         
@@ -119,6 +135,14 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                 Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
                 part.Kill(GetVelocity() + explosionVelocity, true, out bool _);
             }
+        }
+    }
+
+    private void TurnOffEngines()
+    {
+        foreach (SpaceshipEngine engine in engines)
+        {
+            engine.TurnOff();
         }
     }
 

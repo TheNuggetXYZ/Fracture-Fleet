@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Audio;
 
 // TODO: spaceship melting near sun
 
@@ -8,6 +9,8 @@ public class GameManager : MonoBehaviour
     public static GameManager I;
     
     [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
+    [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
+    [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
     
     public PlayerController player {get; private set;}
     public WorldMenu worldMenu {get; private set;}

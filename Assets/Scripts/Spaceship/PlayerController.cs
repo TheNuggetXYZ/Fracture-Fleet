@@ -13,10 +13,6 @@ public class PlayerController : SpaceshipController
     [SerializeField] private float warpCancelCollisionMagnitudeThreshold = 10;
     [SerializeField] private float warpChargeRotationSpeedMultiplier = 0.2f;
     
-    [Header("Debug")]
-    [SerializeField] private float velocity;
-    
-    public float speedFactor {get; private set;}
     public float warpSpeedFactor {get; private set;}
 
     private float currentWarpSpeedMultiplier;
@@ -31,10 +27,10 @@ public class PlayerController : SpaceshipController
         input.onWarp += WarpStart;
     }
 
-    private void Update()
+    private new void Update()
     {
-        velocity = rb.linearVelocity.magnitude;
-        speedFactor = Mathf.InverseLerp(0, MovementSpeed, velocity); // stationary - 0, max speed - 1
+        base.Update();
+        
         warpSpeedFactor = Mathf.InverseLerp(0, MovementSpeed * warpSpeedBoostMultiplier, velocity);
         
         //ManageCriticalSpeedWarning();

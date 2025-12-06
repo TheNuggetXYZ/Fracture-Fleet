@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class SpaceshipController : MonoBehaviour
 {
@@ -9,10 +11,13 @@ public class SpaceshipController : MonoBehaviour
     [SerializeField] private float rollTorqueForce = 2;
     [SerializeField] private float verticalMovementSpeed = 10;
     [SerializeField] protected bool counteractRigidbodyMass = true;
+    [SerializeField] protected float velocity; // debug
 
     private float movementSpeedMultiplier = 1f;
     private float torqueForceMultiplier = 1f;
     private float unstabilityAmount = 0;
+    
+    public float speedFactor {get; private set;}
     
     protected float MovementSpeed => movementSpeed;
     protected float VerticalMovementSpeed => verticalMovementSpeed;
@@ -21,7 +26,13 @@ public class SpaceshipController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
     }
-    
+
+    protected void Update()
+    {
+        velocity = rb.linearVelocity.magnitude;
+        speedFactor = Mathf.InverseLerp(0, MovementSpeed, velocity); // stationary - 0, max speed - 1
+    }
+
     protected void Move(float forwardMovementSpeed, float forwardMovement = 1, float verticalMovement = 0, float forwardMovementMultiplier = 1)
     {
         if (!enabled) return;

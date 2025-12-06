@@ -38,7 +38,7 @@ public class SpaceshipCannon : MonoBehaviour
     {
         foreach (Transform gunPoint in gunPoints)
         {
-            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipShootSFX.transform, gunPoint.position);
+            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipShootSFX, GameManager.I.SFXAudioMixerGroup, gunPoint.position);
             
             ObjectPoolManager.SpawnObject(bulletPrefab, transform, rb.linearVelocity, gunPoint.position, gunPoint.rotation);
         }
