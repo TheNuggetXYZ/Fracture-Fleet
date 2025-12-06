@@ -2237,6 +2237,7 @@ MonoBehaviour:
   partSpawnPlace: {fileID: 1990637967748170831}
   armKinematics: {fileID: 1023771399341638431}
   partMoveSpeed: 5
+  triggerUIPopupDistance: 15
 --- !u!1001 &8304054569910576482
 PrefabInstance:
   m_ObjectHideFlags: 0

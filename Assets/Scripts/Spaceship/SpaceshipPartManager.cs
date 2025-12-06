@@ -13,11 +13,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private int lostHealthOnPartKill;
     [SerializeField] private float onDeathExplosionForce;
     [SerializeField] private float onDeathExplosionSize = 1;
-    [SerializeField] private Transform deathExplosionEffect;
     
     [Header("Collisions")]
     [SerializeField] private float collisionMagnitudeThreshold;
-    [SerializeField] private Transform metalSparkEffect;
     
     [Header("Parts")]
     [SerializeField] private bool fetchChildParts;
@@ -107,7 +105,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         GetComponent<AIBrain>()?.ShipDied();
         SpawnScrap();
         
-        ObjectPoolManager.SpawnObject(deathExplosionEffect.gameObject, transform.position, default, onDeathExplosionSize * Vector3.one);
+        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipDeathExplosionVFX, transform.position, default, onDeathExplosionSize * Vector3.one);
         
         gameObject.SetActive(false);
     }
@@ -156,7 +154,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         if (collisionMagnitude >= collisionMagnitudeThreshold)
         {
             ContactPoint cp = collision.GetContact(0);
-            metalSparkEffectList.Add(Instantiate(metalSparkEffect, cp.point, Quaternion.LookRotation(-cp.normal), cp.thisCollider.transform));
+            metalSparkEffectList.Add(Instantiate(GameManager.I.prefabs.metalSparkVFX, cp.point, Quaternion.LookRotation(-cp.normal), cp.thisCollider.transform));
         }
     }
 

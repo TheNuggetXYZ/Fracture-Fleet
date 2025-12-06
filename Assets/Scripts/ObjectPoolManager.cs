@@ -31,9 +31,9 @@ public class ObjectPoolManager : MonoBehaviour
         return spawnableObject;
     }
 
-    public static GameObject SpawnObject(GameObject spawnObject, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
+    public static GameObject SpawnObject(Transform spawnObject, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
     {
-        return FindObject(spawnObject.transform, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload).gameObject;
+        return FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload).gameObject;
     }
     
     public static CannonBullet SpawnObject(CannonBullet spawnObject, Transform sender, Vector3 initialVelocity, Vector3 spawnPosition, Quaternion spawnRotation, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = false)

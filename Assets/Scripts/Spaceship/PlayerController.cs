@@ -104,7 +104,7 @@ public class PlayerController : SpaceshipController
     {
         float collisionMagnitude = collision.relativeVelocity.magnitude;
 
-        if (collisionMagnitude >= warpCancelCollisionMagnitudeThreshold)
+        if (!warpCharging && collisionMagnitude >= warpCancelCollisionMagnitudeThreshold)
             canWarp = false;
     }
 

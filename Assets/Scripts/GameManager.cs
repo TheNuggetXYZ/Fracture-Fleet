@@ -6,6 +6,9 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager I;
+    
+    [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
+    
     public PlayerController player {get; private set;}
     public WorldMenu worldMenu {get; private set;}
     

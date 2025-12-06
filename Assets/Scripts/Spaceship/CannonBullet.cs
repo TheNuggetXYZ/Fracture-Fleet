@@ -7,7 +7,6 @@ public class CannonBullet : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private float despawnDistanceFromSender = 2000;
     [SerializeField] private LayerMask hitMask;
-    [SerializeField] private Transform hitEffect;
 
     private Vector3 inheritedVelocity;
 
@@ -58,7 +57,7 @@ public class CannonBullet : MonoBehaviour
     private void SpawnEffect(Vector3 position, Vector3 direction, Transform parent)
     {
         position += direction.normalized * 0.1f;
-        ObjectPoolManager.SpawnObject(hitEffect.gameObject, position, Quaternion.LookRotation(direction), null, parent);
+        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.bulletHitVFX, position, Quaternion.LookRotation(direction), null, parent);
     }
 
     private void ReturnObjectToPool()
