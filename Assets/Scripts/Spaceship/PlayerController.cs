@@ -10,6 +10,7 @@ public class PlayerController : SpaceshipController
     
     [SerializeField] private float rollSpeedBoostMultiplier = 1.3f;
     [SerializeField] private float warpSpeedBoostMultiplier = 5f;
+    [SerializeField] private float warpCancelCollisionMagnitudeThreshold = 10;
     
     [Header("Debug")]
     [SerializeField] private float velocity;
@@ -85,9 +86,12 @@ public class PlayerController : SpaceshipController
 
     private bool IsWarping() => input.isWarping && canWarp;
 
-    private void OnCollisionEnter()
+    private void OnCollisionEnter(Collision collision)
     {
-        canWarp = false;
+        float collisionMagnitude = collision.relativeVelocity.magnitude;
+
+        if (collisionMagnitude >= warpCancelCollisionMagnitudeThreshold)
+            canWarp = false;
     }
 
     private void ManageCriticalSpeedWarning()
