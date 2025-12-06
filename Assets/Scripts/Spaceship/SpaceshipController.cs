@@ -32,13 +32,13 @@ public class SpaceshipController : MonoBehaviour
         rb.AddForce(transform.up * (verticalMovement * verticalMovementSpeed * movementSpeedMultiplier * forceMultiplier), ForceMode.Force);
     }
 
-    protected void Rotate(Vector3 pitch, Vector3 yaw, Vector3 roll)
+    protected void Rotate(Vector3 pitch, Vector3 yaw, Vector3 roll, float multiplier = 1)
     {
         pitch *= torqueForce;
         yaw *= torqueForce;
         roll *= rollTorqueForce;
         
-        Rotate_Internal(pitch + yaw + roll);
+        Rotate_Internal((pitch + yaw + roll) * multiplier);
     }
 
     protected void Rotate(Vector3 torque)

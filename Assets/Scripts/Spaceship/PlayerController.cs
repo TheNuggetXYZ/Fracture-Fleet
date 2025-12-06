@@ -11,6 +11,7 @@ public class PlayerController : SpaceshipController
     [SerializeField] private float rollSpeedBoostMultiplier = 1.3f;
     [SerializeField] private float warpSpeedBoostMultiplier = 5f;
     [SerializeField] private float warpCancelCollisionMagnitudeThreshold = 10;
+    [SerializeField] private float warpChargeRotationSpeedMultiplier = 0.2f;
     
     [Header("Debug")]
     [SerializeField] private float velocity;
@@ -20,6 +21,7 @@ public class PlayerController : SpaceshipController
 
     private float currentWarpSpeedMultiplier;
     private bool canWarp;
+    private bool warpCharging;
 
     private new void Awake()
     {
@@ -43,6 +45,12 @@ public class PlayerController : SpaceshipController
 
     private void FixedUpdate()
     {
+        HandleMovement();
+        HandleRotation();
+    }
+
+    private void HandleMovement()
+    {
         float forwardMovementMultiplier = 1;
         if (IsWarping())
             forwardMovementMultiplier = currentWarpSpeedMultiplier;
@@ -57,11 +65,17 @@ public class PlayerController : SpaceshipController
             forwardMovement, 
             verticalMovement, 
             forwardMovementMultiplier);
+    }
+
+    private void HandleRotation()
+    {
+        float rotationMultiplier = warpCharging ? warpChargeRotationSpeedMultiplier : 1;
         
-        if (!IsWarping())
+        if (!IsWarping() || warpCharging)
             Rotate(transform.right * input.pitchDelta, 
                 transform.up * input.yawDelta, 
-                transform.forward * input.rollDelta);
+                transform.forward * input.rollDelta,
+                rotationMultiplier);
     }
 
     private void WarpStart()
@@ -75,13 +89,13 @@ public class PlayerController : SpaceshipController
     private bool warpRoutine;
     private IEnumerator WarpRoutine()
     {
-        warpRoutine = true;
+        warpRoutine = warpCharging = true;
         
         currentWarpSpeedMultiplier = 0;
         yield return new WaitForSeconds(3);
         currentWarpSpeedMultiplier = warpSpeedBoostMultiplier;
         
-        warpRoutine = false;
+        warpRoutine = warpCharging = false;
     }
 
     private bool IsWarping() => input.isWarping && canWarp;
