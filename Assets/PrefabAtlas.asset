@@ -15,4 +15,9 @@ MonoBehaviour:
   metalSparkVFX: {fileID: 4000014129045996, guid: 511c459a6e44be82d93169ae1de6687e, type: 3}
   bulletHitVFX: {fileID: 540475870712641468, guid: 056046b173eff1e90862659c00e7fde3, type: 3}
   shipDeathExplosionVFX: {fileID: 4388947112716342, guid: b91244f74b9c5ba218dab141f8d4dd53, type: 3}
-  shipShootSFX: {fileID: 4542807737997406319, guid: ba6d0bb4216169dedaa5a3c0169ecd79, type: 3}
+  shipShootSFX: {fileID: 6616190499090553909, guid: ba6d0bb4216169dedaa5a3c0169ecd79, type: 3}
+  lightHitSFX: {fileID: -5776234951022597501, guid: 20b6b57e5912a077ca5e62a8c02ce959, type: 3}
+  mediumHitSFX: {fileID: 8992477307283960190, guid: 169c56a9cfbcc569ea05f2e55cfbbc40, type: 3}
+  heavyHitSFXp1: {fileID: 8004048930353269298, guid: 91affbbe57877c240b1a2f7289dfd35e, type: 3}
+  heavyHitSFXp2: {fileID: 7230344741940307011, guid: 9bcedc4f703c117a9aab02839b7e0427, type: 3}
+  metalSparkSFX: {fileID: 574400950991736142, guid: b721988716f738b1993deb06f2045c86, type: 3}

@@ -11,12 +11,21 @@ public class SpaceshipCannon : MonoBehaviour
     [SerializeField] private float shootCooldown;
     
     private Utils.Timer shootTimer;
+    private Vector3 averageGunPointPosition;
     
     private void Awake()
     {
         input = GetComponent<IShootInput>();
 
         shootTimer = new Utils.Timer(shootCooldown);
+
+        Vector3 gunPointPosSum = Vector3.zero;
+        foreach (var gunPoint in gunPoints)
+        {
+            gunPointPosSum += gunPoint.localPosition;
+        }
+
+        averageGunPointPosition = gunPointPosSum / gunPoints.Length;
     }
 
     private void Update()
@@ -36,10 +45,10 @@ public class SpaceshipCannon : MonoBehaviour
 
     private void Shoot()
     {
+        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipShootSFX, transform.position + averageGunPointPosition);
+
         foreach (Transform gunPoint in gunPoints)
         {
-            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipShootSFX, GameManager.I.SFXAudioMixerGroup, gunPoint.position);
-            
             ObjectPoolManager.SpawnObject(bulletPrefab, transform, rb.linearVelocity, gunPoint.position, gunPoint.rotation);
         }
     }

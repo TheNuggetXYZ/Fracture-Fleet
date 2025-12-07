@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 11.6, z: 154}
-  m_LocalScale: {x: 20, y: 20, z: 20}
+  m_LocalScale: {x: 100, y: 100, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,7 +119,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1433069759739240407}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 1472621.6
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -150,9 +150,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a3def4a637cd6a569c9871c83a39705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <mass>k__BackingField: 100
-  <initialVelocity>k__BackingField: {x: 2.8, y: 0, z: 0}
+  rb: {fileID: 2667508228448890139}
+  <mass>k__BackingField: 1472621.6
+  radius: 50
+  densityKgPerMeter: 5000
+  calculateMass: 1
+  <initialVelocity>k__BackingField: {x: -6, y: -3.1, z: 0}
   <lockedPosition>k__BackingField: 0
+  <isCelestialBody>k__BackingField: 1
 --- !u!96 &24174800256683966
 TrailRenderer:
   serializedVersion: 3

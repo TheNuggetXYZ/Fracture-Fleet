@@ -91,6 +91,7 @@ MonoBehaviour:
   rollTorqueForce: 0
   verticalMovementSpeed: 0
   counteractRigidbodyMass: 1
+  velocity: 0
   brain: {fileID: 6542346062070833488}
   zoomSpeed: 30
   move: 1
@@ -128,9 +129,7 @@ MonoBehaviour:
   lostHealthOnPartKill: 15
   onDeathExplosionForce: 5
   onDeathExplosionSize: 1
-  deathExplosionEffect: {fileID: 4388947112716342, guid: b91244f74b9c5ba218dab141f8d4dd53, type: 3}
-  collisionMagnitudeThreshold: 15
-  metalSparkEffect: {fileID: 4000014129045996, guid: 511c459a6e44be82d93169ae1de6687e, type: 3}
+  sparksCollisionMagnitudeThreshold: 15
   fetchChildParts: 0
   childPartsParent: {fileID: 8376327053669755133}
   allParts:

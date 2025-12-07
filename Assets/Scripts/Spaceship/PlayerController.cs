@@ -12,6 +12,7 @@ public class PlayerController : SpaceshipController
     [SerializeField] private float warpSpeedBoostMultiplier = 5f;
     [SerializeField] private float warpCancelCollisionMagnitudeThreshold = 10;
     [SerializeField] private float warpChargeRotationSpeedMultiplier = 0.2f;
+    [SerializeField] private AudioSource warpChargeSFX;
     
     public float warpSpeedFactor {get; private set;}
 
@@ -35,8 +36,12 @@ public class PlayerController : SpaceshipController
         
         //ManageCriticalSpeedWarning();
 
-        if (!input.isWarping && warpRoutine)
-            StopCoroutine(WarpRoutine());
+        if (!input.isWarping && warpRoutine && warpCoroutine != null)
+        {
+            StopCoroutine(warpCoroutine);
+            warpChargeSFX.Stop();
+            warpCharging = warpRoutine = false;
+        }
     }
 
     private void FixedUpdate()
@@ -79,16 +84,18 @@ public class PlayerController : SpaceshipController
         canWarp = true;
         
         if (!warpRoutine)
-            StartCoroutine(WarpRoutine());
+            warpCoroutine = StartCoroutine(WarpRoutine());
     }
 
     private bool warpRoutine;
+    private Coroutine warpCoroutine;
     private IEnumerator WarpRoutine()
     {
         warpRoutine = warpCharging = true;
         
+        warpChargeSFX.Play();
         currentWarpSpeedMultiplier = 0;
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(warpChargeSFX.clip.length - 2.415f); // specific to the current clip
         currentWarpSpeedMultiplier = warpSpeedBoostMultiplier;
         
         warpRoutine = warpCharging = false;

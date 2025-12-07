@@ -34,14 +34,18 @@ public class ObjectPoolManager : MonoBehaviour
 
     public static Transform SpawnObject(Transform spawnObject, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
     {
-        var obj = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
+        Transform obj = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
         return obj;
     }
     
-    public static AudioSource SpawnObject(AudioSource spawnObject, AudioMixerGroup audioMixerGroup, Vector3 spawnPosition = default, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
+    public static AudioObject SpawnObject(AudioObject spawnObject, Vector3 spawnPosition = default, float volumeMultiplier = 1, float randomPitchAmount = 0.2f, bool distanceCheck = true, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
     {
-        var obj = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
-        obj.outputAudioMixerGroup = audioMixerGroup;
+        if (distanceCheck && Camera.main && Vector3.Distance(spawnPosition, Camera.main.transform.position) > spawnObject.AudioSource.maxDistance)
+            return null;
+        
+        AudioObject obj = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
+        obj.SetVolumeMultiplier(volumeMultiplier);
+        obj.AddPitch(Random.Range(-randomPitchAmount, randomPitchAmount));
         return obj;
     }
     

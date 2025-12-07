@@ -15,7 +15,10 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private float onDeathExplosionSize = 1;
     
     [Header("Collisions")]
-    [SerializeField] private float collisionMagnitudeThreshold;
+    [SerializeField] private float sparksCollisionMagnitudeThreshold = 15;
+    [SerializeField] private float lightHitCollisionMagnitudeThreshold = 5;
+    [SerializeField] private float mediumHitCollisionMagnitudeThreshold = 15;
+    [SerializeField] private float heavyHitCollisionMagnitudeThreshold = 30;
     
     [Header("Parts")]
     [SerializeField] private bool fetchChildParts;
@@ -26,6 +29,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     private int maxShipHealth;
     private List<SpaceshipEngine> engines = new();
     private List<Transform> metalSparkEffectList = new();
+    private AudioObject metalSparkSFX;
     
     private Rigidbody spaceshipRigidbody;
 
@@ -67,6 +71,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     {
         foreach (SpaceshipEngine engine in engines)
         {
+            //TODO: not only boost the volume for player warping, but for AI zooming since they have a zooming speed!!!
             engine.SetVolume(spaceshipController.speedFactor);
         }
     }
@@ -174,11 +179,31 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     private void OnCollisionEnter(Collision collision)
     {
         float collisionMagnitude = collision.relativeVelocity.magnitude;
-
-        if (collisionMagnitude >= collisionMagnitudeThreshold)
+        ContactPoint cp = collision.GetContact(0);
+        
+        if (collisionMagnitude >= sparksCollisionMagnitudeThreshold)
         {
-            ContactPoint cp = collision.GetContact(0);
             metalSparkEffectList.Add(Instantiate(GameManager.I.prefabs.metalSparkVFX, cp.point, Quaternion.LookRotation(-cp.normal), cp.thisCollider.transform));
+
+            if (metalSparkEffectList.Count == 1 && !metalSparkSFX)
+                metalSparkSFX = ObjectPoolManager.SpawnObject(GameManager.I.prefabs.metalSparkSFX, cp.point, 1, 0, false, default, null, transform);
+        }
+        
+        if (collisionMagnitude >= heavyHitCollisionMagnitudeThreshold)
+        {
+            float volumeMult = (collisionMagnitude / heavyHitCollisionMagnitudeThreshold) * 0.15f;
+            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.heavyHitSFXp1, cp.point, volumeMult);
+            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.heavyHitSFXp2, cp.point, volumeMult);
+        }
+        else if (collisionMagnitude >= mediumHitCollisionMagnitudeThreshold)
+        {
+            float volumeMult = (collisionMagnitude / mediumHitCollisionMagnitudeThreshold) * 0.3f;
+            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.mediumHitSFX, cp.point, volumeMult);
+        }
+        else if (collisionMagnitude >= lightHitCollisionMagnitudeThreshold)
+        {
+            float volumeMult = (collisionMagnitude / lightHitCollisionMagnitudeThreshold) * 0.3f;
+            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.lightHitSFX, cp.point, volumeMult);
         }
     }
 
@@ -202,5 +227,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         }
         
         metalSparkEffectList.Clear();
+        ObjectPoolManager.ReturnObjectToPool(metalSparkSFX.gameObject);
+        metalSparkSFX = null;
     }
 }

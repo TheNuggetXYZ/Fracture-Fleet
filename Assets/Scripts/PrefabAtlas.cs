@@ -9,5 +9,11 @@ public class PrefabAtlas : ScriptableObject
     public Transform shipDeathExplosionVFX;
     
     [Header("SFX")]
-    public AudioSource shipShootSFX;
+    public AudioObject shipShootSFX;
+    public AudioObject lightHitSFX;
+    public AudioObject mediumHitSFX;
+    public AudioObject heavyHitSFXp1;
+    public AudioObject heavyHitSFXp2;
+    public AudioObject metalSparkSFX;
+    
 }
