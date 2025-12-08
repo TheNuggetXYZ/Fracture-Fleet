@@ -112,22 +112,20 @@ public class AIBrain : MonoBehaviour, IShootInput
             return;
         }
         
+        float playerDistance = Vector3.Distance(transform.position, target.position);
+        bool shouldStartZooming = Utils.RandomEventInTime(zoomPastRatePerMinute) || playerDistance < startZoomingDistance;
         // START ZOOMING
-        if ((currentState != AIState.zoomingPast && Utils.RandomEventInTime(zoomPastRatePerMinute)) || Vector3.Distance(target.position, transform.position) < startZoomingDistance)
+        if (currentState != AIState.zoomingPast && shouldStartZooming)
         {
-            float playerDistance = Vector3.Distance(transform.position, target.position);
-            if (playerDistance > zoomTargetStateExitDistance)
-            {
-                currentState = AIState.zoomingPast;
+            currentState = AIState.zoomingPast;
 
-                Vector3 playerDirection = target.position - transform.position;
-                Vector3 directionTheShipIsFacingFromThePlayer = Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
+            Vector3 playerDirection = target.position - transform.position;
+            Vector3 directionTheShipIsFacingFromThePlayer = Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
 
-                Vector3 offsetedPositionFromPlayWhereTheShipIsFacingMore = target.position + Utils.ResizeVector(directionTheShipIsFacingFromThePlayer, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
-                Vector3 globalTargetPosition = transform.position + Utils.ExtendVector(offsetedPositionFromPlayWhereTheShipIsFacingMore - transform.position, zoomExtendedDistance);
-                // TODO: make it be local in a way it rotates around, if you go to the opposite of the AI the zoom target will be much closer and in a direction that's still as if the player was on the original position
-                zoomTargetPositionLocalToPlayer = globalTargetPosition - target.position; 
-            }
+            Vector3 offsetedPositionFromPlayWhereTheShipIsFacingMore = target.position + Utils.ResizeVector(directionTheShipIsFacingFromThePlayer, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
+            Vector3 globalTargetPosition = transform.position + Utils.ExtendVector(offsetedPositionFromPlayWhereTheShipIsFacingMore - transform.position, zoomExtendedDistance);
+            // TODO: make it be local in a way it rotates around, if you go to the opposite of the AI the zoom target will be much closer and in a direction that's still as if the player was on the original position
+            zoomTargetPositionLocalToPlayer = globalTargetPosition - target.position; 
         }
         // ZOOMING UPDATE
         else if (currentState == AIState.zoomingPast)

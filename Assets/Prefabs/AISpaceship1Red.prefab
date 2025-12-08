@@ -125,12 +125,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0585cff7b7305b85c9cc4262bc28e87b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spaceshipController: {fileID: 5193542865789706867}
+  <spaceshipController>k__BackingField: {fileID: 5193542865789706867}
   shipHealth: 200
   lostHealthOnPartKill: 40
   onDeathExplosionForce: 5
   onDeathExplosionSize: 2
   sparksCollisionMagnitudeThreshold: 20
+  lightHitCollisionMagnitudeThreshold: 5
+  mediumHitCollisionMagnitudeThreshold: 15
+  heavyHitCollisionMagnitudeThreshold: 30
   fetchChildParts: 1
   childPartsParent: {fileID: 2057160074818598902}
   allParts:

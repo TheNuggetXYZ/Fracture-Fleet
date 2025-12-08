@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 public class SpaceshipController : MonoBehaviour
 {
     protected Rigidbody rb;
+    protected SpaceshipGravity sGravity;
     
     [SerializeField] private float movementSpeed = 20;
     [SerializeField] private float torqueForce = 0.3f;
@@ -13,6 +14,8 @@ public class SpaceshipController : MonoBehaviour
     [SerializeField] protected bool counteractRigidbodyMass = true;
     [SerializeField] protected float velocity; // debug
 
+    private bool move = true;
+    private bool rotate = true;
     private float movementSpeedMultiplier = 1f;
     private float torqueForceMultiplier = 1f;
     private float unstabilityAmount = 0;
@@ -25,6 +28,7 @@ public class SpaceshipController : MonoBehaviour
     protected void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        sGravity = GetComponent<SpaceshipGravity>();
     }
 
     protected void Update()
@@ -35,7 +39,7 @@ public class SpaceshipController : MonoBehaviour
 
     protected void Move(float forwardMovementSpeed, float forwardMovement = 1, float verticalMovement = 0, float forwardMovementMultiplier = 1)
     {
-        if (!enabled) return;
+        if (!move) return;
         
         float forceMultiplier = counteractRigidbodyMass ? rb.mass : 1f;
         
@@ -59,7 +63,7 @@ public class SpaceshipController : MonoBehaviour
 
     private void Rotate_Internal(Vector3 finalTorque)
     {
-        if (!enabled) return;
+        if (!rotate) return;
         
         float forceMultiplier = counteractRigidbodyMass ? rb.mass : 1f;
         float unstability = Random.Range((1-unstabilityAmount), (1+unstabilityAmount));
@@ -84,7 +88,7 @@ public class SpaceshipController : MonoBehaviour
     public void KillShip()
     {
         rb.linearDamping = 0;
-        enabled = false;
+        Lock();
     }
 
     public void ClearModifiers()
@@ -92,5 +96,23 @@ public class SpaceshipController : MonoBehaviour
         movementSpeedMultiplier = 1;
         torqueForceMultiplier = 1f;
         unstabilityAmount = 0;
+    }
+
+    public void Lock()
+    {
+        move = false;
+        rotate = false;
+        
+        if (sGravity)
+            sGravity.move = false;
+    }
+
+    public void Unlock()
+    {
+        move = true;
+        rotate = true;
+        
+        if (sGravity)
+            sGravity.move = true;
     }
 }

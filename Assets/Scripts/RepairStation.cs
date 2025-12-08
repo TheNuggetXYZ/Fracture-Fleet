@@ -7,9 +7,12 @@ public class RepairStation : MonoBehaviour
 {
     [SerializeField] private SpaceshipPartManager player;
     [SerializeField] private Transform partSpawnPlace;
+    [SerializeField] private Transform repairStationCenter;
     [SerializeField] private CCDKinematics armKinematics;
     [SerializeField] private float partMoveSpeed = 5;
     [SerializeField] private float triggerUIPopupDistance = 10;
+    [SerializeField] private float repairDistance = 10;
+    [SerializeField] private Vector3 playerTargetRotation;
     
     private SpaceshipPart[] fetchedKilledParts;
     private bool isRepairing;
@@ -19,14 +22,14 @@ public class RepairStation : MonoBehaviour
         if (!isRepairing && Input.GetKeyDown(KeyCode.R))
             OnPlayerArrived();
         
-        GameManager.I.worldMenu.ShowObject(GameManager.I.worldMenu.repairKeyPopup, Vector3.Distance(GameManager.I.player.transform.position, transform.position) < triggerUIPopupDistance);
+        GameManager.I.worldMenu.ShowObject(GameManager.I.worldMenu.repairKeyPopup, Vector3.Distance(GameManager.I.player.transform.position, repairStationCenter.position) < triggerUIPopupDistance);
     }
 
     private void OnPlayerArrived()
     {
         fetchedKilledParts = player.GetKilledParts();
 
-        if (fetchedKilledParts.Length > 0)
+        if (fetchedKilledParts.Length > 0 && Vector3.Distance(player.transform.position, repairStationCenter.position) < repairDistance)
             StartCoroutine(StartRepairing());
     }
 
@@ -34,10 +37,18 @@ public class RepairStation : MonoBehaviour
     {
         isRepairing = true;
         
+        player.spaceshipController.Lock();
+        yield return ArmSmoothMove(player.transform.position, 0.5f);
+        Quaternion playerOGRotation = player.transform.rotation;
+        Quaternion playerTargetRotationQ = Quaternion.Euler(playerTargetRotation);
+        yield return ArmSmoothMove(armKinematics.originalGoalPosition, 2f, (Vector3 pos, float i) => { player.transform.position = pos;
+            player.transform.rotation = Quaternion.Lerp(playerOGRotation, playerTargetRotationQ, i); return 0;});
+        
         foreach (var p in fetchedKilledParts)
         {
-            armKinematics.SetGoalPositionSmooth(partSpawnPlace.position, 0.5f);
-            yield return new WaitForSeconds(0.5f);
+            float goToSpawnPlaceTime = 0.5f;
+            armKinematics.SetGoalPositionSmooth(partSpawnPlace.position, goToSpawnPlaceTime);
+            yield return new WaitForSeconds(goToSpawnPlaceTime);
             
             // Spawn part in an immovable state at partSpawnPlace
             p.RemoveRigidbody();
@@ -71,7 +82,14 @@ public class RepairStation : MonoBehaviour
         player.ClearAllModifiers();
         player.Heal();
         player.RemoveSparks();
+        player.spaceshipController.Unlock();
         
         isRepairing = false;
+    }
+
+    private WaitForSeconds ArmSmoothMove(Vector3 position, float time, Func<Vector3, float, int> action = null)
+    {
+        armKinematics.SetGoalPositionSmooth(position, time, action);
+        return new WaitForSeconds(time);
     }
 }

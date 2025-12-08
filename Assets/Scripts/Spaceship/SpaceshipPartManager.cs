@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 {
-    [SerializeField] private SpaceshipController spaceshipController;
+    [field: SerializeField] public SpaceshipController spaceshipController {get; private set;}
     
     [Header("Ship Condition")]
     [SerializeField] private int shipHealth;
@@ -24,6 +24,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private bool fetchChildParts;
     [SerializeField] private Transform childPartsParent;
     [FormerlySerializedAs("killableParts")] [SerializeField] private SpaceshipPart[] allParts;
+    [SerializeField] private bool debug_killAppParts;
     
     private bool shipDead;
     private int maxShipHealth;
@@ -73,6 +74,20 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         {
             //TODO: not only boost the volume for player warping, but for AI zooming since they have a zooming speed!!!
             engine.SetVolume(spaceshipController.speedFactor);
+        }
+
+        if (debug_killAppParts)
+        {
+            foreach (SpaceshipPart part in allParts)
+            {
+                if (part && !part.IsUnkillable)
+                {
+                    Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
+                    part.Kill(GetVelocity() + explosionVelocity, false, out bool _);
+                }
+            }
+
+            debug_killAppParts = false;
         }
     }
 
@@ -227,7 +242,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         }
         
         metalSparkEffectList.Clear();
-        ObjectPoolManager.ReturnObjectToPool(metalSparkSFX.gameObject);
+        
+        if (metalSparkSFX)
+            ObjectPoolManager.ReturnObjectToPool(metalSparkSFX.gameObject);
         metalSparkSFX = null;
     }
 }

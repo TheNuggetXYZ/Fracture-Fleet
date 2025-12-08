@@ -7,7 +7,7 @@ public class AISpaceshipController : SpaceshipController
     [SerializeField] private float zoomSpeed = 30f;
 
     [Header("Debug")] 
-    public bool move = true;
+    public bool canMove = true;
 
     private void Start()
     {
@@ -26,7 +26,7 @@ public class AISpaceshipController : SpaceshipController
 
     private void FixedUpdate()
     {
-        if (move)
+        if (canMove)
         {
             float actualSpeed = brain.currentState == AIBrain.AIState.zoomingPast ? zoomSpeed : MovementSpeed;
             Move(actualSpeed, 1, 0);

@@ -45,7 +45,8 @@ public class SpaceshipCannon : MonoBehaviour
 
     private void Shoot()
     {
-        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipShootSFX, transform.position + averageGunPointPosition);
+        
+        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipShootSFX, transform.TransformPoint(averageGunPointPosition));
 
         foreach (Transform gunPoint in gunPoints)
         {

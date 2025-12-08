@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,6 +7,8 @@ public class CCDKinematics : MonoBehaviour
     [SerializeField] private Joint[] jointsTipToBase;
     [SerializeField, Tooltip("last joint")] private Transform effector;
     [SerializeField] private Transform goal;
+
+    public Vector3 originalGoalPosition {get; private set;}
 
     [System.Serializable]
     public struct Joint
@@ -18,6 +21,11 @@ public class CCDKinematics : MonoBehaviour
             Quaternion delta = Quaternion.FromToRotation(from, to);
             transform.rotation = delta * transform.rotation;
         }
+    }
+
+    private void Awake()
+    {
+        originalGoalPosition = goal.position;
     }
 
     private void Update()
@@ -44,22 +52,23 @@ public class CCDKinematics : MonoBehaviour
         goal.position = position;
     }
     
-    public void SetGoalPositionSmooth(Vector3 position, float time)
+    public void SetGoalPositionSmooth(Vector3 position, float time, Func<Vector3, float, int> action = null)
     {
         StopAllCoroutines();
-        StartCoroutine(SmoothMove(position, time));
+        StartCoroutine(SmoothMove(position, time, action));
     }
 
-    private IEnumerator SmoothMove(Vector3 position, float time)
+    private IEnumerator SmoothMove(Vector3 position, float time, Func<Vector3, float, int> action)
     {
-        float i = 0;
+        float timer = 0;
         Vector3 start = goal.position;
 
-        while (i < time)
+        while (timer < time)
         {
-            i += Time.deltaTime;
+            timer += Time.deltaTime;
             
-            goal.position = Vector3.Lerp(start, position, i / time);
+            goal.position = Vector3.Lerp(start, position, timer / time);
+            action?.Invoke(goal.position, timer / time);
             
             yield return null;
         }

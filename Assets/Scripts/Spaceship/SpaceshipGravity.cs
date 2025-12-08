@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class SpaceshipGravity : MonoBehaviour
 {
-    [SerializeField] private SpaceshipController controller;
     [SerializeField] private Rigidbody rb;
     [SerializeField] private float gravityConstantMultiplier = 2f;
 
+    [SerializeField] public bool move = true;
+
     public void ApplyGravity(SpaceObject otherObject)
     {
-        if (controller && !controller.enabled)
+        if (!move)
             return;
         
         Vector3 forceDirection = (otherObject.transform.position - transform.position).normalized;
