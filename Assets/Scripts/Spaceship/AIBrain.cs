@@ -112,13 +112,14 @@ public class AIBrain : MonoBehaviour, IShootInput
             return;
         }
         
+        // TODO: if youre lucky enough, the AI can just zoom from left to right for a minute, add a cooldown
         float playerDistance = Vector3.Distance(transform.position, target.position);
         bool shouldStartZooming = Utils.RandomEventInTime(zoomPastRatePerMinute) || playerDistance < startZoomingDistance;
         // START ZOOMING
         if (currentState != AIState.zoomingPast && shouldStartZooming)
         {
             currentState = AIState.zoomingPast;
-
+            
             Vector3 playerDirection = target.position - transform.position;
             Vector3 directionTheShipIsFacingFromThePlayer = Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
 

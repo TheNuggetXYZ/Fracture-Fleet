@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
     [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
     [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
+    [field: SerializeField] public UIPopupListHandler popupListHandler {get; private set;}
     
     public PlayerController player {get; private set;}
     public WorldMenu worldMenu {get; private set;}

@@ -19,10 +19,12 @@ public class PlayerController : SpaceshipController
     private float currentWarpSpeedMultiplier;
     private bool canWarp;
     private bool warpCharging;
+    private GameManager game;
 
     private new void Awake()
     {
         base.Awake();
+        game = GameManager.I;
         input = GetComponent<PlayerInputHandler>();
 
         input.onWarp += WarpStart;
@@ -35,11 +37,14 @@ public class PlayerController : SpaceshipController
         warpSpeedFactor = Mathf.InverseLerp(0, MovementSpeed * warpSpeedBoostMultiplier, velocity);
         
         //ManageCriticalSpeedWarning();
+        
+        game.popupListHandler.ShowPopup(game.popupListHandler.popup_Warping, IsWarping() && !warpCharging);
 
         if (!input.isWarping && warpRoutine && warpCoroutine != null)
         {
             StopCoroutine(warpCoroutine);
             warpChargeSFX.Stop();
+            game.popupListHandler.ShowPopup(game.popupListHandler.popup_ChargingWarp, false);
             warpCharging = warpRoutine = false;
         }
     }
@@ -92,12 +97,14 @@ public class PlayerController : SpaceshipController
     private IEnumerator WarpRoutine()
     {
         warpRoutine = warpCharging = true;
+        game.popupListHandler.ShowPopup(game.popupListHandler.popup_ChargingWarp, true);
         
         warpChargeSFX.Play();
         currentWarpSpeedMultiplier = 0;
         yield return new WaitForSeconds(warpChargeSFX.clip.length - 2.415f); // specific to the current clip
         currentWarpSpeedMultiplier = warpSpeedBoostMultiplier;
         
+        game.popupListHandler.ShowPopup(game.popupListHandler.popup_ChargingWarp, false);
         warpRoutine = warpCharging = false;
     }
 

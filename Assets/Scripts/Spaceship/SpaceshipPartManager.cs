@@ -9,6 +9,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [field: SerializeField] public SpaceshipController spaceshipController {get; private set;}
     
     [Header("Ship Condition")]
+    [SerializeField] private bool playerShip;
     [SerializeField] private int shipHealth;
     [SerializeField] private int lostHealthOnPartKill;
     [SerializeField] private float onDeathExplosionForce;
@@ -33,6 +34,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     private AudioObject metalSparkSFX;
     
     private Rigidbody spaceshipRigidbody;
+    private GameManager game;
 
     private void OnValidate()
     {
@@ -64,12 +66,16 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 
     private void Awake()
     {
+        game = GameManager.I;
         spaceshipRigidbody = GetComponent<Rigidbody>();
         maxShipHealth = shipHealth;
     }
 
     private void Update()
     {
+        if (playerShip)
+            game.popupListHandler.ShowPopup(game.popupListHandler.warning_DestructionImminent, shipHealth <= lostHealthOnPartKill);
+        
         foreach (SpaceshipEngine engine in engines)
         {
             //TODO: not only boost the volume for player warping, but for AI zooming since they have a zooming speed!!!
@@ -108,6 +114,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                 {
                     // kill part
                     part.Kill(GetVelocity() + hitVelocity, false, out bool successfullyKilled);
+
+                    if (playerShip)
+                        game.popupListHandler.ShowPopup(game.popupListHandler.warning_ShipModuleLost, true, 0, 2);
                     
                     // damage ship and apply modifiers (usually debuffs)
                     if (successfullyKilled)
@@ -140,6 +149,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         GetComponent<AIBrain>()?.ShipDied();
         SpawnScrap();
         TurnOffEngines();
+
+        if (!playerShip)
+            game.popupListHandler.ShowPopup(game.popupListHandler.popup_EnemyNeutralized, true, 0.5f, 2);
         
         ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipDeathExplosionVFX, transform.position, default, onDeathExplosionSize * Vector3.one);
         
@@ -199,6 +211,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         if (collisionMagnitude >= sparksCollisionMagnitudeThreshold)
         {
             metalSparkEffectList.Add(Instantiate(GameManager.I.prefabs.metalSparkVFX, cp.point, Quaternion.LookRotation(-cp.normal), cp.thisCollider.transform));
+            
+            if (playerShip)
+                game.popupListHandler.ShowPopup(game.popupListHandler.popup_ShipSustainedDamage, true, 0, 2);
 
             if (metalSparkEffectList.Count == 1 && !metalSparkSFX)
                 metalSparkSFX = ObjectPoolManager.SpawnObject(GameManager.I.prefabs.metalSparkSFX, cp.point, 1, 0, false, default, null, transform);
@@ -209,6 +224,11 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             float volumeMult = (collisionMagnitude / heavyHitCollisionMagnitudeThreshold) * 0.15f;
             ObjectPoolManager.SpawnObject(GameManager.I.prefabs.heavyHitSFXp1, cp.point, volumeMult);
             ObjectPoolManager.SpawnObject(GameManager.I.prefabs.heavyHitSFXp2, cp.point, volumeMult);
+            
+            //TODO: damage the ship, maybe kill a random part, or damage all parts by 1
+            
+            if (playerShip)
+                game.popupListHandler.ShowPopup(game.popupListHandler.warning_ImpactDamage, true, 0, 2);
         }
         else if (collisionMagnitude >= mediumHitCollisionMagnitudeThreshold)
         {
@@ -232,6 +252,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     public void Heal()
     {
         shipHealth = maxShipHealth;
+        
+        if (playerShip)
+            game.popupListHandler.ShowPopup(game.popupListHandler.popup_IntegrityRestored, true, 0, 2);
     }
 
     public void RemoveSparks()
