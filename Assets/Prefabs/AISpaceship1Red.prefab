@@ -94,7 +94,7 @@ MonoBehaviour:
   velocity: 0
   brain: {fileID: 333488744970528832}
   zoomSpeed: 50
-  move: 1
+  canMove: 1
 --- !u!114 &5429978149562340440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <spaceshipController>k__BackingField: {fileID: 5193542865789706867}
+  playerShip: 0
   shipHealth: 200
   lostHealthOnPartKill: 40
   onDeathExplosionForce: 5
@@ -155,6 +156,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  debug_killAppParts: 0
 --- !u!54 &6623329085358320775
 Rigidbody:
   m_ObjectHideFlags: 0

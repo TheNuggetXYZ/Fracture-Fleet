@@ -94,7 +94,7 @@ MonoBehaviour:
   velocity: 0
   brain: {fileID: 6542346062070833488}
   zoomSpeed: 30
-  move: 1
+  canMove: 1
 --- !u!114 &7415194380431963632
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <spaceshipController>k__BackingField: {fileID: 68420066467202353}
+  playerShip: 0
   shipHealth: 100
   lostHealthOnPartKill: 15
   onDeathExplosionForce: 5
@@ -149,6 +150,7 @@ MonoBehaviour:
   - {fileID: 6684977611926352449}
   - {fileID: 2433872596883318711}
   - {fileID: 2433872596041688023}
+  debug_killAppParts: 0
 --- !u!54 &4003047047334425931
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1039,6 +1041,10 @@ PrefabInstance:
     - target: {fileID: 5765055786070503914, guid: ded92bffdbffb794aa3304b5cf0497df, type: 3}
       propertyPath: m_Layer
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5765055786070503914, guid: ded92bffdbffb794aa3304b5cf0497df, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5765058417741215430, guid: ded92bffdbffb794aa3304b5cf0497df, type: 3}
       propertyPath: m_Layer

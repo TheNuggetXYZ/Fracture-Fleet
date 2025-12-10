@@ -69,6 +69,16 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         game = GameManager.I;
         spaceshipRigidbody = GetComponent<Rigidbody>();
         maxShipHealth = shipHealth;
+
+        if (engines.Count == 0 || engines[0] == null)
+        {
+            foreach (SpaceshipPart part in allParts)
+            {
+                var engine = part as SpaceshipEngine;
+                if (engine)
+                    engines.Add(engine);
+            }
+        }
     }
 
     private void Update()
@@ -151,7 +161,10 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         TurnOffEngines();
 
         if (!playerShip)
+        {
             game.popupListHandler.ShowPopup(game.popupListHandler.popup_EnemyNeutralized, true, 0.5f, 2);
+            game.waveManager.EnemyDefeated();
+        }
         
         ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipDeathExplosionVFX, transform.position, default, onDeathExplosionSize * Vector3.one);
         
