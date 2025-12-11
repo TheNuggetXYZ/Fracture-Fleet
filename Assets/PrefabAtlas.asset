@@ -21,3 +21,5 @@ MonoBehaviour:
   heavyHitSFXp1: {fileID: 8004048930353269298, guid: 91affbbe57877c240b1a2f7289dfd35e, type: 3}
   heavyHitSFXp2: {fileID: 7230344741940307011, guid: 9bcedc4f703c117a9aab02839b7e0427, type: 3}
   metalSparkSFX: {fileID: 574400950991736142, guid: b721988716f738b1993deb06f2045c86, type: 3}
+  newWaveSFX1: {fileID: 8447127057117692637, guid: f6b057f3ba302a82783f3b330ebc9dad, type: 3}
+  newWaveSFX2: {fileID: 3795650045298230635, guid: 270bb692dab5861dc81d2035ab7a54f0, type: 3}

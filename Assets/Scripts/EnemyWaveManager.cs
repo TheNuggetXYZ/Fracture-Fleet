@@ -39,6 +39,11 @@ public class EnemyWaveManager : MonoBehaviour
             Debug.Log("next wave");
             currentWave++;
             SpawnWave(waves[currentWave]);
+
+            if (Utils.RandomBool())
+                ObjectPoolManager.SpawnObject(GameManager.I.prefabs.newWaveSFX1);
+            else
+                ObjectPoolManager.SpawnObject(GameManager.I.prefabs.newWaveSFX2);
         }
     }
 

@@ -15,5 +15,7 @@ public class PrefabAtlas : ScriptableObject
     public AudioObject heavyHitSFXp1;
     public AudioObject heavyHitSFXp2;
     public AudioObject metalSparkSFX;
+    public AudioObject newWaveSFX1;
+    public AudioObject newWaveSFX2;
     
 }

@@ -40,7 +40,7 @@ public class ObjectPoolManager : MonoBehaviour
     
     public static AudioObject SpawnObject(AudioObject spawnObject, Vector3 spawnPosition = default, float volumeMultiplier = 1, float randomPitchAmount = 0.2f, bool distanceCheck = true, Quaternion spawnRotation = default, Vector3? spawnSize = null, Transform parent = null, bool dontDestroyOnload = true)
     {
-        if (distanceCheck && Camera.main && Vector3.Distance(spawnPosition, Camera.main.transform.position) > spawnObject.AudioSource.maxDistance)
+        if (distanceCheck && spawnObject.AudioSource.spatialBlend > 0 && Camera.main && Vector3.Distance(spawnPosition, Camera.main.transform.position) > spawnObject.AudioSource.maxDistance)
             return null;
         
         AudioObject obj = FindObject(spawnObject, spawnPosition, spawnRotation, spawnSize ?? spawnObject.transform.localScale, parent, dontDestroyOnload);
