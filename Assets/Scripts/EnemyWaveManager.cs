@@ -90,7 +90,7 @@ public class EnemyWaveManager : MonoBehaviour
     {
         Vector3 spawnPoint = Utils.RandomPointInSphere(Vector3.zero, enemySpawnMaxDistanceFromCenter);
 
-        bool clear = Physics.CheckSphere(spawnPoint + checkSphereOffset, enemySphereCheckRadius * radiusMultiplier);
+        bool clear = !Physics.CheckSphere(spawnPoint + checkSphereOffset, enemySphereCheckRadius * radiusMultiplier);
 
         if (clear)
             return spawnPoint;
