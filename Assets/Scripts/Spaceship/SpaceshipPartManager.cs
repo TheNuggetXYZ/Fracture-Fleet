@@ -255,6 +255,14 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Sun"))
+        {
+            KillShip();
+        }
+    }
+
     public SpaceshipPart[] GetKilledParts() => allParts.Where(part => part.IsKilled).ToArray();
 
     public void ClearAllModifiers()

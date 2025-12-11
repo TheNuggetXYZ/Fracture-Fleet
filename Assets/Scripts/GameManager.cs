@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
     [field: SerializeField] public UIPopupListHandler popupListHandler {get; private set;}
     [field: SerializeField] public EnemyWaveManager waveManager {get; private set;}
+    [field: SerializeField] public Transform scrapParent {get; private set;}
     
     public PlayerController player {get; private set;}
     public WorldMenu worldMenu {get; private set;}

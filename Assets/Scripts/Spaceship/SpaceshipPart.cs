@@ -62,9 +62,9 @@ public class SpaceshipPart : MonoBehaviour
         {
             addedRb = mainPart.gameObject.AddComponent<Rigidbody>();
             addedRb.linearVelocity = velocity;
-            addedRb.transform.parent = null; // set parent to scene
             addedRb.useGravity = false;
             addedRb.mass = partMass;
+            addedRb.transform.parent = GameManager.I.scrapParent;
         }
         
         if (partCollider)
