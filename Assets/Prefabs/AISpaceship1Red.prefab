@@ -56,7 +56,7 @@ MonoBehaviour:
   findPlayer: 1
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 183
   obstacleClearance: 15
   obstacleAvoidAheadMultiplier: 0.4
   otherAIMask:
@@ -69,8 +69,8 @@ MonoBehaviour:
   differenceInDirectionThatAllowsShooting: 0.85
   startShootingRatePerMinute: 1
   stopShootingRatePerMinute: 0
-  zoomOffsetFromPlayerPerPlayerDistance: 0.35
-  zoomExtendedDistance: 300
+  zoomOffsetFromPlayerPerPlayerDistance: 0.3
+  zoomExtendedDistance: 200
   zoomTargetStateExitDistance: 20
   startZoomingDistance: 40
   zoomPastRatePerMinute: 12
@@ -86,14 +86,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddfc69f954fb27c70a9dd71f5b505626, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 15
-  torqueForce: 10
+  movementSpeed: 7.5
+  torqueForce: 8
   rollTorqueForce: 0
   verticalMovementSpeed: 0
   counteractRigidbodyMass: 1
   velocity: 0
   brain: {fileID: 333488744970528832}
-  zoomSpeed: 50
+  zoomSpeed: 30
   canMove: 1
 --- !u!114 &5429978149562340440
 MonoBehaviour:

@@ -4,6 +4,7 @@ public class EnemyWaveManager : MonoBehaviour
 {
     [SerializeField] private Transform enemy1;
     [SerializeField] private Transform enemy2;
+    [SerializeField] private Transform enemy3;
     [SerializeField] private EnemyWave[] waves;
     [SerializeField] private float enemySpawnMaxDistanceFromCenter;
     [SerializeField] private float enemySphereCheckRadius;
@@ -18,6 +19,7 @@ public class EnemyWaveManager : MonoBehaviour
     {
         public Vector2 enemy1Range;
         public Vector2 enemy2Range;
+        public Vector2 enemy3Range;
         [Tooltip("Randomize the 'scattered' bool")]
         public bool randomizeScattered;
         [Tooltip("Should the ships be scattered through the solar system or together")]
@@ -51,7 +53,8 @@ public class EnemyWaveManager : MonoBehaviour
     {
         int enemy1Amount = (int)Random.Range(wave.enemy1Range.x, wave.enemy1Range.y + 1);
         int enemy2Amount = (int)Random.Range(wave.enemy2Range.x, wave.enemy2Range.y + 1);
-        enemyAmount = enemy1Amount + enemy2Amount;
+        int enemy3Amount = (int)Random.Range(wave.enemy3Range.x, wave.enemy3Range.y + 1);
+        enemyAmount = enemy1Amount + enemy2Amount + enemy3Amount;
         
         bool scattered = wave.randomizeScattered ? Utils.RandomBool() : wave.scattered;
 
@@ -72,6 +75,11 @@ public class EnemyWaveManager : MonoBehaviour
             {
                 Instantiate(enemy2, spawnPoints[enemy1Amount + i], Quaternion.identity);
             }
+            
+            for (int i = 0; i < enemy3Amount; i++)
+            {
+                Instantiate(enemy3, spawnPoints[enemy1Amount + enemy2Amount + i], Quaternion.identity);
+            }
         }
         else
         {
@@ -87,6 +95,12 @@ public class EnemyWaveManager : MonoBehaviour
             {
                 spawnPoint += enemySpawnOffset;
                 Instantiate(enemy2, spawnPoint, Quaternion.identity);
+            }
+            
+            for (int i = 0; i < enemy3Amount; i++)
+            {
+                spawnPoint += enemySpawnOffset;
+                Instantiate(enemy3, spawnPoint, Quaternion.identity);
             }
         }
     }
