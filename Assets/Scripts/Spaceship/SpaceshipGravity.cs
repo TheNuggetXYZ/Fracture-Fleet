@@ -4,9 +4,10 @@ using UnityEngine;
 public class SpaceshipGravity : MonoBehaviour
 {
     [SerializeField] private Rigidbody rb;
-    [SerializeField] private float gravityConstantMultiplier = 2f;
+    [SerializeField] private float gravityConstantMultiplier = 20f;
 
     [SerializeField] public bool move = true;
+    public Vector3 totalGravity;
 
     public void ApplyGravity(SpaceObject otherObject)
     {
@@ -18,6 +19,9 @@ public class SpaceshipGravity : MonoBehaviour
         float G = SpaceGravitySimulator.Instance.gravitationalConstant * gravityConstantMultiplier;
         Vector3 acceleration = forceDirection * (G * (otherObject.mass / objectDistanceSqr));
 
+        // totalGravity needs to be set to 0 before applying spaceship gravity with all space objects
+        totalGravity += acceleration;
+        
         rb.AddForce(acceleration, ForceMode.Acceleration);
     }
 }

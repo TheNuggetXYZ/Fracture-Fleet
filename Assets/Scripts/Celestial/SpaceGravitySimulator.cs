@@ -24,6 +24,11 @@ public class SpaceGravitySimulator : MonoBehaviour
 
     private void FixedUpdate()
     {
+        foreach (SpaceshipGravity spaceship in spaceships)
+        {
+            spaceship.totalGravity = Vector3.zero;
+        }
+        
         foreach (SpaceObject spaceObject in celestials)
         {
             // CELESTIAL BODIES

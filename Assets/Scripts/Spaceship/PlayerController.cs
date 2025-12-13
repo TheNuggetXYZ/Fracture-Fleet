@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerController : SpaceshipController
 {
     private PlayerInputHandler input;
+    private SpaceshipGravity gravity;
     
     [SerializeField] private float rollSpeedBoostMultiplier = 1.3f;
     [SerializeField] private float warpSpeedBoostMultiplier = 5f;
@@ -26,6 +27,7 @@ public class PlayerController : SpaceshipController
         base.Awake();
         game = GameManager.I;
         input = GetComponent<PlayerInputHandler>();
+        gravity = GetComponent<SpaceshipGravity>();
 
         input.onWarp += WarpStart;
     }
@@ -36,9 +38,9 @@ public class PlayerController : SpaceshipController
         
         warpSpeedFactor = Mathf.InverseLerp(0, MovementSpeed * warpSpeedBoostMultiplier, velocity);
         
-        //ManageCriticalSpeedWarning();
-        
+        Debug.Log(gravity.totalGravity.magnitude + " " + MovementSpeed);
         game.popupListHandler.ShowPopup(game.popupListHandler.popup_Warping, IsWarping() && !warpCharging);
+        game.popupListHandler.ShowPopup(game.popupListHandler.warning_HighGravity, gravity.totalGravity.magnitude > MovementSpeed);
 
         if (!input.isWarping && warpRoutine && warpCoroutine != null)
         {
@@ -116,12 +118,5 @@ public class PlayerController : SpaceshipController
 
         if (!warpCharging && collisionMagnitude >= warpCancelCollisionMagnitudeThreshold)
             canWarp = false;
-    }
-
-    private void ManageCriticalSpeedWarning()
-    {
-        float somethingCloseToMaxSpeed = MovementSpeed * rollSpeedBoostMultiplier + VerticalMovementSpeed;
-        GameManager.I.worldMenu.ShowObject(GameManager.I.worldMenu.criticalSpeedWarning,  
-            !input.isWarping && rb.linearVelocity.magnitude > somethingCloseToMaxSpeed - 5);
     }
 }

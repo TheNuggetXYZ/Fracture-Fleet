@@ -12,6 +12,7 @@ public class UIPopupListHandler : MonoBehaviour
     [field: SerializeField] public Transform warning_ShipModuleLost {get; private set;}
     [field: SerializeField] public Transform warning_ImpactDamage {get; private set;}
     [field: SerializeField] public Transform warning_DestructionImminent {get; private set;}
+    [field: SerializeField] public Transform warning_HighGravity {get; private set;}
     
     public void ShowPopup(Transform obj, bool show, float delay = 0, float duration = -1)
     {

@@ -37,14 +37,14 @@ public class SpaceshipController : MonoBehaviour
         speedFactor = Mathf.InverseLerp(0, MovementSpeed, velocity); // stationary - 0, max speed - 1
     }
 
-    protected void Move(float forwardMovementSpeed, float forwardMovement = 1, float verticalMovement = 0, float forwardMovementMultiplier = 1)
+    protected void Move(float forwardMovementSpeed, float forwardMovementInput = 1, float verticalMovementInput = 0, float forwardMovementMultiplier = 1)
     {
         if (!move) return;
         
         float forceMultiplier = counteractRigidbodyMass ? rb.mass : 1f;
         
-        rb.AddForce(transform.forward * (forwardMovement * forwardMovementSpeed * movementSpeedMultiplier * forceMultiplier * forwardMovementMultiplier), ForceMode.Force);
-        rb.AddForce(transform.up * (verticalMovement * verticalMovementSpeed * movementSpeedMultiplier * forceMultiplier), ForceMode.Force);
+        rb.AddForce(transform.forward * (forwardMovementInput * forwardMovementSpeed * movementSpeedMultiplier * forceMultiplier * forwardMovementMultiplier), ForceMode.Force);
+        rb.AddForce(transform.up * (verticalMovementInput * verticalMovementSpeed * movementSpeedMultiplier * forceMultiplier), ForceMode.Force);
     }
 
     protected void Rotate(Vector3 pitch, Vector3 yaw, Vector3 roll, float multiplier = 1)
