@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4003047047334425931}
   - component: {fileID: 1554642621248096864}
   m_Layer: 6
-  m_Name: AISpaceship3Red
+  m_Name: AIScout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
