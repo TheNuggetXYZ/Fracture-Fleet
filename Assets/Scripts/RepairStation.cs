@@ -13,6 +13,10 @@ public class RepairStation : MonoBehaviour
     [SerializeField] private float triggerUIPopupDistance = 10;
     [SerializeField] private float repairDistance = 10;
     [SerializeField] private Vector3 playerTargetRotation;
+    [SerializeField] private AudioSource PlayerGrabSFX;
+    [SerializeField] private AudioSource PlayerMoveSFX;
+    [SerializeField] private AudioSource PartGrabSFX;
+    [SerializeField] private AudioSource PartPutSFX;
     
     private SpaceshipPart[] fetchedKilledParts;
     private bool isRepairing;
@@ -39,6 +43,10 @@ public class RepairStation : MonoBehaviour
         
         player.spaceshipController.Lock();
         yield return ArmSmoothMove(player.transform.position, 0.5f);
+        PlayerGrabSFX?.Play();
+        PlayerMoveSFX?.Play();
+        
+        // Move the player and the arm closer and rotate player
         Quaternion playerOGRotation = player.transform.rotation;
         Quaternion playerTargetRotationQ = Quaternion.Euler(playerTargetRotation);
         yield return ArmSmoothMove(armKinematics.originalGoalPosition, 2f, (Vector3 pos, float i) => { player.transform.position = pos;
@@ -46,9 +54,8 @@ public class RepairStation : MonoBehaviour
         
         foreach (var p in fetchedKilledParts)
         {
-            float goToSpawnPlaceTime = 0.5f;
-            armKinematics.SetGoalPositionSmooth(partSpawnPlace.position, goToSpawnPlaceTime);
-            yield return new WaitForSeconds(goToSpawnPlaceTime);
+            yield return ArmSmoothMove(partSpawnPlace.position, 0.5f);
+            PartGrabSFX?.Play();
             
             // Spawn part in an immovable state at partSpawnPlace
             p.RemoveRigidbody();
@@ -72,6 +79,8 @@ public class RepairStation : MonoBehaviour
                 partPosition += Vector3.ClampMagnitude(partMoveDirection * (partMoveSpeed * Time.deltaTime), distance);
                 p.SetPosition(partPosition);
                 armKinematics.SetGoalPosition(partPosition);
+                
+                PartPutSFX?.Play();
                 
                 yield return null;
             } 

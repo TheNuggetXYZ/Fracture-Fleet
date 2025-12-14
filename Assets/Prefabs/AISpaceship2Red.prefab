@@ -132,10 +132,10 @@ MonoBehaviour:
   lostHealthOnPartKill: 10
   onDeathExplosionForce: 10
   onDeathExplosionSize: 3
-  sparksCollisionMagnitudeThreshold: 30
+  sparksCollisionMagnitudeThreshold: 20
   lightHitCollisionMagnitudeThreshold: 5
-  mediumHitCollisionMagnitudeThreshold: 15
-  heavyHitCollisionMagnitudeThreshold: 30
+  mediumHitCollisionMagnitudeThreshold: 13
+  heavyHitCollisionMagnitudeThreshold: 25
   fetchChildParts: 0
   childPartsParent: {fileID: 7793147096586980807}
   allParts:

@@ -72,7 +72,9 @@ public class SpaceshipPart : MonoBehaviour
             originalIsTrigger = partCollider.isTrigger;
             partCollider.isTrigger = false; // make sure it now has collisions if it didn't previously
         }
-
+        
+        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.partLostSFX, mainPart.position);
+        
         killedParts.Add(this);
         successfullyKilled = true;
         

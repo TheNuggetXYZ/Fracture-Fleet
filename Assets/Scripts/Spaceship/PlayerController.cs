@@ -38,7 +38,6 @@ public class PlayerController : SpaceshipController
         
         warpSpeedFactor = Mathf.InverseLerp(0, MovementSpeed * warpSpeedBoostMultiplier, velocity);
         
-        Debug.Log(gravity.totalGravity.magnitude + " " + MovementSpeed);
         game.popupListHandler.ShowPopup(game.popupListHandler.popup_Warping, IsWarping() && !warpCharging);
         game.popupListHandler.ShowPopup(game.popupListHandler.warning_HighGravity, gravity.totalGravity.magnitude > MovementSpeed);
 

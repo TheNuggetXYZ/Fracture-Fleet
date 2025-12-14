@@ -23,3 +23,6 @@ MonoBehaviour:
   metalSparkSFX: {fileID: 574400950991736142, guid: b721988716f738b1993deb06f2045c86, type: 3}
   newWaveSFX1: {fileID: 8447127057117692637, guid: f6b057f3ba302a82783f3b330ebc9dad, type: 3}
   newWaveSFX2: {fileID: 3795650045298230635, guid: 270bb692dab5861dc81d2035ab7a54f0, type: 3}
+  partLostSFX: {fileID: 7330251668772614168, guid: bc4b41149c7655c2596b9b69bf7923b4, type: 3}
+  UIOnSFX: {fileID: 8117729524829410345, guid: a552aad8698cd934c923fbc54e5b830b, type: 3}
+  UIOffSFX: {fileID: 4727758436688366054, guid: 0506357dd3f98dc8080f7ea450b06ad5, type: 3}

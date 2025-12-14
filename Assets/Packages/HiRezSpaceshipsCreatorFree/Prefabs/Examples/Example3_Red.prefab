@@ -149,6 +149,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8405268230012332890}
     m_Modifications:
+    - target: {fileID: 6286634694735097643, guid: 7fe074f22a922d346abeef0a74266e0d, type: 3}
+      propertyPath: partHealth
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6860482863502905482, guid: 7fe074f22a922d346abeef0a74266e0d, type: 3}
       propertyPath: m_Name
       value: Wing2_Mirrored
@@ -571,6 +575,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2100000, guid: 9567a4c84505d3a41a397978275ffd72, type: 2}
     - target: {fileID: 1182668772491201378, guid: 6b60ceeabc86a6e43a7a918dbbcab26b, type: 3}
+      propertyPath: partHealth
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1182668772491201378, guid: 6b60ceeabc86a6e43a7a918dbbcab26b, type: 3}
       propertyPath: partToAlsoKill
       value: 
       objectReference: {fileID: 2885821785091626584}
@@ -694,6 +702,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: 24f339a096fd9df4fb9080ff424c5e40, type: 2}
+    - target: {fileID: 8788520557453789149, guid: ebec0dbd42c377149abd20c9507cb70f, type: 3}
+      propertyPath: partHealth
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -910,6 +922,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8405268230012332890}
     m_Modifications:
+    - target: {fileID: 3947553626908302759, guid: 7295c3dc82e51b94d851c7608de0fe8c, type: 3}
+      propertyPath: partHealth
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3947553626908302759, guid: 7295c3dc82e51b94d851c7608de0fe8c, type: 3}
       propertyPath: partToAlsoKill
       value: 

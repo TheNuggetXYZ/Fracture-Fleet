@@ -30,13 +30,33 @@ public class UIPopupListHandler : MonoBehaviour
             StartCoroutine(ObjectSetActiveDelayed(obj, !show, delay + duration));
         }
 
-        if (originalState != show)
+        if (originalState != show) // state changed
+        {
             obj.SetAsLastSibling();
+
+            SpawnSFX(show);
+        }
     }
     
-    private IEnumerator ObjectSetActiveDelayed(Transform obj, bool active, float delay = 0)
+    private IEnumerator ObjectSetActiveDelayed(Transform obj, bool show, float delay = 0)
     {
         yield return new WaitForSeconds(delay);
-        obj.gameObject.SetActive(active);
+        
+        bool originalState = obj.gameObject.activeInHierarchy;
+        obj.gameObject.SetActive(show);
+        
+        if (originalState != show)
+            SpawnSFX(show);
+    }
+
+    private void SpawnSFX(bool UIToggledOn)
+    {
+        AudioObject audioPrefab;
+        if (UIToggledOn)
+            audioPrefab = GameManager.I.prefabs.UIOnSFX;
+        else
+            audioPrefab = GameManager.I.prefabs.UIOffSFX;
+            
+        ObjectPoolManager.SpawnObject(audioPrefab);
     }
 }

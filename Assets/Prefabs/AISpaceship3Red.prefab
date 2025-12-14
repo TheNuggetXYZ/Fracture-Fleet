@@ -131,9 +131,9 @@ MonoBehaviour:
   onDeathExplosionForce: 5
   onDeathExplosionSize: 1
   sparksCollisionMagnitudeThreshold: 15
-  lightHitCollisionMagnitudeThreshold: 5
-  mediumHitCollisionMagnitudeThreshold: 15
-  heavyHitCollisionMagnitudeThreshold: 30
+  lightHitCollisionMagnitudeThreshold: 3
+  mediumHitCollisionMagnitudeThreshold: 7
+  heavyHitCollisionMagnitudeThreshold: 14
   fetchChildParts: 0
   childPartsParent: {fileID: 8376327053669755133}
   allParts:
