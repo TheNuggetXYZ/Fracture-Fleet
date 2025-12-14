@@ -46,6 +46,8 @@ public class EnemyWaveManager : MonoBehaviour
                 ObjectPoolManager.SpawnObject(GameManager.I.prefabs.newWaveSFX1);
             else
                 ObjectPoolManager.SpawnObject(GameManager.I.prefabs.newWaveSFX2);
+            
+            GameManager.I.popupListHandler.ShowPopup(GameManager.I.popupListHandler.popup_DetectingSignals, true, 0.5f, 8f);
         }
     }
 
