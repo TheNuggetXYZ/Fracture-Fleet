@@ -26,3 +26,4 @@ MonoBehaviour:
   partLostSFX: {fileID: 7330251668772614168, guid: bc4b41149c7655c2596b9b69bf7923b4, type: 3}
   UIOnSFX: {fileID: 8117729524829410345, guid: a552aad8698cd934c923fbc54e5b830b, type: 3}
   UIOffSFX: {fileID: 4727758436688366054, guid: 0506357dd3f98dc8080f7ea450b06ad5, type: 3}
+  bulletHitMetalSFX: {fileID: 1377870896722564810, guid: 4ef676ac5f67b9cd7aaa66402f6150da, type: 3}

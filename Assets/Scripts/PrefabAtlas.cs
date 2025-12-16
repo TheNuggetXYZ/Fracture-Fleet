@@ -20,5 +20,6 @@ public class PrefabAtlas : ScriptableObject
     public AudioObject partLostSFX;
     public AudioObject UIOnSFX;
     public AudioObject UIOffSFX;
+    public AudioObject bulletHitMetalSFX;
     
 }

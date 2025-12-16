@@ -45,11 +45,16 @@ public class CannonBullet : MonoBehaviour
         
         if (hit.transform && !IsOwner(hit.transform))
         {
-            hit.transform.GetComponent<ITakeDamage>()?.TakeDamage(damage, hit.collider.transform, targetPosition - transform.position);
+            
+            ITakeDamage ship = hit.transform.GetComponent<ITakeDamage>();
+            ship?.TakeDamage(damage, hit.collider.transform, targetPosition - transform.position);
+
+            targetPosition = hit.point;
+            
+            if (ship != null)
+                ObjectPoolManager.SpawnObject(GameManager.I.prefabs.bulletHitMetalSFX, targetPosition);
 
             SpawnEffect(hit.point, hit.normal, hit.collider.transform);
-            
-            targetPosition = hit.point;
             ReturnObjectToPool();
         }
     }
