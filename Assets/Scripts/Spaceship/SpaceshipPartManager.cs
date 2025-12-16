@@ -38,6 +38,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 
     private void OnValidate()
     {
+        engines = new();
+        
         if (fetchChildParts)
         {
             childPartsParent ??= transform;
@@ -61,6 +63,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                     }
                 }
             }
+
+            fetchChildParts = false;
         }
     }
 
