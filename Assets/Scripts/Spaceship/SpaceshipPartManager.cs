@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,6 +15,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private int lostHealthOnPartKill;
     [SerializeField] private float onDeathExplosionForce;
     [SerializeField] private float onDeathExplosionSize = 1;
+    [SerializeField] private GameObject alarmLights;
+    [SerializeField] private AudioSource alarmSFX;
     
     [Header("Collisions")]
     [SerializeField] private float sparksCollisionMagnitudeThreshold = 15;
@@ -25,7 +28,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private bool fetchChildParts;
     [SerializeField] private Transform childPartsParent;
     [FormerlySerializedAs("killableParts")] [SerializeField] private SpaceshipPart[] allParts;
-    [SerializeField] private bool debug_killAppParts;
+    [SerializeField] private bool debug_killAllParts;
     
     private bool shipDead;
     private int maxShipHealth;
@@ -37,6 +40,11 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     private GameManager game;
 
     private void OnValidate()
+    {
+        FetchChildPartsCheck();
+    }
+
+    private void FetchChildPartsCheck()
     {
         engines = new();
         
@@ -74,8 +82,14 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         spaceshipRigidbody = GetComponent<Rigidbody>();
         maxShipHealth = shipHealth;
 
+        FindEnginesFromAllParts();
+    }
+
+    private void FindEnginesFromAllParts()
+    {
         if (engines.Count == 0 || engines[0] == null)
         {
+            engines = new();
             foreach (SpaceshipPart part in allParts)
             {
                 var engine = part as SpaceshipEngine;
@@ -87,33 +101,28 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 
     private void Update()
     {
-        if (playerShip)
-            game.popupListHandler.ShowPopup(game.popupListHandler.warning_DestructionImminent, shipHealth <= lostHealthOnPartKill);
+        UpdateEngineVolumes();
         
-        foreach (SpaceshipEngine engine in engines)
-        {
-            //TODO: not only boost the volume for player warping, but for AI zooming since they have a zooming speed!!!
-            engine.SetVolume(spaceshipController.speedFactor);
-        }
+        if (playerShip)
+            DestructionImminentLogic();
+        
+        Debug_KillAllPartsCheck();
+    }
 
-        if (debug_killAppParts)
-        {
-            foreach (SpaceshipPart part in allParts)
-            {
-                if (part && !part.IsUnkillable)
-                {
-                    Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
-                    part.Kill(GetVelocity() + explosionVelocity, false, out bool _);
-                }
-            }
-
-            debug_killAppParts = false;
-        }
+    private void DestructionImminentLogic()
+    {
+        bool destructionImminent = shipHealth <= lostHealthOnPartKill;
+        game.popupListHandler.ShowPopup(game.popupListHandler.warning_DestructionImminent, destructionImminent);
+        
+        if (destructionImminent)
+            StartAlarm();
+        else
+            StopAlarm();
     }
 
     public void TakeDamage(int damage, Transform hitCollider, Vector3 hitVelocity = default)
     {
-        ShipTakeDamage(damage);
+        DamageShip(damage);
         if (shipDead) return;
         
         foreach (SpaceshipPart part in allParts)
@@ -127,7 +136,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                 if (part.PartHealth <= 0)
                 {
                     // kill part
-                    part.Kill(GetVelocity() + hitVelocity, false, out bool successfullyKilled);
+                    part.Kill(GetSpaceshipVelocity() + hitVelocity, false, out bool successfullyKilled);
 
                     if (playerShip)
                         game.popupListHandler.ShowPopup(game.popupListHandler.warning_ShipModuleLost, true, 0, 2);
@@ -135,7 +144,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                     // damage ship and apply modifiers (usually debuffs)
                     if (successfullyKilled)
                     {
-                        ShipTakeDamage(lostHealthOnPartKill);
+                        DamageShip(lostHealthOnPartKill);
                         if (shipDead) return;
                         
                         part.GetOnKillModifiers(out SpaceshipPart.OnKillModifierType[] types, out float[] values);
@@ -146,7 +155,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         }
     }
 
-    private void ShipTakeDamage(int damage)
+    private void DamageShip(int damage)
     {
         shipHealth -= damage;
 
@@ -182,17 +191,24 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             if (part)
             {
                 Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
-                part.Kill(GetVelocity() + explosionVelocity, true, out bool _);
+                part.Kill(GetSpaceshipVelocity() + explosionVelocity, true, out bool _);
             }
         }
     }
 
-    private void TurnOffEngines()
+    private void UpdateEngineVolumes()
     {
         foreach (SpaceshipEngine engine in engines)
         {
-            engine.TurnOff();
+            //TODO: not only boost the volume for player warping, but for AI zooming since they have a zooming speed!!!
+            engine.SetVolume(spaceshipController.speedFactor);
         }
+    }
+    
+    private void TurnOffEngines()
+    {
+        foreach (SpaceshipEngine engine in engines) 
+            engine.TurnOff();
     }
 
     private void ApplyOnKillModifiers(SpaceshipPart.OnKillModifierType[] types, float[] values)
@@ -217,8 +233,68 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             }
         }
     }
+    
+    private Vector3 GetSpaceshipVelocity() => spaceshipRigidbody ? spaceshipRigidbody.linearVelocity : Vector3.zero;
+    
+    private void Debug_KillAllPartsCheck()
+    {
+        if (debug_killAllParts)
+        {
+            foreach (SpaceshipPart part in allParts)
+            {
+                if (part && !part.IsUnkillable)
+                {
+                    Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
+                    part.Kill(GetSpaceshipVelocity() + explosionVelocity, false, out bool _);
+                }
+            }
 
-    private Vector3 GetVelocity() => spaceshipRigidbody ? spaceshipRigidbody.linearVelocity : Vector3.zero;
+            debug_killAllParts = false;
+        }
+    }
+
+#region Alarm
+    
+    private Coroutine alarmCoroutine;
+    private IEnumerator AlarmRoutine()
+    {
+        alarmSFX.Play();
+        
+        while (true)
+        {
+            // values based on a particular sound
+            yield return new WaitForSeconds(0.071f);
+            alarmLights.SetActive(true);
+            yield return new WaitForSeconds(0.668f);
+            alarmLights.SetActive(false);
+            yield return new WaitForSeconds(0.43f);
+            alarmLights.SetActive(true);
+            yield return new WaitForSeconds(0.668f);
+            alarmLights.SetActive(false);
+            yield return new WaitForSeconds(0.396f);
+        }
+    }
+
+    private void StartAlarm()
+    {
+        if (alarmCoroutine == null)
+            alarmCoroutine = StartCoroutine(AlarmRoutine());
+    }
+
+    private void StopAlarm()
+    {
+        if (alarmCoroutine != null)
+        {
+            StopCoroutine(alarmCoroutine);
+            alarmCoroutine = null;
+            alarmSFX.Stop();
+            alarmLights.SetActive(false);
+        }
+    }
+    
+#endregion
+
+#region Collisions
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -266,6 +342,10 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             KillShip();
         }
     }
+    
+#endregion
+
+#region RepairStation
 
     public SpaceshipPart[] GetKilledParts() => allParts.Where(part => part.IsKilled).ToArray();
 
@@ -295,4 +375,6 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             ObjectPoolManager.ReturnObjectToPool(metalSparkSFX.gameObject);
         metalSparkSFX = null;
     }
+    
+#endregion
 }
