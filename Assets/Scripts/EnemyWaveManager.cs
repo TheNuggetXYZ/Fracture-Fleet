@@ -38,7 +38,6 @@ public class EnemyWaveManager : MonoBehaviour
         
         if (newWaveTimer.IsDoneOnce())
         {
-            Debug.Log("next wave");
             currentWave++;
             SpawnWave(waves[currentWave]);
 

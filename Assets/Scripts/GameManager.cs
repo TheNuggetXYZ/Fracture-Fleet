@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager I;
     
+    [SerializeField] private bool skipStartCutscene = false;
+    
     [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
     [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
     [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
@@ -31,6 +33,19 @@ public class GameManager : MonoBehaviour
         
         player = FindAnyObjectByType<PlayerController>();
         worldMenu = FindAnyObjectByType<WorldMenu>();
+        
+        player.gameObject.SetActive(false);
+        waveManager.gameObject.SetActive(false);
+        
+        if (skipStartCutscene)
+            StartGame();
+    }
+
+    public void StartGame()
+    {
+        player.gameObject.SetActive(true);
+        waveManager.gameObject.SetActive(true);
+        worldMenu.EnableObjectEnabling();
     }
 }
 

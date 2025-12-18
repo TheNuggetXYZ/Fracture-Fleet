@@ -31,7 +31,7 @@ public class UIPopupListHandler : MonoBehaviour
             StartCoroutine(ObjectSetActiveDelayed(obj, !show, delay + duration));
         }
 
-        if (originalState != show) // state changed
+        if (originalState != obj.gameObject.activeInHierarchy) // state changed
         {
             obj.SetAsLastSibling();
 
@@ -46,7 +46,7 @@ public class UIPopupListHandler : MonoBehaviour
         bool originalState = obj.gameObject.activeInHierarchy;
         obj.gameObject.SetActive(show);
         
-        if (originalState != show)
+        if (originalState != obj.gameObject.activeInHierarchy)
             SpawnSFX(show);
     }
 
