@@ -1,0 +1,95 @@
+Found 1 leak(s) from callstack:
+ #0  (Mono JIT Code) [GenericReadOperation.cs:192] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.NestedDynamicSizedArrayReadOperation`1<int>:.ctor (System.Collections.Generic.List`1<Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.GenericReadOperation>,Unity.MemoryProfiler.Editor.Containers.NestedDynamicArray`1<int>,Unity.Collections.Allocator)
+ #1  (Mono JIT Code) [FileReader.cs:329] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader:AsyncReadDynamicSizedArray<int> (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.EntryType,long,long,Unity.Collections.Allocator)
+ #2  (Mono JIT Code) [CachedSnapshot.cs:2167] Unity.MemoryProfiler.Editor.CachedSnapshot/TypeDescriptionEntriesCache:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader&,Unity.MemoryProfiler.Editor.CachedSnapshot/FieldDescriptionEntriesCache,Unity.MemoryProfiler.Editor.CachedSnapshot/NativeTypeEntriesCache,Unity.MemoryProfiler.Editor.Format.VirtualMachineInformation)
+ #3  (Mono JIT Code) [CachedSnapshot.cs:2850] Unity.MemoryProfiler.Editor.CachedSnapshot:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader)
+ #4  (Mono JIT Code) [SnapshotDataService.cs:393] Unity.MemoryProfiler.Editor.SnapshotDataService:LoadSnapshot (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader)
+ #5  (Mono JIT Code) [SnapshotDataService.cs:207] Unity.MemoryProfiler.Editor.SnapshotDataService:Load (string)
+ #6  (Mono JIT Code) [SnapshotFileTreeItemViewController.cs:291] Unity.MemoryProfiler.Editor.UI.SnapshotFileItemViewController:OpenCapture ()
+ #7  (Mono JIT Code) [EventCallbackRegistry.cs:230] UnityEngine.UIElements.EventCallbackRegistry/DynamicCallbackList:Invoke (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement)
+ #8  (Mono JIT Code) [EventDispatchUtilities.cs:319] UnityEngine.UIElements.EventDispatchUtilities:HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement,bool)
+ #9  (Mono JIT Code) [EventDispatchUtilities.cs:538] UnityEngine.UIElements.EventDispatchUtilities:DispatchToCachedElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,int,UnityEngine.Vector2)
+ #10 ???
+ #11 ???
+ #12 ???
+ #13 __GI_perror
+ #14 ???
+ #15 ???
+ #16 ???
+ #17 ???
+ #18 ???
+ #19 ???
+
+
+
+
+
+Found 1 leak(s) from callstack:
+ #0  (Mono JIT Code) [GenericReadOperation.cs:192] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.NestedDynamicSizedArrayReadOperation`1<byte>:.ctor (System.Collections.Generic.List`1<Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.GenericReadOperation>,Unity.MemoryProfiler.Editor.Containers.NestedDynamicArray`1<byte>,Unity.Collections.Allocator)
+ #1  (Mono JIT Code) [FileReader.cs:329] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader:AsyncReadDynamicSizedArray<byte> (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.EntryType,long,long,Unity.Collections.Allocator)
+ #2  (Mono JIT Code) [CachedSnapshot.cs:1532] Unity.MemoryProfiler.Editor.CachedSnapshot/NativeObjectEntriesCache:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader&)
+ #3  (Mono JIT Code) [CachedSnapshot.cs:2852] Unity.MemoryProfiler.Editor.CachedSnapshot:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader)
+ #4  (Mono JIT Code) [SnapshotDataService.cs:393] Unity.MemoryProfiler.Editor.SnapshotDataService:LoadSnapshot (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader)
+ #5  (Mono JIT Code) [SnapshotDataService.cs:207] Unity.MemoryProfiler.Editor.SnapshotDataService:Load (string)
+ #6  (Mono JIT Code) [SnapshotFileTreeItemViewController.cs:291] Unity.MemoryProfiler.Editor.UI.SnapshotFileItemViewController:OpenCapture ()
+ #7  (Mono JIT Code) [EventCallbackRegistry.cs:230] UnityEngine.UIElements.EventCallbackRegistry/DynamicCallbackList:Invoke (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement)
+ #8  (Mono JIT Code) [EventDispatchUtilities.cs:319] UnityEngine.UIElements.EventDispatchUtilities:HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement,bool)
+ #9  (Mono JIT Code) [EventDispatchUtilities.cs:538] UnityEngine.UIElements.EventDispatchUtilities:DispatchToCachedElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,int,UnityEngine.Vector2)
+ #10 ???
+ #11 ???
+ #12 ???
+ #13 ???
+ #14 ???
+ #15 ???
+ #16 ???
+ #17 ???
+ #18  (Mono JIT Code) (wrapper managed-to-native) System.Array:FastCopy (System.Array,int,System.Array,int,int)
+ #19 ???
+
+
+
+Found 1 leak(s) from callstack:
+ #0  (Mono JIT Code) [GenericReadOperation.cs:192] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.NestedDynamicSizedArrayReadOperation`1<byte>:.ctor (System.Collections.Generic.List`1<Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.GenericReadOperation>,Unity.MemoryProfiler.Editor.Containers.NestedDynamicArray`1<byte>,Unity.Collections.Allocator)
+ #1  (Mono JIT Code) [FileReader.cs:329] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader:AsyncReadDynamicSizedArray<byte> (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.EntryType,long,long,Unity.Collections.Allocator)
+ #2  (Mono JIT Code) [CachedSnapshot.cs:2169] Unity.MemoryProfiler.Editor.CachedSnapshot/TypeDescriptionEntriesCache:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader&,Unity.MemoryProfiler.Editor.CachedSnapshot/FieldDescriptionEntriesCache,Unity.MemoryProfiler.Editor.CachedSnapshot/NativeTypeEntriesCache,Unity.MemoryProfiler.Editor.Format.VirtualMachineInformation)
+ #3  (Mono JIT Code) [CachedSnapshot.cs:2850] Unity.MemoryProfiler.Editor.CachedSnapshot:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader)
+ #4  (Mono JIT Code) [SnapshotDataService.cs:393] Unity.MemoryProfiler.Editor.SnapshotDataService:LoadSnapshot (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader)
+ #5  (Mono JIT Code) [SnapshotDataService.cs:207] Unity.MemoryProfiler.Editor.SnapshotDataService:Load (string)
+ #6  (Mono JIT Code) [SnapshotFileTreeItemViewController.cs:291] Unity.MemoryProfiler.Editor.UI.SnapshotFileItemViewController:OpenCapture ()
+ #7  (Mono JIT Code) [EventCallbackRegistry.cs:230] UnityEngine.UIElements.EventCallbackRegistry/DynamicCallbackList:Invoke (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement)
+ #8  (Mono JIT Code) [EventDispatchUtilities.cs:319] UnityEngine.UIElements.EventDispatchUtilities:HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement,bool)
+ #9  (Mono JIT Code) [EventDispatchUtilities.cs:538] UnityEngine.UIElements.EventDispatchUtilities:DispatchToCachedElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,int,UnityEngine.Vector2)
+ #10 ???
+ #11 ???
+ #12 ???
+ #13 ???
+ #14 ???
+ #15 ???
+ #16 ???
+ #17 ???
+ #18 ???
+ #19 ???
+
+
+
+Found 1 leak(s) from callstack:
+ #0  (Mono JIT Code) [GenericReadOperation.cs:192] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.NestedDynamicSizedArrayReadOperation`1<byte>:.ctor (System.Collections.Generic.List`1<Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.GenericReadOperation>,Unity.MemoryProfiler.Editor.Containers.NestedDynamicArray`1<byte>,Unity.Collections.Allocator)
+ #1  (Mono JIT Code) [FileReader.cs:329] Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader:AsyncReadDynamicSizedArray<byte> (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.EntryType,long,long,Unity.Collections.Allocator)
+ #2  (Mono JIT Code) [CachedSnapshot.cs:1816] Unity.MemoryProfiler.Editor.CachedSnapshot/ManagedMemorySectionEntriesCache:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader&,bool,bool)
+ #3  (Mono JIT Code) [CachedSnapshot.cs:2858] Unity.MemoryProfiler.Editor.CachedSnapshot:.ctor (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.IFileReader)
+ #4  (Mono JIT Code) [SnapshotDataService.cs:393] Unity.MemoryProfiler.Editor.SnapshotDataService:LoadSnapshot (Unity.MemoryProfiler.Editor.Format.QueriedSnapshot.FileReader)
+ #5  (Mono JIT Code) [SnapshotDataService.cs:207] Unity.MemoryProfiler.Editor.SnapshotDataService:Load (string)
+ #6  (Mono JIT Code) [SnapshotFileTreeItemViewController.cs:291] Unity.MemoryProfiler.Editor.UI.SnapshotFileItemViewController:OpenCapture ()
+ #7  (Mono JIT Code) [EventCallbackRegistry.cs:230] UnityEngine.UIElements.EventCallbackRegistry/DynamicCallbackList:Invoke (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement)
+ #8  (Mono JIT Code) [EventDispatchUtilities.cs:319] UnityEngine.UIElements.EventDispatchUtilities:HandleEventAcrossPropagationPathWithCompatibilityEvent (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,UnityEngine.UIElements.VisualElement,bool)
+ #9  (Mono JIT Code) [EventDispatchUtilities.cs:538] UnityEngine.UIElements.EventDispatchUtilities:DispatchToCachedElementUnderPointerOrPanelRoot (UnityEngine.UIElements.EventBase,UnityEngine.UIElements.BaseVisualElementPanel,int,UnityEngine.Vector2)
+ #10 ???
+ #11 ???
+ #12 ???
+ #13 ???
+ #14 ???
+ #15 ???
+ #16 ???
+ #17 ???
+ #18  (Mono JIT Code) (wrapper managed-to-native) System.Array:FastCopy (System.Array,int,System.Array,int,int)
+ #19 ???
