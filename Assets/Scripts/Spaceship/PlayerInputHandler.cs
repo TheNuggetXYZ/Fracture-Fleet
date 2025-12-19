@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerInputHandler : MonoBehaviour, IShootInput
 {
-    private InputSystem_Actions inputSystemActions;
+    private InputSystem_Actions inputActions;
     
     public float pitchDelta {get; private set;}
     public float yawDelta {get; private set;}
@@ -15,22 +15,20 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
     public bool isWarping {get; private set;}
     public Action onWarp;
 
-    private void Awake()
+    private void Start()
     {
-        inputSystemActions = new InputSystem_Actions();
-        inputSystemActions.Enable();
-        inputSystemActions.Player.Enable();
-
-        inputSystemActions.Player.Look.performed += OnMouseMove;
-        inputSystemActions.Player.Look.canceled += OnMouseMove;
-        inputSystemActions.Player.Move.performed += OnMove;
-        inputSystemActions.Player.Move.canceled += OnMove;
-        inputSystemActions.Player.VerticalMovement.performed += OnVerticalMovement;
-        inputSystemActions.Player.VerticalMovement.canceled += OnVerticalMovement;
-        inputSystemActions.Player.Attack.performed += OnShoot;
-        inputSystemActions.Player.Attack.canceled += OnShoot;
-        inputSystemActions.Player.Jump.performed += OnWarp;
-        inputSystemActions.Player.Jump.canceled += OnWarp;
+        inputActions = GameManager.I.input;
+        
+        inputActions.Player.Look.performed += OnMouseMove;
+        inputActions.Player.Look.canceled += OnMouseMove;
+        inputActions.Player.Move.performed += OnMove;
+        inputActions.Player.Move.canceled += OnMove;
+        inputActions.Player.VerticalMovement.performed += OnVerticalMovement;
+        inputActions.Player.VerticalMovement.canceled += OnVerticalMovement;
+        inputActions.Player.Attack.performed += OnShoot;
+        inputActions.Player.Attack.canceled += OnShoot;
+        inputActions.Player.Jump.performed += OnWarp;
+        inputActions.Player.Jump.canceled += OnWarp;
     }
 
     private void OnWarp(InputAction.CallbackContext context)

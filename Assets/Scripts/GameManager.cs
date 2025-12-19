@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public EnemyWaveManager waveManager {get; private set;}
     [field: SerializeField] public Transform scrapParent {get; private set;}
     
+    public InputSystem_Actions input {get; private set;}
     public PlayerController player {get; private set;}
     public WorldMenu worldMenu {get; private set;}
     
@@ -34,8 +35,14 @@ public class GameManager : MonoBehaviour
         player = FindAnyObjectByType<PlayerController>();
         worldMenu = FindAnyObjectByType<WorldMenu>();
         
+        input = new InputSystem_Actions();
+        input.Enable();
+        input.Player.Enable();
+        
         player.gameObject.SetActive(false);
         waveManager.gameObject.SetActive(false);
+        
+        
         
         if (skipStartCutscene)
             StartGame();
