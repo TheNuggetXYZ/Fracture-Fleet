@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SpaceshipCannon : MonoBehaviour
 {
@@ -32,7 +33,7 @@ public class SpaceshipCannon : MonoBehaviour
     {
         shootTimer.Decrement();
         
-        if (!Utils.IsNull(input) && input.IsShooting())
+        if (!Utils.IsNull(input) && !EventSystem.current.IsPointerOverGameObject() && !GameManager.I.gamePaused && input.IsShooting())
         {
             if (shootTimer.IsDone())
             {

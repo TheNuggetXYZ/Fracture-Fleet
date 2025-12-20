@@ -87,6 +87,9 @@ public class PlayerController : SpaceshipController
 
     private void WarpStart()
     {
+        if (GameManager.I.gamePaused)
+            return;
+        
         canWarp = true;
         
         if (!warpRoutine)

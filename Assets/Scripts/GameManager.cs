@@ -9,8 +9,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager I;
     
-    [SerializeField] private bool skipStartCutscene = false;
-    
     [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
     [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
     [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
@@ -21,6 +19,11 @@ public class GameManager : MonoBehaviour
     public InputSystem_Actions input {get; private set;}
     public PlayerController player {get; private set;}
     public WorldMenu worldMenu {get; private set;}
+
+    public Action OnGamePaused;
+    public Action OnGameUnpaused;
+    
+    public bool gamePaused {get; private set;}
     
     private void Awake()
     {
@@ -38,14 +41,10 @@ public class GameManager : MonoBehaviour
         input = new InputSystem_Actions();
         input.Enable();
         input.Player.Enable();
+        input.UI.Enable();
         
         player.gameObject.SetActive(false);
         waveManager.gameObject.SetActive(false);
-        
-        
-        
-        if (skipStartCutscene)
-            StartGame();
     }
 
     public void StartGame()
@@ -53,6 +52,26 @@ public class GameManager : MonoBehaviour
         player.gameObject.SetActive(true);
         waveManager.gameObject.SetActive(true);
         worldMenu.EnableObjectEnabling();
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        gamePaused = true;
+        OnGamePaused?.Invoke();
+    }
+
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1;
+        gamePaused = false;
+        OnGameUnpaused?.Invoke();
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Quitting game...");
+        Application.Quit();
     }
 }
 
