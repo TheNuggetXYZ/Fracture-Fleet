@@ -18,6 +18,8 @@ public class CutsceneManager : MonoBehaviour
             startCutsceneDolly.gameObject.SetActive(true);
             startCutsceneSFX.Play();
         }
+        else
+            GameManager.I.StartGame();
     }
 
     private void Update()

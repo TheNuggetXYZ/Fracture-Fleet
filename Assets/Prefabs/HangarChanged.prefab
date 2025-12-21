@@ -2868,6 +2868,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -7029948723529949830, guid: 06633f09b9492fb3d82c5affb0573320, type: 3}
       insertIndex: -1
       addedObject: {fileID: 6624918526408818153}
+    - targetCorrespondingSourceObject: {fileID: 5148817236446094103, guid: 06633f09b9492fb3d82c5affb0573320, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4387588598560271958}
+    - targetCorrespondingSourceObject: {fileID: 5148817236446094103, guid: 06633f09b9492fb3d82c5affb0573320, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3973308000730648028}
   m_SourcePrefab: {fileID: 100100000, guid: 06633f09b9492fb3d82c5affb0573320, type: 3}
 --- !u!1 &367782726108365905 stripped
 GameObject:
@@ -2896,6 +2902,50 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7387706064836869012, guid: 06633f09b9492fb3d82c5affb0573320, type: 3}
+--- !u!1 &3767727681819215477 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5148817236446094103, guid: 06633f09b9492fb3d82c5affb0573320, type: 3}
+  m_PrefabInstance: {fileID: 8304054569910576482}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &4387588598560271958
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767727681819215477}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!75 &3973308000730648028
+ConstantForce:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767727681819215477}
+  m_Enabled: 1
+  m_Force: {x: 0, y: 0, z: 0}
+  m_RelativeForce: {x: 0, y: 0, z: 0}
+  m_Torque: {x: 0, y: 1, z: 0}
+  m_RelativeTorque: {x: 0, y: 0, z: 0}
 --- !u!1 &7876082455842912280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -7029948723529949830, guid: 06633f09b9492fb3d82c5affb0573320, type: 3}
