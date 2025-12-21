@@ -15,10 +15,17 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
     public bool isWarping {get; private set;}
     public Action onWarp;
 
-    private void Start()
+    GameManager game;
+    
+    private void Awake()
     {
-        inputActions = GameManager.I.input;
+        game = GameManager.I;
         
+        inputActions = game.input;
+    }
+    
+    private void OnEnable()
+    {
         inputActions.Player.Look.performed += OnMouseMove;
         inputActions.Player.Look.canceled += OnMouseMove;
         inputActions.Player.Move.performed += OnMove;
@@ -29,6 +36,20 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
         inputActions.Player.Attack.canceled += OnShoot;
         inputActions.Player.Jump.performed += OnWarp;
         inputActions.Player.Jump.canceled += OnWarp;
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Player.Look.performed -= OnMouseMove;
+        inputActions.Player.Look.canceled -= OnMouseMove;
+        inputActions.Player.Move.performed -= OnMove;
+        inputActions.Player.Move.canceled -= OnMove;
+        inputActions.Player.VerticalMovement.performed -= OnVerticalMovement;
+        inputActions.Player.VerticalMovement.canceled -= OnVerticalMovement;
+        inputActions.Player.Attack.performed -= OnShoot;
+        inputActions.Player.Attack.canceled -= OnShoot;
+        inputActions.Player.Jump.performed -= OnWarp;
+        inputActions.Player.Jump.canceled -= OnWarp;
     }
 
     private void OnWarp(InputAction.CallbackContext context)

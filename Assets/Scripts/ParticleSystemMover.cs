@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class ParticleSystemMover : MonoBehaviour
@@ -7,9 +6,6 @@ public class ParticleSystemMover : MonoBehaviour
     [SerializeField] private float moveAheadBasedOnParentSpeedMultiplier;
 
     Vector3 lastParentPos;
-    private void Update()
-    {
-    }
 
     private void FixedUpdate()
     {

@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
 using Random = UnityEngine.Random;
@@ -7,7 +9,7 @@ using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager I;
+    public static GameManager I {get; private set;}
     
     [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
     [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
@@ -22,6 +24,7 @@ public class GameManager : MonoBehaviour
 
     public Action OnGamePaused;
     public Action OnGameUnpaused;
+    public Action OnPlayerDeath;
     
     public bool gamePaused {get; private set;}
     
@@ -30,7 +33,10 @@ public class GameManager : MonoBehaviour
         if (I == null)
             I = this;
         else
+        {
             Debug.LogError("More than one instance of GameManager");
+            Destroy(this);
+        }
         
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -45,6 +51,15 @@ public class GameManager : MonoBehaviour
         
         player.gameObject.SetActive(false);
         waveManager.gameObject.SetActive(false);
+    }
+
+    private void OnDestroy()
+    {
+        input.Disable();
+        input.Player.Disable();
+        input.UI.Disable();
+        input.Dispose();
+        I = null;
     }
 
     public void StartGame()
@@ -72,6 +87,11 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Quitting game...");
         Application.Quit();
+    }
+
+    public void PlayerDied()
+    {
+        OnPlayerDeath?.Invoke();
     }
 }
 
@@ -154,5 +174,35 @@ public static class Utils
     public static Vector3 RandomPointInCube(Vector3 cubeCenter, float edge)
     {
         return cubeCenter + new Vector3(Random.Range(-edge/2, edge/2), Random.Range(-edge/2, edge/2), Random.Range(-edge/2, edge/2));
+    }
+
+    public enum TextTypingAnimationType
+    {
+        typing = 0,
+        deleting = 1,
+    }
+
+    public static IEnumerator TextTypingAnimation(TextMeshProUGUI uiText, string text, float characterCooldown, TextTypingAnimationType type)
+    {
+        if (type == TextTypingAnimationType.typing)
+        {
+            uiText.text = "";
+
+            for (int i = 1; i <= text.Length; i++)
+            {
+                uiText.text = text.Substring(0, i);
+                yield return new WaitForSeconds(characterCooldown);
+            }
+        }
+        else
+        {
+            uiText.text = text;
+
+            for (int i = text.Length - 1; i >= 0; i--)
+            {
+                uiText.text = text.Substring(0, i);
+                yield return new WaitForSeconds(characterCooldown);
+            }
+        }
     }
 }

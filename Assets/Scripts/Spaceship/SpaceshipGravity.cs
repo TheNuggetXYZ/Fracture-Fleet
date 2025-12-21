@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class SpaceshipGravity : MonoBehaviour
@@ -16,7 +15,7 @@ public class SpaceshipGravity : MonoBehaviour
         
         Vector3 forceDirection = (otherObject.transform.position - transform.position).normalized;
         float objectDistanceSqr = (otherObject.transform.position - transform.position).sqrMagnitude;
-        float G = SpaceGravitySimulator.Instance.gravitationalConstant * gravityConstantMultiplier;
+        float G = SpaceGravitySimulator.I.gravitationalConstant * gravityConstantMultiplier;
         Vector3 acceleration = forceDirection * (G * (otherObject.mass / objectDistanceSqr));
 
         // totalGravity needs to be set to 0 before applying spaceship gravity with all space objects

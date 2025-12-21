@@ -13,6 +13,13 @@ public class CannonBullet : MonoBehaviour
     private Transform owner;
 
     private bool returnedObjectToPool = false;
+    
+    GameManager game;
+
+    private void Awake()
+    {
+        game = GameManager.I;
+    }
 
     public void Initialize(Transform sender, Vector3 inheritedVelocity)
     {
@@ -52,7 +59,7 @@ public class CannonBullet : MonoBehaviour
             targetPosition = hit.point;
             
             if (ship != null)
-                ObjectPoolManager.SpawnObject(GameManager.I.prefabs.bulletHitMetalSFX, targetPosition);
+                ObjectPoolManager.SpawnObject(game.prefabs.bulletHitMetalSFX, targetPosition);
 
             SpawnEffect(hit.point, hit.normal, hit.collider.transform);
             ReturnObjectToPool();
@@ -62,7 +69,7 @@ public class CannonBullet : MonoBehaviour
     private void SpawnEffect(Vector3 position, Vector3 direction, Transform parent)
     {
         position += direction.normalized * 0.1f;
-        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.bulletHitVFX, position, Quaternion.LookRotation(direction), null, parent);
+        ObjectPoolManager.SpawnObject(game.prefabs.bulletHitVFX, position, Quaternion.LookRotation(direction), null, parent);
     }
 
     private void ReturnObjectToPool()

@@ -37,7 +37,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     private AudioObject metalSparkSFX;
     
     private Rigidbody spaceshipRigidbody;
-    private GameManager game;
+    
+    GameManager game;
 
     private void OnValidate()
     {
@@ -178,8 +179,10 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             game.popupListHandler.ShowPopup(game.popupListHandler.popup_EnemyNeutralized, true, 0.5f, 2);
             game.waveManager.EnemyDefeated();
         }
+        else
+            game.PlayerDied();
         
-        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipDeathExplosionVFX, transform.position, default, onDeathExplosionSize * Vector3.one);
+        ObjectPoolManager.SpawnObject(game.prefabs.shipDeathExplosionVFX, transform.position, default, onDeathExplosionSize * Vector3.one);
         
         gameObject.SetActive(false);
     }
@@ -303,20 +306,20 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         
         if (collisionMagnitude >= sparksCollisionMagnitudeThreshold)
         {
-            metalSparkEffectList.Add(Instantiate(GameManager.I.prefabs.metalSparkVFX, cp.point, Quaternion.LookRotation(-cp.normal), cp.thisCollider.transform));
+            metalSparkEffectList.Add(Instantiate(game.prefabs.metalSparkVFX, cp.point, Quaternion.LookRotation(-cp.normal), cp.thisCollider.transform));
             
             if (playerShip)
                 game.popupListHandler.ShowPopup(game.popupListHandler.popup_ShipSustainedDamage, true, 0, 2);
 
             if (metalSparkEffectList.Count == 1 && !metalSparkSFX)
-                metalSparkSFX = ObjectPoolManager.SpawnObject(GameManager.I.prefabs.metalSparkSFX, cp.point, 1, 0, false, default, null, transform);
+                metalSparkSFX = ObjectPoolManager.SpawnObject(game.prefabs.metalSparkSFX, cp.point, 1, 0, false, default, null, transform);
         }
         
         if (collisionMagnitude >= heavyHitCollisionMagnitudeThreshold)
         {
             float volumeMult = (collisionMagnitude / heavyHitCollisionMagnitudeThreshold) * 0.15f;
-            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.heavyHitSFXp1, cp.point, volumeMult);
-            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.heavyHitSFXp2, cp.point, volumeMult);
+            ObjectPoolManager.SpawnObject(game.prefabs.heavyHitSFXp1, cp.point, volumeMult);
+            ObjectPoolManager.SpawnObject(game.prefabs.heavyHitSFXp2, cp.point, volumeMult);
             
             //TODO: damage the ship, maybe kill a random part, or damage all parts by 1
             
@@ -326,12 +329,12 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         else if (collisionMagnitude >= mediumHitCollisionMagnitudeThreshold)
         {
             float volumeMult = (collisionMagnitude / mediumHitCollisionMagnitudeThreshold) * 0.3f;
-            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.mediumHitSFX, cp.point, volumeMult);
+            ObjectPoolManager.SpawnObject(game.prefabs.mediumHitSFX, cp.point, volumeMult);
         }
         else if (collisionMagnitude >= lightHitCollisionMagnitudeThreshold)
         {
             float volumeMult = (collisionMagnitude / lightHitCollisionMagnitudeThreshold) * 0.3f;
-            ObjectPoolManager.SpawnObject(GameManager.I.prefabs.lightHitSFX, cp.point, volumeMult);
+            ObjectPoolManager.SpawnObject(game.prefabs.lightHitSFX, cp.point, volumeMult);
         }
     }
 

@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputHandler), typeof(Rigidbody))]
@@ -20,7 +19,8 @@ public class PlayerController : SpaceshipController
     private float currentWarpSpeedMultiplier;
     private bool canWarp;
     private bool warpCharging;
-    private GameManager game;
+    
+    GameManager game;
 
     private new void Awake()
     {
@@ -29,7 +29,16 @@ public class PlayerController : SpaceshipController
         input = GetComponent<PlayerInputHandler>();
         gravity = GetComponent<SpaceshipGravity>();
 
+    }
+
+    private void OnEnable()
+    {
         input.onWarp += WarpStart;
+    }
+
+    private void OnDisable()
+    {
+        input.onWarp -= WarpStart;
     }
 
     private new void Update()
@@ -87,7 +96,7 @@ public class PlayerController : SpaceshipController
 
     private void WarpStart()
     {
-        if (GameManager.I.gamePaused)
+        if (game.gamePaused)
             return;
         
         canWarp = true;

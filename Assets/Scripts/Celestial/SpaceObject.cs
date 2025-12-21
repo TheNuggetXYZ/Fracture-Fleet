@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -30,7 +29,7 @@ public class SpaceObject : MonoBehaviour
         
         Vector3 forceDirection = (otherObject.transform.position - transform.position).normalized;
         float objectDistanceSqr = (otherObject.transform.position - transform.position).sqrMagnitude;
-        float G = SpaceGravitySimulator.Instance.gravitationalConstant;
+        float G = SpaceGravitySimulator.I.gravitationalConstant;
         Vector3 force = forceDirection * (G * (mass * otherObject.mass / objectDistanceSqr));
         Vector3 acceleration = force / mass;
 

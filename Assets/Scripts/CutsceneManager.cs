@@ -9,7 +9,14 @@ public class CutsceneManager : MonoBehaviour
     [SerializeField] private AudioSource startCutsceneSFX;
 
     private bool isStartCutsceneEnding;
+    
+    GameManager game;
 
+    private void Awake()
+    {
+        game = GameManager.I;
+    }
+    
     private void Start()
     {
         if (!skipStartCutscene)
@@ -19,7 +26,7 @@ public class CutsceneManager : MonoBehaviour
             startCutsceneSFX.Play();
         }
         else
-            GameManager.I.StartGame();
+            game.StartGame();
     }
 
     private void Update()
@@ -33,13 +40,13 @@ public class CutsceneManager : MonoBehaviour
         if (startCutsceneDolly.CameraPosition > 0.9f)
         {
             isStartCutsceneEnding = true;
-            GameManager.I.worldMenu.BlackFadeIn(3, StartCutsceneEndAction);
+            game.worldMenu.BlackFadeIn(3, StartCutsceneEndAction);
         }
     }
     
     private void StartCutsceneEndAction()
     {
-        startCutsceneDolly.gameObject.SetActive(false);
-        GameManager.I.StartGame();
+        Destroy(startCutsceneDolly.gameObject);
+        game.StartGame();
     }
 }

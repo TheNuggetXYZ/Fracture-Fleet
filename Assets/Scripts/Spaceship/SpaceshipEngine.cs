@@ -9,8 +9,9 @@ public class SpaceshipEngine : SpaceshipPart
 
     private float originalVolume;
 
-    private void Awake()
+    private new void Awake()
     {
+        base.Awake();
         originalVolume = audioSource.volume;
     }
 

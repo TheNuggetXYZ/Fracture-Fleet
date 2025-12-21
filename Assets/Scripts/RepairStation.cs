@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -21,15 +20,27 @@ public class RepairStation : MonoBehaviour
     
     private SpaceshipPart[] fetchedKilledParts;
     private bool isRepairing;
+    
+    GameManager game;
 
     private void Awake()
     {
-        GameManager.I.input.Player.RepairStation.performed += OnPlayerArrived;
+        game = GameManager.I;
+    }
+
+    private void OnEnable()
+    {
+        game.input.Player.RepairStation.performed += OnPlayerArrived;
+    }
+    
+    private void OnDisable()
+    {
+        game.input.Player.RepairStation.performed -= OnPlayerArrived;
     }
     
     private void Update()
     {
-        GameManager.I.worldMenu.ShowObject(GameManager.I.worldMenu.repairKeyPopup, Vector3.Distance(GameManager.I.player.transform.position, repairStationCenter.position) < triggerUIPopupDistance);
+        game.worldMenu.ShowObject(game.worldMenu.repairKeyPopup, Vector3.Distance(game.player.transform.position, repairStationCenter.position) < triggerUIPopupDistance);
     }
 
     private void OnPlayerArrived(InputAction.CallbackContext cc)

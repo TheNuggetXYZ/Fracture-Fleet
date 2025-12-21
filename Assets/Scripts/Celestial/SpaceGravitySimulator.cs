@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SpaceGravitySimulator : MonoBehaviour
 {
-    public static SpaceGravitySimulator Instance;
+    public static SpaceGravitySimulator I {get; private set;}
     
     [field: SerializeField] public float gravitationalConstant {get; private set;}
     [SerializeField] public const float densityMultiplier = 0.001f;
@@ -16,7 +16,13 @@ public class SpaceGravitySimulator : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if (I == null)
+            I = this;
+        else
+        {
+            Debug.LogError("More than one instance found!");
+            Destroy(this);
+        }
         
         celestials = FindCelestialBodies();
         spaceships = FindObjectsByType<SpaceshipGravity>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);

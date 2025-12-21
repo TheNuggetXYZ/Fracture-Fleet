@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class AIBrain : MonoBehaviour, IShootInput
 {
@@ -56,17 +55,24 @@ public class AIBrain : MonoBehaviour, IShootInput
     private bool debug_detectsObstacle;
     private bool shipDied;
     
+    GameManager game;
+    
     public enum AIState
     {
         following = 0,
         zoomingPast = 1,
     }
 
+    private void Awake()
+    {
+        game = GameManager.I;
+    }
+
     private void Start()
     {
         if (findPlayer)
         {
-            target = GameManager.I.player.transform;
+            target = game.player.transform;
         }
     }
 

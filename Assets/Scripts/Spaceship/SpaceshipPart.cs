@@ -40,6 +40,13 @@ public class SpaceshipPart : MonoBehaviour
     private Vector3 localOriginalPosition;
     private Quaternion originalLocalRotation;
     private Transform originalParent;
+    
+    GameManager game;
+
+    protected void Awake()
+    {
+        game = GameManager.I;
+    }
 
     public void TakeDamage(int damage)
     {
@@ -64,7 +71,7 @@ public class SpaceshipPart : MonoBehaviour
             addedRb.linearVelocity = velocity;
             addedRb.useGravity = false;
             addedRb.mass = partMass;
-            addedRb.transform.parent = GameManager.I.scrapParent;
+            addedRb.transform.parent = game.scrapParent;
         }
         
         if (partCollider)
@@ -73,7 +80,7 @@ public class SpaceshipPart : MonoBehaviour
             partCollider.isTrigger = false; // make sure it now has collisions if it didn't previously
         }
         
-        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.partLostSFX, mainPart.position);
+        ObjectPoolManager.SpawnObject(game.prefabs.partLostSFX, mainPart.position);
         
         killedParts.Add(this);
         successfullyKilled = true;

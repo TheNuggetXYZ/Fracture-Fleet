@@ -9,9 +9,14 @@ public class AISpaceshipController : SpaceshipController
     [Header("Debug")] 
     public bool canMove = true;
 
-    private void Start()
+    private void OnEnable()
     {
         brain.AfterBrainUpdate += AfterBrainUpdate;
+    }
+
+    private void OnDisable()
+    {
+        brain.AfterBrainUpdate -= AfterBrainUpdate;
     }
 
     private void AfterBrainUpdate()

@@ -8,14 +8,14 @@ public class Asteroid : MonoBehaviour
     
     private void Start()
     {
-        SpaceGravitySimulator.Instance.AddAsteroid(this);
+        SpaceGravitySimulator.I.AddAsteroid(this);
         
         speed = Random.Range(randomSpeed.x, randomSpeed.y);
     }
 
     public void UpdatePosition()
     {
-        Vector3 directionToBody = (transform.position - SpaceGravitySimulator.Instance.mainBody.transform.position).normalized;
+        Vector3 directionToBody = (transform.position - SpaceGravitySimulator.I.mainBody.transform.position).normalized;
         
         Vector3 tangent = Vector3.Cross(Vector3.up, directionToBody).normalized;
         

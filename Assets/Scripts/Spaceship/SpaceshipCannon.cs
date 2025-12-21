@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,8 +13,12 @@ public class SpaceshipCannon : MonoBehaviour
     private Utils.Timer shootTimer;
     private Vector3 averageGunPointPosition;
     
+    GameManager game;
+    
     private void Awake()
     {
+        game = GameManager.I;
+        
         input = GetComponent<IShootInput>();
 
         shootTimer = new Utils.Timer(shootCooldown);
@@ -33,7 +36,7 @@ public class SpaceshipCannon : MonoBehaviour
     {
         shootTimer.Decrement();
         
-        if (!Utils.IsNull(input) && !EventSystem.current.IsPointerOverGameObject() && !GameManager.I.gamePaused && input.IsShooting())
+        if (!Utils.IsNull(input) && !EventSystem.current.IsPointerOverGameObject() && !game.gamePaused && input.IsShooting())
         {
             if (shootTimer.IsDone())
             {
@@ -47,7 +50,7 @@ public class SpaceshipCannon : MonoBehaviour
     private void Shoot()
     {
         
-        ObjectPoolManager.SpawnObject(GameManager.I.prefabs.shipShootSFX, transform.TransformPoint(averageGunPointPosition));
+        ObjectPoolManager.SpawnObject(game.prefabs.shipShootSFX, transform.TransformPoint(averageGunPointPosition));
 
         foreach (Transform gunPoint in gunPoints)
         {

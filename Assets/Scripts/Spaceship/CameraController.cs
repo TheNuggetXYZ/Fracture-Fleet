@@ -14,9 +14,16 @@ public class CameraController : MonoBehaviour
 
     private PlayerController player;
     
+    GameManager game;
+
+    private void Awake()
+    {
+        game = GameManager.I;
+    }
+    
     private void Start()
     {
-        player = GameManager.I.player;
+        player = game.player;
     }
     
     private void Update()

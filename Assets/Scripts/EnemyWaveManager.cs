@@ -13,6 +13,8 @@ public class EnemyWaveManager : MonoBehaviour
     private Utils.Timer newWaveTimer;
     private int currentWave = -1;
     private int enemyAmount;
+
+    GameManager game;
     
     [System.Serializable]
     private class EnemyWave
@@ -29,6 +31,7 @@ public class EnemyWaveManager : MonoBehaviour
 
     private void Awake()
     {
+        game = GameManager.I;
         newWaveTimer = new Utils.Timer(5);
     }
 
@@ -42,11 +45,11 @@ public class EnemyWaveManager : MonoBehaviour
             SpawnWave(waves[currentWave]);
 
             if (Utils.RandomBool())
-                ObjectPoolManager.SpawnObject(GameManager.I.prefabs.newWaveSFX1);
+                ObjectPoolManager.SpawnObject(game.prefabs.newWaveSFX1);
             else
-                ObjectPoolManager.SpawnObject(GameManager.I.prefabs.newWaveSFX2);
+                ObjectPoolManager.SpawnObject(game.prefabs.newWaveSFX2);
             
-            GameManager.I.popupListHandler.ShowPopup(GameManager.I.popupListHandler.popup_DetectingSignals, true, 0.5f, 8f);
+            game.popupListHandler.ShowPopup(game.popupListHandler.popup_DetectingSignals, true, 0.5f, 8f);
         }
     }
 

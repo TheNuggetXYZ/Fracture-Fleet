@@ -33,10 +33,22 @@ public class UIPopupListHandler : MonoBehaviour
         public float delay;
         public float duration;
     }
+    
+    GameManager game;
 
     private void Awake()
     {
-        GameManager.I.OnGameUnpaused += ShowMaskedPopups;
+        game = GameManager.I;
+    }
+
+    private void OnEnable()
+    {
+        game.OnGameUnpaused += ShowMaskedPopups;
+    }
+    
+    private void OnDisable()
+    {
+        game.OnGameUnpaused -= ShowMaskedPopups;
     }
     
     private void ShowMaskedPopups()
@@ -51,7 +63,7 @@ public class UIPopupListHandler : MonoBehaviour
     
     public void ShowPopup(Transform obj, bool show, float delay = 0, float duration = -1)
     {
-        if (GameManager.I.gamePaused) // mask popups
+        if (game.gamePaused) // mask popups
         {
             showPopupParameters.Add(new(obj, show, delay, duration));
             return;
@@ -94,9 +106,9 @@ public class UIPopupListHandler : MonoBehaviour
     {
         AudioObject audioPrefab;
         if (UIToggledOn)
-            audioPrefab = GameManager.I.prefabs.UIOnSFX;
+            audioPrefab = game.prefabs.UIOnSFX;
         else
-            audioPrefab = GameManager.I.prefabs.UIOffSFX;
+            audioPrefab = game.prefabs.UIOffSFX;
             
         ObjectPoolManager.SpawnObject(audioPrefab);
     }

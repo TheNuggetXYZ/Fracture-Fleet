@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class WorldMenu : MonoBehaviour
 {
@@ -9,15 +11,32 @@ public class WorldMenu : MonoBehaviour
     [field: SerializeField] public Transform criticalSpeedWarning {get; private set;}
     [field: SerializeField] public Transform repairKeyPopup {get; private set;}
     [field: SerializeField] public Transform menu {get; private set;}
+    [field: SerializeField] public CanvasGroup deathScreen {get; private set;}
+    [field: SerializeField] public TextMeshProUGUI deathScreenText {get; private set;}
+    [field: SerializeField] public float deathScreenFadeDuration {get; private set;}
 
     private GameObject currentMenuItem;
     private bool canEnableObjects;
     private AudioSource[] fetchedAudioSources;
     private bool lastCurrentMenuItem;
+    
+    GameManager game;
 
     private void Awake()
     {
-        GameManager.I.input.UI.Cancel.performed += ToggleMenu;
+        game = GameManager.I;
+    }
+
+    private void OnEnable()
+    {
+        game.input.UI.Cancel.performed += ToggleMenu;
+        game.OnPlayerDeath += FadeInDeathScreen;
+    }
+
+    private void OnDisable()
+    {
+        game.input.UI.Cancel.performed -= ToggleMenu;
+        game.OnPlayerDeath -= FadeInDeathScreen;
     }
 
     private void Update()
@@ -26,13 +45,13 @@ public class WorldMenu : MonoBehaviour
         {
             CursorClear();
             FetchAndPauseAllAudio();
-            GameManager.I.PauseGame();
+            game.PauseGame();
         }
         else if (lastCurrentMenuItem && !currentMenuItem)
         {
             CursorAim();
             UnpauseAllAudio();
-            GameManager.I.UnpauseGame();
+            game.UnpauseGame();
         }
         
         lastCurrentMenuItem = currentMenuItem;
@@ -40,7 +59,7 @@ public class WorldMenu : MonoBehaviour
 
     public void ExitGame()
     {
-        GameManager.I.ExitGame();
+        game.ExitGame();
     }
     
     private void ToggleMenu(InputAction.CallbackContext cc = default)
@@ -55,6 +74,37 @@ public class WorldMenu : MonoBehaviour
             currentMenuItem = menu.gameObject;
         else
             currentMenuItem = null;
+    }
+
+    private void FadeInDeathScreen()
+    {
+        deathScreen.gameObject.SetActive(true);
+        FadeIn(deathScreen, deathScreenFadeDuration, StartDeathScreenCoroutine);
+
+        void StartDeathScreenCoroutine()
+        {
+            StartCoroutine(DeathScreenCoroutine());
+        }
+    }
+
+    private IEnumerator DeathScreenCoroutine()
+    {
+        TextMeshProUGUI t = deathScreenText;
+
+        yield return StartCoroutine(Utils.TextTypingAnimation(t, "...", 1, Utils.TextTypingAnimationType.deleting));
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(Utils.TextTypingAnimation(t, "Your ship exploded", .1f, Utils.TextTypingAnimationType.typing));
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(Utils.TextTypingAnimation(t, "Your ship exploded", .05f, Utils.TextTypingAnimationType.deleting));
+        yield return StartCoroutine(Utils.TextTypingAnimation(t, "and you died.", .1f, Utils.TextTypingAnimationType.typing));
+        yield return new WaitForSeconds(2);
+        BlackFadeIn(5, EndAction);
+
+        void EndAction()
+        {
+            // reload scene
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex, LoadSceneMode.Single);
+        }
     }
 
     public void SetCurrentMenuPanel(GameObject menuItem)
@@ -74,15 +124,20 @@ public class WorldMenu : MonoBehaviour
             obj.gameObject.SetActive(show);
     }
 
-    public void BlackFadeIn(float duration, Action endAction = null)
+    public void BlackFadeIn(float duration, Action endAction = null, bool destroyOnEnd = true)
     {
         CanvasGroup cg = Instantiate(fadeInPanelPrefab, transform);
         cg.alpha = 0;
         
-        StartCoroutine(BlackFadeInCoroutine(cg, duration, endAction));
+        FadeIn(cg, duration, endAction, destroyOnEnd);
     }
 
-    private IEnumerator BlackFadeInCoroutine(CanvasGroup panel, float duration, Action endAction = null)
+    public void FadeIn(CanvasGroup obj, float duration, Action endAction = null, bool destroyOnEnd = false)
+    {
+        StartCoroutine(BlackFadeInCoroutine(obj, duration, endAction, destroyOnEnd));
+    }
+
+    private IEnumerator BlackFadeInCoroutine(CanvasGroup panel, float duration, Action endAction = null, bool destroyOnEnd = false)
     {
         float i = 0;
         
@@ -94,8 +149,9 @@ public class WorldMenu : MonoBehaviour
 
             panel.alpha = i / duration;
         }
-        
-        Destroy(panel.gameObject);
+
+        if (destroyOnEnd)
+            Destroy(panel.gameObject);
         
         endAction?.Invoke();
     }
