@@ -10,7 +10,12 @@ using Random = UnityEngine.Random;
 public class GameManager : MonoBehaviour
 {
     public static GameManager I {get; private set;}
+
+    [Header("Settings")]
+    [SerializeField] private bool unlimitedFPS = true;
+    [SerializeField] private int maxFPS = 60;
     
+    [field: Header("References")]
     [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
     [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
     [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
@@ -51,6 +56,14 @@ public class GameManager : MonoBehaviour
         
         player.gameObject.SetActive(false);
         waveManager.gameObject.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (unlimitedFPS)
+            Application.targetFrameRate = -1;
+        else
+            Application.targetFrameRate = maxFPS;
     }
 
     private void OnDestroy()
