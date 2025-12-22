@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 public class PlayerInputHandler : MonoBehaviour, IShootInput
 {
     private InputSystem_Actions inputActions;
+
+    [SerializeField] private float mouseDeltaMultiplier = 0.001f;
     
     public float pitchDelta {get; private set;}
     public float yawDelta {get; private set;}
@@ -83,9 +85,17 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
     private void OnMouseMove(InputAction.CallbackContext context)
     {
         Vector2 lookVec = context.ReadValue<Vector2>();
-        
-        yawDelta = lookVec.x;
-        pitchDelta = -lookVec.y;
+
+        if (Time.deltaTime == 0)
+        {
+            yawDelta = 0;
+            pitchDelta = 0;
+        }
+        else
+        {
+            yawDelta = lookVec.x / Time.deltaTime * mouseDeltaMultiplier;
+            pitchDelta = -lookVec.y / Time.deltaTime * mouseDeltaMultiplier;
+        }
     }
 
     public bool IsShooting() => isShooting;

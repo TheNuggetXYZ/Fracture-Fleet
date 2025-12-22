@@ -21,11 +21,13 @@ public class PlayerController : SpaceshipController
     private bool warpCharging;
     
     GameManager game;
+    SaveManager save;
 
     private new void Awake()
     {
         base.Awake();
         game = GameManager.I;
+        save = SaveManager.I;
         input = GetComponent<PlayerInputHandler>();
         gravity = GetComponent<SpaceshipGravity>();
 
@@ -88,8 +90,8 @@ public class PlayerController : SpaceshipController
         float rotationMultiplier = warpCharging ? warpChargeRotationSpeedMultiplier : 1;
         
         if (!IsWarping() || warpCharging)
-            Rotate(transform.right * input.pitchDelta, 
-                transform.up * input.yawDelta, 
+            Rotate(transform.right * (input.pitchDelta * save.saveData.sensitivity), 
+                transform.up * (input.yawDelta * save.saveData.sensitivity), 
                 transform.forward * input.rollDelta,
                 rotationMultiplier);
     }
