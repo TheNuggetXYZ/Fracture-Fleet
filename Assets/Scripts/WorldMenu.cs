@@ -8,7 +8,6 @@ using UnityEngine.SceneManagement;
 public class WorldMenu : MonoBehaviour
 {
     [SerializeField] private CanvasGroup fadeInPanelPrefab;
-    [field: SerializeField] public Transform criticalSpeedWarning {get; private set;}
     [field: SerializeField] public Transform repairKeyPopup {get; private set;}
     [field: SerializeField] public Transform menu {get; private set;}
     [field: SerializeField] public CanvasGroup deathScreen {get; private set;}
