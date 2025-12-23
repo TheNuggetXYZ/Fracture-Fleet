@@ -121,7 +121,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 7517796303466214296}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 200
+  m_MaxValue: 300
   m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:
@@ -1034,6 +1034,7 @@ GameObject:
   - component: {fileID: 8713215546371849978}
   - component: {fileID: 640885082796981268}
   - component: {fileID: 8196569473287286830}
+  - component: {fileID: 3848926012979308345}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1144,12 +1145,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeInPanelPrefab: {fileID: 1177362299441776989, guid: dd05a456cf3a710d285a99d5ba041999, type: 3}
-  <criticalSpeedWarning>k__BackingField: {fileID: 0}
   <repairKeyPopup>k__BackingField: {fileID: 1051951508024904674}
   <menu>k__BackingField: {fileID: 4674645555550454529}
   <deathScreen>k__BackingField: {fileID: 1509965362910680069}
   <deathScreenText>k__BackingField: {fileID: 1787209228455853987}
   <deathScreenFadeDuration>k__BackingField: 10
+--- !u!114 &3848926012979308345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329976686903690612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a236816149388ce3fb4df624f8ab3dce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldMenu: {fileID: 8196569473287286830}
+  sensitivitySlider: {fileID: 2721868864130121905}
+  masterSlider: {fileID: 348565409707411742}
+  SFXSlider: {fileID: 4943476105670712621}
+  ambienceSlider: {fileID: 3271466536465550836}
+  musicSlider: {fileID: 1053487318839869093}
 --- !u!1 &1608279918744335108
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,7 +2080,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2841657482297277216}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 200
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:
@@ -2594,7 +2612,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 5610780899121859262}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 200
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:
@@ -2853,7 +2871,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8504585935122210294}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 200
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:
@@ -2943,7 +2961,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 4934960008866310062}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 200
+  m_MaxValue: 100
   m_WholeNumbers: 0
   m_Value: 100
   m_OnValueChanged:

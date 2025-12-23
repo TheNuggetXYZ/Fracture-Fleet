@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MenuPanel : MonoBehaviour
@@ -5,6 +6,9 @@ public class MenuPanel : MonoBehaviour
     [field: SerializeField] public WorldMenu worldMenu {get; private set;}
     [SerializeField] private GameObject parentItem;
 
+    public Action OnPanelEnable;
+    public Action OnPanelDisable;
+    
     public void Show(bool show)
     {
         gameObject.SetActive(show);
@@ -23,5 +27,15 @@ public class MenuPanel : MonoBehaviour
     public void ExitGame()
     {
         worldMenu.ExitGame();
+    }
+
+    private void OnEnable()
+    {
+        OnPanelEnable?.Invoke();
+    }
+
+    private void OnDisable()
+    {
+        OnPanelDisable?.Invoke();
     }
 }

@@ -38,5 +38,9 @@ public class SaveManager : MonoBehaviour
     public class SaveData
     {
         public float sensitivity = 100;
+        public float masterVolume = 80;
+        public float SFXVolume = 80;
+        public float ambienceVolume = 80;
+        public float musicVolume = 80;
     }
 }

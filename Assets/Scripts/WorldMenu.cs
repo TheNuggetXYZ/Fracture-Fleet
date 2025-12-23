@@ -18,6 +18,9 @@ public class WorldMenu : MonoBehaviour
     private bool canEnableObjects;
     private AudioSource[] fetchedAudioSources;
     private bool lastCurrentMenuItem;
+
+    public Action OnMenuOpen;
+    public Action OnMenuClose;
     
     GameManager game;
 
@@ -42,12 +45,14 @@ public class WorldMenu : MonoBehaviour
     {
         if (!lastCurrentMenuItem && currentMenuItem)
         {
+            OnMenuOpen?.Invoke();
             CursorClear();
             FetchAndPauseAllAudio();
             game.PauseGame();
         }
         else if (lastCurrentMenuItem && !currentMenuItem)
         {
+            OnMenuClose?.Invoke();
             CursorAim();
             UnpauseAllAudio();
             game.UnpauseGame();
