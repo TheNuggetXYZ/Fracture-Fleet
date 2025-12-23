@@ -1,3 +1,4 @@
+using System.IO;
 using UnityEngine;
 
 public class SaveManager : MonoBehaviour
@@ -5,6 +6,7 @@ public class SaveManager : MonoBehaviour
     public static SaveManager I;
     
     public SaveData saveData {get; private set;}
+    private string saveFilePath;
 
     private void Awake()
     {
@@ -16,6 +18,8 @@ public class SaveManager : MonoBehaviour
             Destroy(this);
         }
         
+        saveFilePath = Application.persistentDataPath + "/FF.save";
+        saveData = new SaveData();
         Load();
     }
     
@@ -25,14 +29,21 @@ public class SaveManager : MonoBehaviour
         I = null;
     }
 
-    private void Load()
-    {
-        saveData = new SaveData();
-    }
-
     private void Save()
     {
-        
+        File.WriteAllText(saveFilePath, JsonUtility.ToJson(saveData, true));
+    }
+
+    private void Load()
+    {
+        if (File.Exists(saveFilePath))
+            saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveFilePath));
+        else
+        {
+            // set defaults and create the save
+            
+            Save();
+        }
     }
     
     public class SaveData
