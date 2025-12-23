@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         input.UI.Enable();
         
         player.gameObject.SetActive(false);
-        waveManager.gameObject.SetActive(false);
+        waveManager.enabled = false;
     }
 
     private void Update()
@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         player.gameObject.SetActive(true);
-        waveManager.gameObject.SetActive(true);
+        waveManager.enabled = true;
         worldMenu.EnableObjectEnabling();
     }
 

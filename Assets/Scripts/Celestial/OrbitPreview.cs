@@ -1,10 +1,10 @@
-#if UNITY_EDITOR
 using UnityEngine;
 using System.Collections.Generic;
 
 [ExecuteAlways]
 public class OrbitPreview : MonoBehaviour
 {
+#if UNITY_EDITOR
     [Header("Simulation Settings")]
     [SerializeField] private SpaceGravitySimulator spaceGravitySimulator;
     
@@ -88,5 +88,5 @@ public class OrbitPreview : MonoBehaviour
                 Gizmos.DrawLine(trail[j - 1], trail[j]);
         }
     }
+    #endif
 }
-#endif

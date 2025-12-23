@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
@@ -31,6 +30,8 @@ using System.Collections;
 [ExecuteInEditMode]
 public class AsteroidFieldCreator : MonoBehaviour
 {
+#if UNITY_EDITOR
+
     //-----------------------------------------------------
     // passCountDelineator
     //-----------------------------------------------------
@@ -706,8 +707,7 @@ public class AsteroidFieldCreator : MonoBehaviour
         StopAllCoroutines();
         EditorApplication.update -= InEditorUpdate;
     }
+#endif
 }
 
 public enum FieldType { Blob_Sphere_Inside = 0, Blob_Sphere_Surface = 1, Ring = 2, Ribbon = 3 }
-
-#endif

@@ -1,11 +1,17 @@
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Splines;
 
 public class CutsceneManager : MonoBehaviour
 {
+    // TODO: cutscene speed based on fps, low fps = fast
+    
+    
+    [Header("Start Cutscene")]
     [SerializeField] private bool skipStartCutscene = false;
 
     [SerializeField] private CinemachineSplineDolly startCutsceneDolly;
+    [SerializeField] private float startCutsceneDollySpeed;
     [SerializeField] private AudioSource startCutsceneSFX;
 
     private bool isStartCutsceneEnding;
@@ -31,17 +37,18 @@ public class CutsceneManager : MonoBehaviour
 
     private void Update()
     {
-        if (!isStartCutsceneEnding && !skipStartCutscene)
-            StartCutsceneUpdate();
+        StartCutsceneUpdate();
     }
 
     private void StartCutsceneUpdate()
     {
-        if (startCutsceneDolly.CameraPosition > 0.9f)
+        if (!isStartCutsceneEnding && !skipStartCutscene && startCutsceneDolly.CameraPosition > 0.6f)
         {
             isStartCutsceneEnding = true;
-            game.worldMenu.BlackFadeIn(3, StartCutsceneEndAction);
+            game.worldMenu.BlackFadeIn(2.5f, StartCutsceneEndAction);
         }
+        
+        startCutsceneDolly.CameraPosition += startCutsceneDollySpeed * Time.deltaTime;
     }
     
     private void StartCutsceneEndAction()

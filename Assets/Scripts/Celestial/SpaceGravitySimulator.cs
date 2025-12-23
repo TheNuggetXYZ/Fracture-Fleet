@@ -25,7 +25,7 @@ public class SpaceGravitySimulator : MonoBehaviour
         }
         
         celestials = FindCelestialBodies();
-        spaceships = FindObjectsByType<SpaceshipGravity>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
+        spaceships = FindObjectsByType<SpaceshipGravity>(FindObjectsInactive.Include, FindObjectsSortMode.None);
     }
 
     private void FixedUpdate()

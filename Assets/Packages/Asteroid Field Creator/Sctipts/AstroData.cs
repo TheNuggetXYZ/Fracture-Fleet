@@ -1,5 +1,4 @@
-﻿#if UNITY_EDITOR
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 //-----------------------------------------------------
@@ -19,6 +18,8 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class AstroData : MonoBehaviour
 {
+#if UNITY_EDITOR
+
     public float BufferZoneDiameter = 2f;
     public Rigidbody RigidbodyToScale = null;
     public bool ShowBufferGizmo = true;
@@ -170,5 +171,5 @@ public class AstroData : MonoBehaviour
             Gizmos.DrawWireSphere(transform.position, bufferZone);
         }
     }
-}
 #endif
+}
