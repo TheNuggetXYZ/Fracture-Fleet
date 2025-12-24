@@ -72,8 +72,8 @@ MonoBehaviour:
   zoomOffsetFromPlayerPerPlayerDistance: 0.3
   zoomExtendedDistance: 200
   zoomTargetStateExitDistance: 20
-  startZoomingDistance: 40
-  zoomPastRatePerMinute: 12
+  noZoomDistanceRange: {x: 30, y: 100}
+  followDistance: 70
 --- !u!114 &5193542865789706867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -131,6 +131,8 @@ MonoBehaviour:
   lostHealthOnPartKill: 40
   onDeathExplosionForce: 5
   onDeathExplosionSize: 2
+  alarmLights: {fileID: 0}
+  alarmSFX: {fileID: 0}
   sparksCollisionMagnitudeThreshold: 15
   lightHitCollisionMagnitudeThreshold: 4
   mediumHitCollisionMagnitudeThreshold: 10
@@ -156,7 +158,7 @@ MonoBehaviour:
   - {fileID: 8634456576051992978}
   - {fileID: 951938490276498734}
   - {fileID: 2147469994498052584}
-  debug_killAppParts: 0
+  debug_killAllParts: 0
 --- !u!54 &6623329085358320775
 Rigidbody:
   m_ObjectHideFlags: 0

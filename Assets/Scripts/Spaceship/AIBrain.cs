@@ -25,22 +25,24 @@ public class AIBrain : MonoBehaviour, IShootInput
     [SerializeField] private float startShootingRatePerMinute = 20;
     [SerializeField] private float stopShootingRatePerMinute = 10;
     
-    [Header("Movement")]
+    [Header("Zooming")]
     [SerializeField, Tooltip("Controls how much the AI will zoom diagonally instead of straight to the target")]
     private float zoomOffsetFromPlayerPerPlayerDistance = 0.3f;
     [SerializeField, Tooltip("How much it zooms past the target")] 
     private float zoomExtendedDistance = 120;
     [SerializeField, Tooltip("How close the zoom target position has to be for the AI to stop zooming")] 
     private float zoomTargetStateExitDistance = 20;
-    [SerializeField, Tooltip("How close the target has to be for the AI to start zooming no matter what")]
-    private float startZoomingDistance;
-    [SerializeField, Tooltip("How often to attempt to zoom per minute")]
-    private float zoomPastRatePerMinute = 5;
+    [SerializeField, Tooltip("The AI will not zoom inside when the distance to player is inside this range, but it must zoom when outside.")]
+    private Vector2 noZoomDistanceRange;
+    
+    [Header("Following")]
+    [SerializeField] private float followDistance;
     
     
     [Header("Output")] 
     public Action AfterBrainUpdate;
     public Quaternion targetRotation { get; private set; }
+    public int speedTier { get; private set; }
     public AIState currentState { get; private set; }
     
 
@@ -48,11 +50,10 @@ public class AIBrain : MonoBehaviour, IShootInput
     private Vector3 previousRepelVector;
     private bool shouldShoot;
     private bool wantsToShoot;
-    private Vector3 zoomTargetPositionLocalToPlayer;
     private Vector3 zoomTargetPosition;
+    private Vector3 zoomTargetPositionLocalToTarget;
     private Vector3 targetPosForGizmos;
 
-    private bool debug_detectsObstacle;
     private bool shipDied;
     
     GameManager game;
@@ -61,89 +62,104 @@ public class AIBrain : MonoBehaviour, IShootInput
     {
         following = 0,
         zoomingPast = 1,
+        idle = 2,
     }
 
     private void Awake()
     {
         game = GameManager.I;
-    }
-
-    private void Start()
-    {
+        
         if (findPlayer)
-        {
             target = game.player.transform;
-        }
     }
 
     private void Update()
     {
-        zoomTargetPosition = zoomTargetPositionLocalToPlayer + target.position;
+        zoomTargetPosition = zoomTargetPositionLocalToTarget + target.position;
         
         Think(out var targetPosition, out var upVector, out var repelVector);
+        
         CalculateRotation(targetPosition, upVector, repelVector);
+        CalculateMovement();
+        
         AfterBrainUpdate?.Invoke();
         targetPosForGizmos = targetPosition;
-    }
-
-    private void CalculateRotation(Vector3 targetPosition, Vector3 upVector, Vector3 repelVector)
-    {
-        Vector3 targetDirection = targetPosition - transform.position;
-
-        Vector3 combined = (targetDirection.normalized + Vector3.ClampMagnitude(repelVector, 1) * repelForceOnRotationMultiplier).normalized;
-
-        if (combined == Vector3.zero)
-            combined = transform.forward;
-
-        targetRotation = Quaternion.LookRotation(combined, upVector);
     }
 
     private void Think(out Vector3 targetPosition, out Vector3 newTransformUp, out Vector3 repelVector)
     {
         DetectObstacle(out bool foundObstacle, out targetPosition, out newTransformUp);
-        debug_detectsObstacle = foundObstacle;
         
         RepelFromOthers(foundObstacle, newTransformUp, out repelVector);
 
         DecideShooting(foundObstacle);
-
-        DecideZooming(ref targetPosition, ref newTransformUp, foundObstacle);
+        
+        ControlState(ref targetPosition, ref newTransformUp, foundObstacle);
     }
 
-    private void DecideZooming(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
+    private void ControlState(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
     {
-        if (foundObstacle)
-        {
-            currentState = AIState.following;
-            return;
-        }
-        
-        // TODO: if youre lucky enough, the AI can just zoom from left to right for a minute, add a cooldown
         float playerDistance = Vector3.Distance(transform.position, target.position);
-        bool shouldStartZooming = Utils.RandomEventInTime(zoomPastRatePerMinute) || playerDistance < startZoomingDistance;
-        // START ZOOMING
-        if (currentState != AIState.zoomingPast && shouldStartZooming)
+        
+        if (!foundObstacle)
         {
-            currentState = AIState.zoomingPast;
+            // TODO: if youre lucky enough, the AI can just zoom from left to right for a minute, add a cooldown
+            bool shouldStartZooming = playerDistance < noZoomDistanceRange.x || playerDistance > noZoomDistanceRange.y;
+        
             
-            Vector3 playerDirection = target.position - transform.position;
-            Vector3 directionTheShipIsFacingFromThePlayer = Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
-
-            Vector3 offsetedPositionFromPlayWhereTheShipIsFacingMore = target.position + Utils.ResizeVector(directionTheShipIsFacingFromThePlayer, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
-            Vector3 globalTargetPosition = transform.position + Utils.ExtendVector(offsetedPositionFromPlayWhereTheShipIsFacingMore - transform.position, zoomExtendedDistance);
-            // TODO: make it be local in a way it rotates around, if you go to the opposite of the AI the zoom target will be much closer and in a direction that's still as if the player was on the original position
-            zoomTargetPositionLocalToPlayer = globalTargetPosition - target.position; 
-        }
-        // ZOOMING UPDATE
-        else if (currentState == AIState.zoomingPast)
-        {
-            if (Vector3.Distance(transform.position, zoomTargetPosition) < zoomTargetStateExitDistance)
+            if (currentState != AIState.zoomingPast && shouldStartZooming)
+            {
+                StartZooming(playerDistance);
+            }
+            else if (currentState == AIState.zoomingPast)
+            {
+                ZoomingUpdate(ref targetPosition, ref newTransformUp);
+            }
+            else if (playerDistance > followDistance)
+            {
                 currentState = AIState.following;
+            }
             else
             {
-                targetPosition = zoomTargetPosition;
-                newTransformUp = transform.position - target.position;
+                currentState = AIState.idle;
             }
+        }
+        else
+            currentState = AIState.following;
+    }
+
+    private void ZoomingUpdate(ref Vector3 targetPosition, ref Vector3 newTransformUp)
+    {
+        if (Vector3.Distance(transform.position, zoomTargetPosition) < zoomTargetStateExitDistance)
+            currentState = AIState.following;
+        else
+        {
+            targetPosition = zoomTargetPosition;
+            newTransformUp = transform.position - target.position;
+        }
+    }
+
+    private void StartZooming(float playerDistance)
+    {
+        currentState = AIState.zoomingPast;
+            
+        /*Vector3 playerDirection = target.position - transform.position;
+        Vector3 directionTheShipIsFacingFromThePlayer = Vector3.ProjectOnPlane(transform.forward, playerDirection).normalized;
+
+        Vector3 offsetedPositionFromPlayerWhereTheShipIsFacingMore = target.position + Utils.ResizeVector(directionTheShipIsFacingFromThePlayer, zoomOffsetFromPlayerPerPlayerDistance * playerDistance);
+        Vector3 targetWorldPosition = transform.position + Utils.ExtendVector(offsetedPositionFromPlayerWhereTheShipIsFacingMore - transform.position, zoomExtendedDistance);
+        // TODO: make it be local in a way it rotates around, if you go to the opposite of the AI the zoom target will be much closer and in a direction that's still as if the player was on the original position
+        zoomTargetPositionLocalToPlayer = targetWorldPosition - target.position;*/
+
+        zoomTargetPositionLocalToTarget = RandomPointInFollowSphere() - target.position;
+
+        Vector3 RandomPointInFollowSphere()
+        {
+            Vector3 point = Utils.RandomPointInSphere(target.position, noZoomDistanceRange.y);
+            if (Vector3.Distance(target.position, point) > followDistance)
+                return point;
+            else
+                return RandomPointInFollowSphere();
         }
     }
 
@@ -230,6 +246,32 @@ public class AIBrain : MonoBehaviour, IShootInput
 
         if (foundObstacle)
             currentState = AIState.following;
+    }
+
+    private void CalculateRotation(Vector3 targetPosition, Vector3 upVector, Vector3 repelVector)
+    {
+        Vector3 targetDirection = targetPosition - transform.position;
+
+        Vector3 combined = (targetDirection.normalized + Vector3.ClampMagnitude(repelVector, 1) * repelForceOnRotationMultiplier).normalized;
+
+        if (combined == Vector3.zero)
+            combined = transform.forward;
+
+        targetRotation = Quaternion.LookRotation(combined, upVector);
+    }
+
+    private void CalculateMovement()
+    {
+        if (currentState == AIState.following)
+        {
+            speedTier = 1;
+        } 
+        else if (currentState == AIState.zoomingPast)
+        {
+            speedTier = 2;
+        }
+        else
+            speedTier = 0;
     }
 
     public bool IsShooting() => shouldShoot && wantsToShoot;

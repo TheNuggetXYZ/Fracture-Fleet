@@ -12,10 +12,12 @@ public class Settings : MonoBehaviour
     [SerializeField] private Slider musicSlider;
 
     GameManager game;
+    SaveManager save;
     
     private void Awake()
     {
         game = GameManager.I;
+        save = SaveManager.I;
         
         Load();
     }
@@ -57,19 +59,19 @@ public class Settings : MonoBehaviour
     
     private void Load()
     {
-        sensitivitySlider.value = SaveManager.I.saveData.sensitivity;
-        masterSlider.value = SaveManager.I.saveData.masterVolume;
-        SFXSlider.value = SaveManager.I.saveData.SFXVolume;
-        ambienceSlider.value = SaveManager.I.saveData.ambienceVolume;
-        musicSlider.value = SaveManager.I.saveData.musicVolume;
+        sensitivitySlider.value = save.saveData.sensitivity;
+        masterSlider.value = save.saveData.masterVolume;
+        SFXSlider.value = save.saveData.SFXVolume;
+        ambienceSlider.value = save.saveData.ambienceVolume;
+        musicSlider.value = save.saveData.musicVolume;
     }
 
     private void Save()
     {
-        SaveManager.I.saveData.sensitivity = sensitivitySlider.value;
-        SaveManager.I.saveData.masterVolume = masterSlider.value;
-        SaveManager.I.saveData.SFXVolume = SFXSlider.value;
-        SaveManager.I.saveData.ambienceVolume = ambienceSlider.value;
-        SaveManager.I.saveData.musicVolume = musicSlider.value;
+        save.saveData.sensitivity = sensitivitySlider.value;
+        save.saveData.masterVolume = masterSlider.value;
+        save.saveData.SFXVolume = SFXSlider.value;
+        save.saveData.ambienceVolume = ambienceSlider.value;
+        save.saveData.musicVolume = musicSlider.value;
     }
 }

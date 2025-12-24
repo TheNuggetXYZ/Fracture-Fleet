@@ -39,11 +39,18 @@ public class SaveManager : MonoBehaviour
         if (File.Exists(saveFilePath))
             saveData = JsonUtility.FromJson<SaveData>(File.ReadAllText(saveFilePath));
         else
-        {
-            // set defaults and create the save
+            CreateSaveFile();
+        
+        if (saveData == null) // if the file is empty
+            CreateSaveFile();
+    }
+
+    private void CreateSaveFile()
+    {
+        // set defaults and create the save
+        saveData = new SaveData();
             
-            Save();
-        }
+        Save();
     }
     
     public class SaveData

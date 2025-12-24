@@ -9,17 +9,15 @@ public class AISpaceshipController : SpaceshipController
     [Header("Debug")] 
     public bool canMove = true;
 
-    private void OnEnable()
+    private void FixedUpdate()
     {
-        brain.AfterBrainUpdate += AfterBrainUpdate;
+        HandleRotation();
+        
+        if (canMove)
+            HandleMovement();
     }
 
-    private void OnDisable()
-    {
-        brain.AfterBrainUpdate -= AfterBrainUpdate;
-    }
-
-    private void AfterBrainUpdate()
+    private void HandleRotation()
     {
         Quaternion delta = brain.targetRotation * Quaternion.Inverse(transform.rotation);
         delta.ToAngleAxis(out float angle, out Vector3 axis);
@@ -29,12 +27,15 @@ public class AISpaceshipController : SpaceshipController
         Rotate(torque);
     }
 
-    private void FixedUpdate()
+    private void HandleMovement()
     {
-        if (canMove)
-        {
-            float actualSpeed = brain.currentState == AIBrain.AIState.zoomingPast ? zoomSpeed : MovementSpeed;
+        float actualSpeed = 0;
+        if (brain.speedTier == 1)
+            actualSpeed = MovementSpeed;
+        else if (brain.speedTier == 2)
+            actualSpeed = zoomSpeed;
+
+        if (actualSpeed != 0)
             Move(actualSpeed, 1, 0);
-        }
     }
 }
