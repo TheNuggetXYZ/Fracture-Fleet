@@ -16,12 +16,21 @@ public class PlayerController : SpaceshipController
     
     public float warpSpeedFactor {get; private set;}
 
+    private State state;
     private float currentWarpSpeedMultiplier;
-    private bool canWarp;
-    private bool warpCharging;
+
+    public Action OnWarpStart;
+    public Action OnWarpEnd;
     
     GameManager game;
     SaveManager save;
+    
+    private enum State
+    {
+        Normal = 0,
+        WarpCharging = 1,
+        Warp = 2,
+    }
 
     private new void Awake()
     {
@@ -30,7 +39,7 @@ public class PlayerController : SpaceshipController
         save = SaveManager.I;
         input = GetComponent<PlayerInputHandler>();
         gravity = GetComponent<SpaceshipGravity>();
-
+        state = State.Normal;
     }
 
     private void OnEnable()
@@ -41,6 +50,8 @@ public class PlayerController : SpaceshipController
     private void OnDisable()
     {
         input.onWarp -= WarpStart;
+        
+        StopWarp();
     }
 
     private new void Update()
@@ -49,35 +60,47 @@ public class PlayerController : SpaceshipController
         
         warpSpeedFactor = Mathf.InverseLerp(0, MovementSpeed * warpSpeedBoostMultiplier, velocity);
         
-        game.popupListHandler.ShowPopup(game.popupListHandler.popup_Warping, IsWarping() && !warpCharging);
+        game.popupListHandler.ShowPopup(game.popupListHandler.popup_Warping, state == State.Warp);
         game.popupListHandler.ShowPopup(game.popupListHandler.warning_HighGravity, gravity.totalGravity.magnitude > MovementSpeed);
 
-        if (!input.isWarping && warpRoutine && warpCoroutine != null)
+        if (!input.isWarping)
+            StopWarp();
+    }
+
+    private void StopWarp()
+    {
+        state = State.Normal;
+        
+        OnWarpEnd?.Invoke();
+        
+        // try stop warp charging
+        if (warpCoroutine != null)
         {
             StopCoroutine(warpCoroutine);
             warpChargeSFX.Stop();
             game.popupListHandler.ShowPopup(game.popupListHandler.popup_ChargingWarp, false);
-            warpCharging = warpRoutine = false;
         }
     }
 
     private void FixedUpdate()
     {
         HandleMovement();
-        HandleRotation();
+        
+        if (state != State.Warp)
+            HandleRotation();
     }
 
     private void HandleMovement()
     {
         float forwardMovementMultiplier = 1;
-        if (IsWarping())
+        if (state == State.WarpCharging || state == State.Warp)
             forwardMovementMultiplier = currentWarpSpeedMultiplier;
         else if (input.rollDelta != 0)
             forwardMovementMultiplier = rollSpeedBoostMultiplier;
 
         // move only forward during warping
-        float forwardMovement = IsWarping() ? 1 : input.forwardMovement;
-        float verticalMovement = IsWarping() ? 0 : input.verticalMovement;
+        float forwardMovement = state == State.Warp ? 1 : input.forwardMovement;
+        float verticalMovement = state == State.Warp ? 0 : input.verticalMovement;
 
         Move(MovementSpeed, 
             forwardMovement, 
@@ -87,31 +110,24 @@ public class PlayerController : SpaceshipController
 
     private void HandleRotation()
     {
-        float rotationMultiplier = warpCharging ? warpChargeRotationSpeedMultiplier : 1;
-        
-        if (!IsWarping() || warpCharging)
-            Rotate(transform.right * (input.pitchDelta * save.saveData.sensitivity), 
-                transform.up * (input.yawDelta * save.saveData.sensitivity), 
-                transform.forward * input.rollDelta,
-                rotationMultiplier);
+        float rotationMultiplier = state == State.WarpCharging ? warpChargeRotationSpeedMultiplier : 1;
+
+        Rotate(transform.right * (input.pitchDelta * save.saveData.sensitivity),
+            transform.up * (input.yawDelta * save.saveData.sensitivity),
+            transform.forward * input.rollDelta,
+            rotationMultiplier);
     }
 
     private void WarpStart()
     {
-        if (game.gamePaused)
-            return;
-        
-        canWarp = true;
-        
-        if (!warpRoutine)
+        if (!game.gamePaused && state != State.WarpCharging)
             warpCoroutine = StartCoroutine(WarpRoutine());
     }
 
-    private bool warpRoutine;
     private Coroutine warpCoroutine;
     private IEnumerator WarpRoutine()
     {
-        warpRoutine = warpCharging = true;
+        state = State.WarpCharging;
         game.popupListHandler.ShowPopup(game.popupListHandler.popup_ChargingWarp, true);
         
         warpChargeSFX.Play();
@@ -120,16 +136,18 @@ public class PlayerController : SpaceshipController
         currentWarpSpeedMultiplier = warpSpeedBoostMultiplier;
         
         game.popupListHandler.ShowPopup(game.popupListHandler.popup_ChargingWarp, false);
-        warpRoutine = warpCharging = false;
+        state = State.Warp;
+        
+        OnWarpStart?.Invoke();
     }
-
-    private bool IsWarping() => input.isWarping && canWarp;
 
     private void OnCollisionEnter(Collision collision)
     {
         float collisionMagnitude = collision.relativeVelocity.magnitude;
 
-        if (!warpCharging && collisionMagnitude >= warpCancelCollisionMagnitudeThreshold)
-            canWarp = false;
+        if (state != State.WarpCharging && collisionMagnitude >= warpCancelCollisionMagnitudeThreshold)
+        {
+            StopWarp();
+        }
     }
 }

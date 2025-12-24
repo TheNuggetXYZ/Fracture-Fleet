@@ -1,0 +1,224 @@
+using System;
+using System.Collections;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Audio;
+using Random = UnityEngine.Random;
+
+// TODO: spaceship melting near sun
+
+public class GameManager : MonoBehaviour
+{
+    public static GameManager I {get; private set;}
+
+    [Header("Settings")]
+    [SerializeField] private bool unlimitedFPS = true;
+    [SerializeField] private int maxFPS = 60;
+    
+    [field: Header("References")]
+    [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
+    [field: SerializeField] public AudioMixer audioMixer {get; private set;}
+    [field: SerializeField] public AudioMixerGroup masterAudioMixerGroup {get; private set;}
+    [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
+    [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
+    [field: SerializeField] public AudioMixerGroup musicAudioMixerGroup {get; private set;}
+    [field: SerializeField] public UIPopupListHandler popupListHandler {get; private set;}
+    [field: SerializeField] public EnemyWaveManager waveManager {get; private set;}
+    [field: SerializeField] public Transform scrapParent {get; private set;}
+    
+    public InputSystem_Actions input {get; private set;}
+    public PlayerController player {get; private set;}
+    public WorldMenu worldMenu {get; private set;}
+
+    public Action OnGamePaused;
+    public Action OnGameUnpaused;
+    public Action OnPlayerDeath;
+    
+    public bool gamePaused {get; private set;}
+    
+    private void Awake()
+    {
+        if (I == null)
+            I = this;
+        else
+        {
+            Debug.LogError("More than one instance of GameManager");
+            Destroy(this);
+        }
+        
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        
+        player = FindAnyObjectByType<PlayerController>();
+        worldMenu = FindAnyObjectByType<WorldMenu>();
+        
+        input = new InputSystem_Actions();
+        input.Enable();
+        input.Player.Enable();
+        input.UI.Enable();
+        
+        player.gameObject.SetActive(false);
+        waveManager.enabled = false;
+    }
+
+    private void Update()
+    {
+        if (unlimitedFPS)
+            Application.targetFrameRate = -1;
+        else
+            Application.targetFrameRate = maxFPS;
+    }
+
+    private void OnDestroy()
+    {
+        input.Disable();
+        input.Player.Disable();
+        input.UI.Disable();
+        input.Dispose();
+        I = null;
+    }
+
+    public void StartGame()
+    {
+        player.gameObject.SetActive(true);
+        waveManager.enabled = true;
+        worldMenu.EnableObjectEnabling();
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0;
+        gamePaused = true;
+        OnGamePaused?.Invoke();
+    }
+
+    public void UnpauseGame()
+    {
+        Time.timeScale = 1;
+        gamePaused = false;
+        OnGameUnpaused?.Invoke();
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Quitting game...");
+        Application.Quit();
+    }
+
+    public void PlayerDied()
+    {
+        OnPlayerDeath?.Invoke();
+    }
+}
+
+public static class Utils
+{
+    // TODO: add class that has a current value and a max value, useful for e.g. health (no need for two variable)
+    
+    [System.Serializable]
+    public class Timer
+    {
+        private float time;
+        private float counter;
+        private bool returnedIsDoneOnce;
+
+        public float Counter => counter;
+
+        public Timer(float time)
+        {
+            this.time = time;
+            Reset();
+        }
+
+        public void Reset(float newTime = -1f)
+        {
+            counter = newTime == -1f ? time : newTime;
+            returnedIsDoneOnce = false;
+        }
+
+        public bool IsDoneOnce()
+        {
+            if (!returnedIsDoneOnce && IsDone())
+            {
+                returnedIsDoneOnce = true;
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool IsDone() => counter <= 0;
+        
+        public void Decrement() => counter -= Time.deltaTime;
+    }
+
+    public static Vector3 ResizeVector(Vector3 vectorToResize, float magnitude)
+    {
+        return vectorToResize.normalized * magnitude;
+    }
+    
+    public static Vector3 ExtendVector(Vector3 vectorToExtend, float addedMagnitude)
+    {
+        return vectorToExtend.normalized * (vectorToExtend.magnitude + addedMagnitude);
+    }
+
+    public static bool RandomEventInTime(float ratePerMinute)
+    {
+        return UnityEngine.Random.value < ratePerMinute / 60 * Time.deltaTime;
+    }
+
+    public static bool IsNull<T>(T obj)
+    {
+        return obj == null || obj.Equals(null);
+    }
+
+    public static bool RandomBool()
+    {
+        return UnityEngine.Random.value < 0.5f;
+    }
+
+    public static Vector3 RandomPointInSphere(Vector3 sphereCenter, float radius)
+    {
+        Vector3 randomPointInCube = RandomPointInCube(sphereCenter, radius*2);
+
+        if (Vector3.Distance(randomPointInCube, sphereCenter) < radius)
+            return randomPointInCube;
+        
+        return RandomPointInSphere(sphereCenter, radius);
+    }
+    
+    public static Vector3 RandomPointInCube(Vector3 cubeCenter, float edge)
+    {
+        return cubeCenter + new Vector3(Random.Range(-edge/2, edge/2), Random.Range(-edge/2, edge/2), Random.Range(-edge/2, edge/2));
+    }
+
+    public enum TextTypingAnimationType
+    {
+        typing = 0,
+        deleting = 1,
+    }
+
+    public static IEnumerator TextTypingAnimation(TextMeshProUGUI uiText, string text, float characterCooldown, TextTypingAnimationType type)
+    {
+        if (type == TextTypingAnimationType.typing)
+        {
+            uiText.text = "";
+
+            for (int i = 1; i <= text.Length; i++)
+            {
+                uiText.text = text.Substring(0, i);
+                yield return new WaitForSeconds(characterCooldown);
+            }
+        }
+        else
+        {
+            uiText.text = text;
+
+            for (int i = text.Length - 1; i >= 0; i--)
+            {
+                uiText.text = text.Substring(0, i);
+                yield return new WaitForSeconds(characterCooldown);
+            }
+        }
+    }
+}
