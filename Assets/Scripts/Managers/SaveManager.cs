@@ -60,5 +60,8 @@ public class SaveManager : MonoBehaviour
         public float SFXVolume = 80;
         public float ambienceVolume = 80;
         public float musicVolume = 80;
+        public bool VSync = true;
+        public bool limitFPS = false;
+        public int maxFPS = 60;
     }
 }

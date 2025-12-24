@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,9 @@ public class Settings : MonoBehaviour
     [SerializeField] private Slider SFXSlider;
     [SerializeField] private Slider ambienceSlider;
     [SerializeField] private Slider musicSlider;
+    [SerializeField] private Toggle VSyncToggle;
+    [SerializeField] private Toggle limitFPSToggle;
+    [SerializeField] private TMP_InputField maxFPSInputField;
 
     GameManager game;
     SaveManager save;
@@ -45,6 +49,16 @@ public class Settings : MonoBehaviour
         game.audioMixer.SetFloat("SFXVolume", SliderToDecibel(SFXSlider));
         game.audioMixer.SetFloat("AmbienceVolume", SliderToDecibel(ambienceSlider));
         game.audioMixer.SetFloat("MusicVolume", SliderToDecibel(musicSlider));
+
+        if (VSyncToggle.isOn)
+            QualitySettings.vSyncCount = 1;
+        else
+            QualitySettings.vSyncCount = 0;
+
+        if (!limitFPSToggle.isOn)
+            Application.targetFrameRate = -1;
+        else if (int.TryParse(maxFPSInputField.text, out int maxFPS))
+            Application.targetFrameRate = maxFPS;
     }
 
     private float SliderToDecibel(Slider slider)
@@ -64,6 +78,9 @@ public class Settings : MonoBehaviour
         SFXSlider.value = save.saveData.SFXVolume;
         ambienceSlider.value = save.saveData.ambienceVolume;
         musicSlider.value = save.saveData.musicVolume;
+        VSyncToggle.isOn = save.saveData.VSync;
+        limitFPSToggle.isOn = save.saveData.limitFPS;
+        maxFPSInputField.text = save.saveData.maxFPS.ToString();
     }
 
     private void Save()
@@ -73,5 +90,9 @@ public class Settings : MonoBehaviour
         save.saveData.SFXVolume = SFXSlider.value;
         save.saveData.ambienceVolume = ambienceSlider.value;
         save.saveData.musicVolume = musicSlider.value;
+        save.saveData.VSync = VSyncToggle.isOn;
+        save.saveData.limitFPS = limitFPSToggle.isOn;
+        if (int.TryParse(maxFPSInputField.text, out int maxFPS))
+            save.saveData.maxFPS = maxFPS;
     }
 }
