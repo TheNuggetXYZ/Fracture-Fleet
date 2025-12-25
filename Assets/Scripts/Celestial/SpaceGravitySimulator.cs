@@ -43,7 +43,6 @@ public class SpaceGravitySimulator : MonoBehaviour
                 if (spaceObject != otherSpaceObject)
                     spaceObject.UpdateVelocity(otherSpaceObject);
             }
-            spaceObject.UpdatePosition();
 
             // SPACESHIPS
             foreach (SpaceshipGravity spaceship in spaceships)

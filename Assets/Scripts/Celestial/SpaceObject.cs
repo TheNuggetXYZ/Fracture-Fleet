@@ -9,17 +9,30 @@ public class SpaceObject : MonoBehaviour
     [SerializeField] protected float radius;
     [SerializeField] private float densityKgPerMeter;
     [SerializeField] private bool calculateMass;
+    
     [field: SerializeField] public Vector3 initialVelocity { get; protected set; }
     [field: SerializeField] public bool lockedPosition {get; private set;}
     [field: SerializeField] public bool isCelestialBody { get; private set; }
+
+    [SerializeField] public float initialRotationDegreesPerSec;
+    [SerializeField] public Vector3 upVectorOverride;
     
-    private Vector3 currentVelocity;
+    
+    //private Vector3 currentVelocity;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
 
-        currentVelocity = initialVelocity;
+        if (!lockedPosition)
+            rb.AddForce(initialVelocity, ForceMode.VelocityChange);
+
+        if (upVectorOverride == Vector3.zero)
+            upVectorOverride = transform.up;
+        
+        rb.sleepThreshold = 0;
+        
+        rb.AddTorque(upVectorOverride * initialRotationDegreesPerSec, ForceMode.Acceleration);
     }
     
     public void UpdateVelocity(SpaceObject otherObject)
@@ -33,12 +46,7 @@ public class SpaceObject : MonoBehaviour
         Vector3 force = forceDirection * (G * (mass * otherObject.mass / objectDistanceSqr));
         Vector3 acceleration = force / mass;
 
-        currentVelocity += acceleration * Time.fixedDeltaTime;
-    }
-
-    public void UpdatePosition()
-    {
-        rb.MovePosition(transform.position + currentVelocity * Time.fixedDeltaTime);
+        rb.AddForce(acceleration * Time.fixedDeltaTime, ForceMode.VelocityChange);
     }
 
     protected void OnValidate()
