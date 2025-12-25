@@ -49,7 +49,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -116,8 +116,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 72
-      minScalar: 48
+      scalar: 27
+      minScalar: 18
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -169,7 +169,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.008
+      scalar: 0.016
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -870,7 +870,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 5
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -4914,9 +4914,11 @@ MonoBehaviour:
   radius: 6
   densityKgPerMeter: 5500
   calculateMass: 1
-  <initialVelocity>k__BackingField: {x: -4.79, y: 0, z: 0}
+  <initialVelocity>k__BackingField: {x: 0, y: -17.484, z: 0}
   <lockedPosition>k__BackingField: 0
   <isCelestialBody>k__BackingField: 1
+  initialRotationDegreesPerSec: 0
+  upVectorOverride: {x: 0, y: 0, z: 0}
 --- !u!75 &5023756832199073445
 ConstantForce:
   m_ObjectHideFlags: 0
@@ -4978,7 +4980,7 @@ ParticleSystem:
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
   looping: 1
-  prewarm: 1
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -5045,8 +5047,8 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 48
-      minScalar: 36
+      scalar: 18
+      minScalar: 13.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5799,7 +5801,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 5
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -9838,7 +9840,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8466266192632994618}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 10f817be87d3feafd9661df771d38157, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

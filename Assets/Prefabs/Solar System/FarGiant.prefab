@@ -32,7 +32,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -370, y: 11.6, z: 1235}
-  m_LocalScale: {x: 200, y: 200, z: 200}
+  m_LocalScale: {x: 400, y: 400, z: 400}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -119,7 +119,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6939078554326532518}
   serializedVersion: 4
-  m_Mass: 12959070
+  m_Mass: 103672560
   m_Drag: 0
   m_AngularDrag: 0
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -151,11 +151,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 7530133182912373717}
-  <mass>k__BackingField: 12959070
-  radius: 100
+  <mass>k__BackingField: 103672560
+  radius: 200
   densityKgPerMeter: 5500
   calculateMass: 1
-  <initialVelocity>k__BackingField: {x: 2.51, y: 0.46, z: 0}
+  <initialVelocity>k__BackingField: {x: 9.579, y: 0.93, z: 0}
   <lockedPosition>k__BackingField: 0
   <isCelestialBody>k__BackingField: 1
   initialRotationDegreesPerSec: 2
