@@ -55,10 +55,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _ColorNoiseFreq: 5.2
-    - _Density: 3.98
-    - _DensityNoiseFreq: 3.34
-    - _DensityNoiseIntensity: 1.05
+    - _ColorNoiseFreq: 1
+    - _Density: 5
+    - _DensityNoiseFreq: 5
+    - _DensityNoiseIntensity: 1
     - _Fade: 0.1
     - _NoiseFreq: 8.23
     - _NoiseIntensity: 0.2
@@ -68,7 +68,7 @@ Material:
     - _SphereRadius: 400
     - _density: 0.005
     m_Colors:
-    - _Color: {r: 0.28412902, g: 0.28412902, b: 1, a: 1}
+    - _Color: {r: 0.19284117, g: 0.30257756, b: 1, a: 1}
     - _SecondaryColor: {r: 0.28627455, g: 0.3101297, b: 1, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
