@@ -13,14 +13,10 @@ public class GameManager : MonoBehaviour
 
     [field: Header("References")]
     [field: SerializeField] public PrefabAtlas prefabs {get; private set;}
-    [field: SerializeField] public AudioMixer audioMixer {get; private set;}
-    [field: SerializeField] public AudioMixerGroup masterAudioMixerGroup {get; private set;}
-    [field: SerializeField] public AudioMixerGroup SFXAudioMixerGroup {get; private set;}
-    [field: SerializeField] public AudioMixerGroup ambienceAudioMixerGroup {get; private set;}
-    [field: SerializeField] public AudioMixerGroup musicAudioMixerGroup {get; private set;}
     [field: SerializeField] public UIPopupListHandler popupListHandler {get; private set;}
     [field: SerializeField] public EnemyWaveManager waveManager {get; private set;}
     [field: SerializeField] public HierarchyManager hierarchyManager {get; private set;}
+    [field: SerializeField] public new AudioManager audio {get; private set;}
     
     public InputSystem_Actions input {get; private set;}
     public PlayerController player {get; private set;}

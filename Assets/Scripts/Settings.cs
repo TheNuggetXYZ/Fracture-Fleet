@@ -45,10 +45,10 @@ public class Settings : MonoBehaviour
 
     private void Update()
     {
-        game.audioMixer.SetFloat("MasterVolume", SliderToDecibel(masterSlider));
-        game.audioMixer.SetFloat("SFXVolume", SliderToDecibel(SFXSlider));
-        game.audioMixer.SetFloat("AmbienceVolume", SliderToDecibel(ambienceSlider));
-        game.audioMixer.SetFloat("MusicVolume", SliderToDecibel(musicSlider));
+        game.audio.audioMixer.SetFloat("MasterVolume", SliderToDecibel(masterSlider));
+        game.audio.audioMixer.SetFloat("SFXVolume", SliderToDecibel(SFXSlider));
+        game.audio.audioMixer.SetFloat("AmbienceVolume", SliderToDecibel(ambienceSlider));
+        game.audio.audioMixer.SetFloat("MusicVolume", SliderToDecibel(musicSlider));
 
         if (VSyncToggle.isOn)
             QualitySettings.vSyncCount = 1;
