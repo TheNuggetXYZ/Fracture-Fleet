@@ -134,6 +134,6 @@ public class EnemyWaveManager : MonoBehaviour
     private void SpawnEnemy(Transform prefab, Vector3 pos)
     {
         Transform enemy = Instantiate(prefab, pos, Quaternion.identity);
-        
+        enemy.parent = game.hierarchyManager.folder_enemies;
     }
 }
