@@ -15,6 +15,8 @@ public class SpaceshipPart : MonoBehaviour
     [SerializeField] private float onKillModifierValue;
     
     [SerializeField] private SpaceshipPart partToAlsoKill;
+
+    private const int SCRAP_LAYER = 8;
     
     private Transform mainPart => _mainPart ? _mainPart : transform;
     public Collider PartCollider => partCollider;
@@ -40,6 +42,7 @@ public class SpaceshipPart : MonoBehaviour
     private Vector3 localOriginalPosition;
     private Quaternion originalLocalRotation;
     private Transform originalParent;
+    private int originalLayer;
     
     GameManager game;
 
@@ -64,6 +67,9 @@ public class SpaceshipPart : MonoBehaviour
         originalParent = mainPart.parent;
         localOriginalPosition = mainPart.localPosition;
         originalLocalRotation = mainPart.localRotation;
+        originalLayer = mainPart.gameObject.layer;
+
+        mainPart.gameObject.layer = SCRAP_LAYER;
 
         if (!addedRb)
         {
@@ -77,7 +83,9 @@ public class SpaceshipPart : MonoBehaviour
         if (partCollider)
         {
             originalIsTrigger = partCollider.isTrigger;
+            
             partCollider.isTrigger = false; // make sure it now has collisions if it didn't previously
+            partCollider.gameObject.layer = SCRAP_LAYER;
         }
         
         ObjectPoolManager.SpawnObject(game.prefabs.partLostSFX, mainPart.position);
@@ -106,16 +114,21 @@ public class SpaceshipPart : MonoBehaviour
         isKilled = false;
 
         mainPart.parent = originalParent;
+        mainPart.gameObject.layer = originalLayer;
         
         if (setPosition)
             mainPart.localPosition = localOriginalPosition;
         
         mainPart.localRotation = originalLocalRotation;
+        
 
         RemoveRigidbody();
         
         if (partCollider)
+        {
             partCollider.isTrigger = originalIsTrigger;
+            partCollider.gameObject.layer = originalLayer;
+        }
         
         killedParts.Clear();
     }

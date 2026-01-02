@@ -15,6 +15,7 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
     public float verticalMovement {get; private set;} 
     public bool isShooting {get; private set;}
     public bool isWarping {get; private set;}
+    public bool isAttractingScrap {get; private set;}
     public Action onWarp;
 
     GameManager game;
@@ -38,6 +39,8 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
         inputActions.Player.Attack.canceled += OnShoot;
         inputActions.Player.Jump.performed += OnWarp;
         inputActions.Player.Jump.canceled += OnWarp;
+        inputActions.Player.Interact.performed += OnScrapGrab;
+        inputActions.Player.Interact.canceled += OnScrapGrab;
     }
 
     private void OnDisable()
@@ -52,6 +55,13 @@ public class PlayerInputHandler : MonoBehaviour, IShootInput
         inputActions.Player.Attack.canceled -= OnShoot;
         inputActions.Player.Jump.performed -= OnWarp;
         inputActions.Player.Jump.canceled -= OnWarp;
+        inputActions.Player.Interact.performed -= OnScrapGrab;
+        inputActions.Player.Interact.canceled -= OnScrapGrab;
+    }
+
+    private void OnScrapGrab(InputAction.CallbackContext context)
+    {
+        isAttractingScrap = !context.canceled;
     }
 
     private void OnWarp(InputAction.CallbackContext context)

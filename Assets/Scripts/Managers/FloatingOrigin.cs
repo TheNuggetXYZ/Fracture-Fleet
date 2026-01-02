@@ -29,7 +29,7 @@ public class FloatingOrigin : MonoBehaviour
         
         // Shift world
         MoveObjects(movables, positionOffset);
-        MoveObjects(ObjectPoolManager.GetPoolParents(), positionOffset);
+        MoveObjects(ObjectPoolManager.GetPoolParents(), positionOffset); // ERRORS AFTER DYING AND SCENE RELOAD
         MoveObjects(cameraMovables, positionOffset);
         
         // Move player back

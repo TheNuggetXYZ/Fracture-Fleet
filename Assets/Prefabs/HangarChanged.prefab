@@ -2643,6 +2643,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8001573464271432647}
     m_Modifications:
+    - target: {fileID: 655769251019662333, guid: b2d8411a69bed23b695dba86ff1658cc, type: 3}
+      propertyPath: m_ExcludeLayers.m_Bits
+      value: 264
+      objectReference: {fileID: 0}
+    - target: {fileID: 655769251019662333, guid: b2d8411a69bed23b695dba86ff1658cc, type: 3}
+      propertyPath: m_IncludeLayers.m_Bits
+      value: 247
+      objectReference: {fileID: 0}
     - target: {fileID: 6985416247761013109, guid: b2d8411a69bed23b695dba86ff1658cc, type: 3}
       propertyPath: m_Name
       value: HangarDoor
