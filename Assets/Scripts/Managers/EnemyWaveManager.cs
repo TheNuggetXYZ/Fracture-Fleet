@@ -72,17 +72,17 @@ public class EnemyWaveManager : MonoBehaviour
 
             for (int i = 0; i < enemy1Amount; i++)
             {
-                Instantiate(enemy1, spawnPoints[i], Quaternion.identity);
+                SpawnEnemy(enemy1, spawnPoints[i]);
             }
             
             for (int i = 0; i < enemy2Amount; i++)
             {
-                Instantiate(enemy2, spawnPoints[enemy1Amount + i], Quaternion.identity);
+                SpawnEnemy(enemy2, spawnPoints[enemy1Amount + i]);
             }
             
             for (int i = 0; i < enemy3Amount; i++)
             {
-                Instantiate(enemy3, spawnPoints[enemy1Amount + enemy2Amount + i], Quaternion.identity);
+                SpawnEnemy(enemy3, spawnPoints[enemy1Amount + enemy2Amount + i]);
             }
         }
         else
@@ -92,19 +92,19 @@ public class EnemyWaveManager : MonoBehaviour
             for (int i = 0; i < enemy1Amount; i++)
             {
                 spawnPoint += enemySpawnOffset;
-                Instantiate(enemy1, spawnPoint, Quaternion.identity);
+                SpawnEnemy(enemy1, spawnPoint);
             }
             
             for (int i = 0; i < enemy2Amount; i++)
             {
                 spawnPoint += enemySpawnOffset;
-                Instantiate(enemy2, spawnPoint, Quaternion.identity);
+                SpawnEnemy(enemy2, spawnPoint);
             }
             
             for (int i = 0; i < enemy3Amount; i++)
             {
                 spawnPoint += enemySpawnOffset;
-                Instantiate(enemy3, spawnPoint, Quaternion.identity);
+                SpawnEnemy(enemy3, spawnPoint);
             }
         }
     }
@@ -129,5 +129,11 @@ public class EnemyWaveManager : MonoBehaviour
         {
             newWaveTimer.Reset(waves[currentWave].cooldown);
         }
+    }
+
+    private void SpawnEnemy(Transform prefab, Vector3 pos)
+    {
+        Transform enemy = Instantiate(prefab, pos, Quaternion.identity);
+        
     }
 }

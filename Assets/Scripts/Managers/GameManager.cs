@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public AudioMixerGroup musicAudioMixerGroup {get; private set;}
     [field: SerializeField] public UIPopupListHandler popupListHandler {get; private set;}
     [field: SerializeField] public EnemyWaveManager waveManager {get; private set;}
-    [field: SerializeField] public Transform scrapParent {get; private set;}
+    [field: SerializeField] public HierarchyManager hierarchyManager {get; private set;}
     
     public InputSystem_Actions input {get; private set;}
     public PlayerController player {get; private set;}

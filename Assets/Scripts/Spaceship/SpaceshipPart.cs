@@ -71,7 +71,7 @@ public class SpaceshipPart : MonoBehaviour
             addedRb.linearVelocity = velocity;
             addedRb.useGravity = false;
             addedRb.mass = partMass;
-            addedRb.transform.parent = game.scrapParent;
+            addedRb.transform.parent = game.hierarchyManager.folder_scrap;
         }
         
         if (partCollider)
