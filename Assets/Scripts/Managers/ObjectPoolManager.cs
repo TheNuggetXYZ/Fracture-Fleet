@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Unity.VisualScripting;
 using UnityEngine.Audio;
@@ -66,6 +67,20 @@ public class ObjectPoolManager : MonoBehaviour
 
             pool.inactiveObjects.Add(obj.GetComponent(pool.component));
         }
+    }
+
+    public static Transform[] GetPoolParents()
+    {
+        Transform[] parents = new Transform[objectPools.Values.Count];
+
+        int i = 0;
+        foreach (var pool in objectPools.Values)
+        {
+            parents[i] = pool.poolParent;
+            i++;
+        }
+
+        return parents;
     }
 }
 

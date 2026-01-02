@@ -26,10 +26,6 @@ public class AIBrain : MonoBehaviour, IShootInput
     [SerializeField] private float stopShootingRatePerMinute = 10;
     
     [Header("Zooming")]
-    [SerializeField, Tooltip("Controls how much the AI will zoom diagonally instead of straight to the target")]
-    private float zoomOffsetFromPlayerPerPlayerDistance = 0.3f;
-    [SerializeField, Tooltip("How much it zooms past the target")] 
-    private float zoomExtendedDistance = 120;
     [SerializeField, Tooltip("How close the zoom target position has to be for the AI to stop zooming")] 
     private float zoomTargetStateExitDistance = 20;
     [SerializeField, Tooltip("The AI will not zoom inside when the distance to player is inside this range, but it must zoom when outside.")]
@@ -40,7 +36,6 @@ public class AIBrain : MonoBehaviour, IShootInput
     
     
     [Header("Output")] 
-    public Action AfterBrainUpdate;
     public Quaternion targetRotation { get; private set; }
     public int speedTier { get; private set; }
     public AIState currentState { get; private set; }
@@ -82,7 +77,6 @@ public class AIBrain : MonoBehaviour, IShootInput
         CalculateRotation(targetPosition, upVector, repelVector);
         CalculateMovement();
         
-        AfterBrainUpdate?.Invoke();
         targetPosForGizmos = targetPosition;
     }
 

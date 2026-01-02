@@ -138,6 +138,7 @@ Shader "Custom/GasGiant"
 
                 // clamp, clamp to depth
                 entry = max(entry, 0);
+                entry = min(entry, distanceToDepth);
                 exit = min(exit, distanceToDepth);
                 
                 float3 entryPos = rayOrigin + rayDirection * entry;
