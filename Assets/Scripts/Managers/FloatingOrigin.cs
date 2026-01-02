@@ -4,51 +4,39 @@ using UnityEngine;
 
 public class FloatingOrigin : MonoBehaviour
 {
-    [SerializeField] private Transform[] movables;
-    [SerializeField] private CinemachineCamera[] cameraMovables;
+    [SerializeField] private Transform origin;
+    [SerializeField] private Transform hangar;
 
     private Vector3 positionOffset;
-    
-    private void OnEnable()
-    {
-        CinemachineCore.CameraUpdatedEvent.AddListener(OnCameraUpdated);
-    }
 
-    private void OnDisable()
-    {
-        CinemachineCore.CameraUpdatedEvent.RemoveListener(OnCameraUpdated);
-    }
+    GameManager game;
 
-    private void OnCameraUpdated(CinemachineBrain brain)
+    private void Awake()
     {
+        game = GameManager.I;
     }
 
     private void LateUpdate()
     {
-        positionOffset = -transform.position;
+        OriginShift();
+    }
+
+    private void OriginShift()
+    {
+        positionOffset = -origin.position;
         
-        // Shift world
-        MoveObjects(movables, positionOffset);
-        MoveObjects(ObjectPoolManager.GetPoolParents(), positionOffset); // ERRORS AFTER DYING AND SCENE RELOAD
-        MoveObjects(cameraMovables, positionOffset);
+        hangar.position += positionOffset;
+        game.hierarchyManager.folder_enemies.position += positionOffset;
+        game.hierarchyManager.folder_scrap.position += positionOffset;
+        game.hierarchyManager.folder_solarSystem.position += positionOffset;
+        MoveObjects(game.hierarchyManager.GetOPMFolders(), positionOffset); // ERRORS AFTER DYING AND SCENE RELOAD
         
-        // Move player back
-        transform.position = Vector3.zero;
+        origin.position = Vector3.zero;
     }
 
     private void MoveObjects(Transform[] objects, Vector3 move)
     {
         foreach (var obj in objects)
             obj.position += move;
-    }
-
-    private void MoveObjects(CinemachineCamera[] cameras, Vector3 move)
-    {
-        foreach (var cam in cameras)
-        {
-            cam.OnTargetObjectWarped(transform, move);
-        }
-        /*foreach (var cam in cameras)
-            cam.ForceCameraPosition(cam.transform.position + move, cam.transform.rotation);*/
     }
 }
