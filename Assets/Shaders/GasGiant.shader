@@ -19,16 +19,17 @@ Shader "Custom/GasGiant"
     SubShader
     {
         Tags { "RenderType"="Transparent" "Queue"="Transparent" "RenderPipeline"="UniversalPipeline" }
-        Blend SrcAlpha OneMinusSrcAlpha
-        ZWrite Off
-        ZTest Always
-        Cull Front
         
         LOD 100
 
         Pass
         {
             Tags {"LightMode"="UniversalForward"}
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
+            ZTest Always
+            Cull Front
+            
             HLSLPROGRAM
 
             #pragma target 3.0

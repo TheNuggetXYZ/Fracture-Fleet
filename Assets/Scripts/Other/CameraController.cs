@@ -32,6 +32,6 @@ public class CameraController : MonoBehaviour
         noiseModule.FrequencyGain = noiseFrequencyAtMaxSpeed * player.speedFactor;
         
         cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, FOVRange.y, player.speedFactor);
-        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, WarpFOV, player.warpSpeedFactor);
+        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, WarpFOV, player.fullSpeedFactor);
     }
 }

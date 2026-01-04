@@ -7,8 +7,8 @@ public class FloatingOrigin : MonoBehaviour
     [SerializeField] private Transform origin;
     [SerializeField] private Transform hangar;
 
-    private Vector3 positionOffset;
-
+    public Vector3 totalPositionOffset {get; private set;}
+    
     GameManager game;
 
     private void Awake()
@@ -23,7 +23,8 @@ public class FloatingOrigin : MonoBehaviour
 
     private void OriginShift()
     {
-        positionOffset = -origin.position;
+        Vector3 positionOffset = -origin.position;
+        totalPositionOffset += positionOffset;
         
         hangar.position += positionOffset;
         game.hierarchyManager.folder_enemies.position += positionOffset;

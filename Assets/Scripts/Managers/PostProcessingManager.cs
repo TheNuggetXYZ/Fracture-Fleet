@@ -6,12 +6,19 @@ using UnityEngine.Rendering.Universal;
 public class PostProcessingManager : MonoBehaviour
 {
     [SerializeField] private Volume volume;
+
+    [Header("Warp visuals")]
+    [SerializeField] private float warpChromaticAberrationIntensity = .5f;
+    [SerializeField] private float warpLensDistortionIntensity = -.5f;
+    [SerializeField] private float warpVignetteIntensity = .5f;
+    private float originalChromaticAberrationIntensity;
+    private float originalLensDistortionIntensity;
+    private float originalVignetteIntensity;
     
     private ChromaticAberration chromaticAberration;
     private LensDistortion lensDistortion;
+    private Vignette vignette;
 
-    private float originalChromaticAberrationIntensity;
-    private float originalLensDistortionIntensity;
     
     GameManager game;
 
@@ -21,35 +28,22 @@ public class PostProcessingManager : MonoBehaviour
         
         volume.profile.TryGet(out chromaticAberration);
         volume.profile.TryGet(out lensDistortion);
+        volume.profile.TryGet(out vignette);
 
-        if (chromaticAberration)
-            originalChromaticAberrationIntensity = chromaticAberration.intensity.value;
-        
-        if (lensDistortion)
-            originalLensDistortionIntensity = lensDistortion.intensity.value;
+        originalChromaticAberrationIntensity = chromaticAberration.intensity.value;
+        originalLensDistortionIntensity = lensDistortion.intensity.value;
+        originalVignetteIntensity = vignette.intensity.value;
     }
 
-    private void OnEnable()
+    private void Update()
     {
-        game.player.OnWarpStart += SetWarpVisuals;
-        game.player.OnWarpEnd += UnsetWarpVisuals;
+        SetWarpVisuals(game.player.warpSpeedFactor);
     }
 
-    private void OnDisable()
+    private void SetWarpVisuals(float lerp)
     {
-        game.player.OnWarpStart -= SetWarpVisuals;
-        game.player.OnWarpEnd -= UnsetWarpVisuals;
-    }
-
-    private void SetWarpVisuals()
-    {
-        chromaticAberration.intensity.Override(0.5f);
-        lensDistortion.intensity.Override(-0.5f);
-    }
-    
-    private void UnsetWarpVisuals()
-    {
-        chromaticAberration.intensity.Override(originalChromaticAberrationIntensity);
-        lensDistortion.intensity.Override(originalLensDistortionIntensity);
+        chromaticAberration.intensity.Override(Mathf.Lerp(originalChromaticAberrationIntensity, warpChromaticAberrationIntensity, lerp));
+        lensDistortion.intensity.Override(Mathf.Lerp(originalLensDistortionIntensity, warpLensDistortionIntensity, lerp));
+        vignette.intensity.Override(Mathf.Lerp(originalVignetteIntensity, warpVignetteIntensity, lerp));
     }
 }

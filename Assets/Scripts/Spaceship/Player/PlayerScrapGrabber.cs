@@ -31,6 +31,9 @@ public class PlayerScrapGrabber : MonoBehaviour
         {
             float distance = Vector3.Distance(hit.transform.position, grabPoint.position);
             Vector3 inDirection = grabPoint.position - hit.transform.position;
+
+            if (!hit.attachedRigidbody)
+                return;
             
             if (distance <= stabilizeRadius)
             {

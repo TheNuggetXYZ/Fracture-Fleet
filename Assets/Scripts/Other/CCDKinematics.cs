@@ -8,7 +8,12 @@ public class CCDKinematics : MonoBehaviour
     [SerializeField, Tooltip("last joint")] private Transform effector;
     [SerializeField] private Transform goal;
 
+    public Vector3 originalGoalLocalPosition {get; private set;}
     public Vector3 originalGoalPosition {get; private set;}
+    public bool isBusy {get; private set;}
+    public Vector3 goalPosition => goal.position;
+
+    GameManager game;
 
     [System.Serializable]
     public struct Joint
@@ -25,6 +30,9 @@ public class CCDKinematics : MonoBehaviour
 
     private void Awake()
     {
+        game = GameManager.I;
+        
+        originalGoalLocalPosition = goal.localPosition;
         originalGoalPosition = goal.position;
     }
 
@@ -51,26 +59,65 @@ public class CCDKinematics : MonoBehaviour
     {
         goal.position = position;
     }
+
+    public void MoveGoalPosition(Vector3 target, float speed)
+    {
+        goal.position = Vector3.MoveTowards(goal.position, target, speed * Time.deltaTime);
+    }
     
-    public void SetGoalPositionSmooth(Vector3 position, float time, Func<Vector3, float, int> action = null)
+    public void SetGoalPositionSmooth(Vector3 position, float time, Action<Vector3, float> action = null)
     {
         StopAllCoroutines();
         StartCoroutine(SmoothMove(position, time, action));
     }
-
-    private IEnumerator SmoothMove(Vector3 position, float time, Func<Vector3, float, int> action)
+    
+    /*public void SetGoalPositionSmooth(Transform _transform, float time, Func<Vector3, float, int> action = null)
     {
+        StopAllCoroutines();
+        StartCoroutine(SmoothMove(_transform, time, action));
+    }*/
+
+    private IEnumerator SmoothMove(Vector3 targetPosition, float time, Action<Vector3, float> action)
+    {
+        isBusy = true;
+        
         float timer = 0;
         Vector3 start = goal.position;
+        Vector3 lastPosition = start;
 
         while (timer < time)
         {
             timer += Time.deltaTime;
             
-            goal.position = Vector3.Lerp(start, position, timer / time);
-            action?.Invoke(goal.position, timer / time);
+            goal.position = Vector3.Lerp(start, targetPosition, timer / time);
+            action?.Invoke(goal.position - lastPosition, timer / time);
+            lastPosition = goal.position;
             
             yield return null;
         }
+        
+        isBusy = false;
     }
+    
+    /*private IEnumerator SmoothMove(Transform targetTransform, float time, Func<Vector3, float, int> action)
+    {
+        isBusy = true;
+        
+        float timer = 0;
+        Vector3 start = goal.position;
+        Vector3 lastPosition = start;
+
+        while (timer < time)
+        {
+            timer += Time.deltaTime;
+            
+            goal.position = Vector3.Lerp(start, targetTransform.position, timer / time);
+            action?.Invoke(goal.position - lastPosition, timer / time);
+            lastPosition = goal.position;
+            
+            yield return null;
+        }
+        
+        isBusy = false;
+    }*/
 }

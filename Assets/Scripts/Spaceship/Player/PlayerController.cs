@@ -14,6 +14,7 @@ public class PlayerController : SpaceshipController
     [SerializeField] private float warpChargeRotationSpeedMultiplier = 0.2f;
     [SerializeField] private AudioSource warpChargeSFX;
     
+    public float fullSpeedFactor {get; private set;}
     public float warpSpeedFactor {get; private set;}
 
     private State state;
@@ -58,7 +59,8 @@ public class PlayerController : SpaceshipController
     {
         base.Update();
         
-        warpSpeedFactor = Mathf.InverseLerp(0, MovementSpeed * warpSpeedBoostMultiplier, velocity);
+        fullSpeedFactor = Mathf.InverseLerp(0, MovementSpeed * warpSpeedBoostMultiplier, velocity);
+        warpSpeedFactor = Mathf.InverseLerp(MovementSpeed, MovementSpeed * warpSpeedBoostMultiplier, velocity);
         
         game.popupListHandler.ShowPopup(game.popupListHandler.popup_Warping, state == State.Warp);
         game.popupListHandler.ShowPopup(game.popupListHandler.warning_HighGravity, gravity.totalGravity.magnitude > MovementSpeed);

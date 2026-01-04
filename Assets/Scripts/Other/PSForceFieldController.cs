@@ -11,9 +11,9 @@ public class PSForceFieldController : MonoBehaviour
     private void Update()
     {
         ParticleSystem.MinMaxCurve newStrengthValue = particleSystemForceField.gravity;
-        newStrengthValue.constant = Mathf.Lerp(forceFieldStrengthRange.x, forceFieldStrengthRange.y, playerController.warpSpeedFactor);
+        newStrengthValue.constant = Mathf.Lerp(forceFieldStrengthRange.x, forceFieldStrengthRange.y, playerController.fullSpeedFactor);
         particleSystemForceField.gravity = newStrengthValue;
         
-        particleSystemForceField.endRange = Mathf.Lerp(forceFieldSizeRange.x, forceFieldSizeRange.y, playerController.warpSpeedFactor);
+        particleSystemForceField.endRange = Mathf.Lerp(forceFieldSizeRange.x, forceFieldSizeRange.y, playerController.fullSpeedFactor);
     }
 }
