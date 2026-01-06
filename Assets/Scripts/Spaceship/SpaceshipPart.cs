@@ -18,7 +18,7 @@ public class SpaceshipPart : MonoBehaviour
 
     private const int SCRAP_LAYER = 8;
     
-    private Transform mainPart => _mainPart ? _mainPart : transform;
+    private Transform mainPart => !_mainPart.Equals(null) || _mainPart != null ? _mainPart : transform;
     public Collider PartCollider => partCollider;
     public int PartHealth => partHealth;
     public bool IsUnkillable => unkillable;

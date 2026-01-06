@@ -65,10 +65,12 @@ public class CCDKinematics : MonoBehaviour
         goal.position = Vector3.MoveTowards(goal.position, target, speed * Time.deltaTime);
     }
     
-    public void SetGoalPositionSmooth(Vector3 position, float time, Action<Vector3, float> action = null)
+    public float SetGoalPositionSmooth(Vector3 position, float moveSpeed, Action<Vector3, float> action = null)
     {
+        float time = Vector3.Distance(goal.position, position) / moveSpeed;
         StopAllCoroutines();
         StartCoroutine(SmoothMove(position, time, action));
+        return time;
     }
     
     /*public void SetGoalPositionSmooth(Transform _transform, float time, Func<Vector3, float, int> action = null)

@@ -8,7 +8,7 @@ public class RepairStation : MonoBehaviour
     [SerializeField] private CCDKinematics armKinematics;
     [SerializeField] private SpaceshipPartManager player;
     [SerializeField] private Transform partSpawnPlace;
-    [SerializeField] private float partMoveSpeed = 5;
+    [SerializeField] private float moveSpeed = 5;
     [SerializeField] private float triggerUIPopupDistance = 10;
     [SerializeField] private float repairDistance = 10;
     [SerializeField] private Vector3 playerTargetRotation;
@@ -58,19 +58,25 @@ public class RepairStation : MonoBehaviour
         isRepairing = true;
         
         player.spaceshipController.Lock();
-        yield return ArmSmoothMove(player.transform.position, 0.5f);
+        yield return ArmSmoothMove(player.transform.position, moveSpeed * 2);
         PlayerGrabSFX?.Play();
         PlayerMoveSFX?.Play();
         
         // Move the player and the arm closer and rotate player
         Quaternion playerOGRotation = player.transform.rotation;
         Quaternion playerTargetRotationQ = Quaternion.Euler(playerTargetRotation);
-        yield return ArmSmoothMove(game.ToActualPosition(armKinematics.originalGoalPosition), 2f, (Vector3 posDelta, float i) => { player.transform.position += posDelta;
+        yield return ArmSmoothMove(game.ToActualPosition(armKinematics.originalGoalPosition), moveSpeed * 0.5f, (Vector3 posDelta, float i) => { player.transform.position += posDelta;
             player.transform.rotation = Quaternion.Lerp(playerOGRotation, playerTargetRotationQ, i); });
         
         foreach (var p in fetchedKilledParts)
         {
-            yield return ArmSmoothMove(partSpawnPlace.position, 0.5f);
+            if (!p)
+                continue;
+
+            if (!p.gameObject.activeInHierarchy)
+                p.gameObject.SetActive(true);
+            
+            yield return ArmSmoothMove(partSpawnPlace.position, moveSpeed * 2);
             PartGrabSFX?.Play();
             
             // Spawn part in an immovable state at partSpawnPlace
@@ -92,7 +98,7 @@ public class RepairStation : MonoBehaviour
                 
                 distance = Vector3.Distance(partTargetPosition, partPosition);
                 
-                partPosition += Vector3.ClampMagnitude(partMoveDirection * (partMoveSpeed * Time.deltaTime), distance);
+                partPosition += Vector3.ClampMagnitude(partMoveDirection * (moveSpeed * Time.deltaTime), distance);
                 p.SetPosition(partPosition);
                 armKinematics.SetGoalPosition(partPosition);
                 
@@ -112,9 +118,8 @@ public class RepairStation : MonoBehaviour
         isRepairing = false;
     }
 
-    private WaitForSeconds ArmSmoothMove(Vector3 position, float time, Action<Vector3, float> action = null)
+    private WaitForSeconds ArmSmoothMove(Vector3 position, float speed, Action<Vector3, float> action = null)
     {
-        armKinematics.SetGoalPositionSmooth(position, time, action);
-        return new WaitForSeconds(time);
+        return new WaitForSeconds(armKinematics.SetGoalPositionSmooth(position, speed, action));
     }
 }

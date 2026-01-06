@@ -29,22 +29,22 @@ public class ScrapStation : MonoBehaviour
 
         armKinematics.MoveGoalPosition(part.transform.position, moveSpeed);
 
-        if (!currentScrapPart && Vector3.Distance(part.transform.position, armKinematics.goalPosition) <= reachDistance)
+        if (!currentScrapPart && Vector3.Distance(part.transform.position, armKinematics.goalPosition) <= grabDistance)
         {
             currentScrapPart = part;
             currentScrapPart.RemoveRigidbody();
             currentScrapPart.TurnOffCollisions();
 
-            float time = 1;
-            armKinematics.SetGoalPositionSmooth(scrapStoringPlace.position, time,
+            float time = armKinematics.SetGoalPositionSmooth(scrapStoringPlace.position, moveSpeed,
                 (deltaPos, i) => { currentScrapPart.transform.position += deltaPos;});
-            Invoke(nameof(DestroyCurrentScrapPart), time);
+            
+            Invoke(nameof(HideCurrentScrapPart), time);
         }
     }
 
-    private void DestroyCurrentScrapPart()
+    private void HideCurrentScrapPart()
     {
-        Destroy(currentScrapPart.gameObject);
+        currentScrapPart.gameObject.SetActive(false);
         currentScrapPart = null;
     }
 
