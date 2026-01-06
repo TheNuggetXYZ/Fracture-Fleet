@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SpaceshipPart : MonoBehaviour
 {
+    [field: SerializeField] public int ID { get; private set; }
     [SerializeField] private bool unkillable;
     
     [SerializeField] private Transform _mainPart;

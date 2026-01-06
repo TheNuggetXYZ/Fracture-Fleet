@@ -69,8 +69,6 @@ MonoBehaviour:
   differenceInDirectionThatAllowsShooting: 0.85
   startShootingRatePerMinute: 1
   stopShootingRatePerMinute: 0
-  zoomOffsetFromPlayerPerPlayerDistance: 0.3
-  zoomExtendedDistance: 200
   zoomTargetStateExitDistance: 20
   noZoomDistanceRange: {x: 30, y: 100}
   followDistance: 70
@@ -1537,7 +1535,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1040203764306136, guid: b90e0b5ced473594d8b3775f20a2aed1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 517554143463576327}
   m_SourcePrefab: {fileID: 100100000, guid: b90e0b5ced473594d8b3775f20a2aed1, type: 3}
 --- !u!114 &709464316928773309 stripped
 MonoBehaviour:
@@ -1572,6 +1573,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2054042332029552348 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1040203764306136, guid: b90e0b5ced473594d8b3775f20a2aed1, type: 3}
+  m_PrefabInstance: {fileID: 2054449094618846724}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &517554143463576327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2054042332029552348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf7ae485e931dfae8b3eeecd2cba568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipModels: {fileID: 11400000, guid: 0e6dc912fb1bdba6c9bc5f54964dfc93, type: 2}
+  mainShipTransform: {fileID: 2902718526956466851}
+  modelNumber: 1
+  scan: 0
 --- !u!4 &2057160074818598902 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4044696805220850, guid: b90e0b5ced473594d8b3775f20a2aed1, type: 3}

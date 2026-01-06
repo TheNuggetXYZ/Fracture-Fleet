@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 950404385683837438}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 20.228668, y: -7.3944364, z: 196.22847}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -69,8 +69,6 @@ MonoBehaviour:
   differenceInDirectionThatAllowsShooting: 0.95
   startShootingRatePerMinute: 30
   stopShootingRatePerMinute: 10
-  zoomOffsetFromPlayerPerPlayerDistance: 0.2
-  zoomExtendedDistance: 90
   zoomTargetStateExitDistance: 20
   noZoomDistanceRange: {x: 20, y: 90}
   followDistance: 60
@@ -1431,7 +1429,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5376501628273953719, guid: ded92bffdbffb794aa3304b5cf0497df, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7325683031512350015}
   m_SourcePrefab: {fileID: 100100000, guid: ded92bffdbffb794aa3304b5cf0497df, type: 3}
 --- !u!114 &1763553873766562536 stripped
 MonoBehaviour:
@@ -1537,6 +1538,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &5333977480282507280 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5376501628273953719, guid: ded92bffdbffb794aa3304b5cf0497df, type: 3}
+  m_PrefabInstance: {fileID: 43685793037288359}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7325683031512350015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5333977480282507280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbf7ae485e931dfae8b3eeecd2cba568, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipModels: {fileID: 11400000, guid: 0e6dc912fb1bdba6c9bc5f54964dfc93, type: 2}
+  mainShipTransform: {fileID: 8672339183317336025}
+  modelNumber: 0
+  scan: 0
 --- !u!114 &6153157529048530033 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6196772581367693270, guid: ded92bffdbffb794aa3304b5cf0497df, type: 3}
