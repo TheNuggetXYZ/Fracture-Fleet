@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4676792747448785882}
   - component: {fileID: 4666557731490935422}
   - component: {fileID: 3947553626908302759}
+  - component: {fileID: -18341244826426621}
   m_Layer: 0
   m_Name: Wing6_Mirrored
   m_TagString: Untagged
@@ -100,13 +101,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainPart: {fileID: 0}
+  <prefabInfo>k__BackingField: {fileID: -18341244826426621}
+  unkillable: 0
+  _mainPart: {fileID: 0}
   partCollider: {fileID: 1252410692844062001}
   partHealth: 2
   partMass: 2
   onKillModifier: 1
   onKillModifierValue: 0.7
   partToAlsoKill: {fileID: 0}
+--- !u!114 &-18341244826426621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4653695765559838332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 0567badb0f604e7d9b6b288f4c508f11
 --- !u!1 &4654384971120440138
 GameObject:
   m_ObjectHideFlags: 0

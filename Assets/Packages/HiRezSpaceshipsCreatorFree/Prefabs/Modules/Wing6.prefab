@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 33770750384065834}
   - component: {fileID: 23157777922827406}
   - component: {fileID: 1182668772491201378}
+  - component: {fileID: -4859030686543169761}
   m_Layer: 0
   m_Name: Wing6
   m_TagString: Untagged
@@ -100,13 +101,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainPart: {fileID: 0}
+  <prefabInfo>k__BackingField: {fileID: -4859030686543169761}
+  unkillable: 0
+  _mainPart: {fileID: 0}
   partCollider: {fileID: 7698412565224430457}
   partHealth: 2
   partMass: 2
   onKillModifier: 1
   onKillModifierValue: 0.7
   partToAlsoKill: {fileID: 0}
+--- !u!114 &-4859030686543169761
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561084872953996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 9aefa8e675af7f5d69357d592dfade48
 --- !u!1 &1976993582343610
 GameObject:
   m_ObjectHideFlags: 0

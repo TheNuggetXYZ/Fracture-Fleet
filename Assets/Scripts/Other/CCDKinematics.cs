@@ -65,11 +65,11 @@ public class CCDKinematics : MonoBehaviour
         goal.position = Vector3.MoveTowards(goal.position, target, speed * Time.deltaTime);
     }
     
-    public float SetGoalPositionSmooth(Vector3 position, float moveSpeed, Action<Vector3, float> action = null)
+    public float SetGoalPositionSmooth(Vector3 position, float moveSpeed, Action<Vector3, float> action = null, Action endAction = null)
     {
         float time = Vector3.Distance(goal.position, position) / moveSpeed;
         StopAllCoroutines();
-        StartCoroutine(SmoothMove(position, time, action));
+        StartCoroutine(SmoothMove(position, time, action, endAction));
         return time;
     }
     
@@ -79,7 +79,7 @@ public class CCDKinematics : MonoBehaviour
         StartCoroutine(SmoothMove(_transform, time, action));
     }*/
 
-    private IEnumerator SmoothMove(Vector3 targetPosition, float time, Action<Vector3, float> action)
+    private IEnumerator SmoothMove(Vector3 targetPosition, float time, Action<Vector3, float> action, Action endAction)
     {
         isBusy = true;
         
@@ -90,13 +90,16 @@ public class CCDKinematics : MonoBehaviour
         while (timer < time)
         {
             timer += Time.deltaTime;
-            
-            goal.position = Vector3.Lerp(start, targetPosition, timer / time);
-            action?.Invoke(goal.position - lastPosition, timer / time);
-            lastPosition = goal.position;
+            Vector3 simulatedPosition = Vector3.Lerp(start, targetPosition, timer / time); // not the real position, because it can change due to FloatingOrigin, it is only safe to work with the delta
+            Vector3 positionDelta = simulatedPosition - lastPosition;
+            goal.position += positionDelta;
+            action?.Invoke(positionDelta, timer / time);
+            lastPosition = simulatedPosition;
             
             yield return null;
         }
+        
+        endAction?.Invoke();
         
         isBusy = false;
     }

@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 4028344483187674}
   - component: {fileID: 33558944735833938}
   - component: {fileID: 23901265968651734}
+  - component: {fileID: -5840269544328699743}
   m_Layer: 0
   m_Name: Cockpit3_WithoutInterior
   m_TagString: Untagged
@@ -193,6 +194,19 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5840269544328699743
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533999086392894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 4124774faaa9759e6a0acdbebb1fcc70
 --- !u!1 &1789798917452718
 GameObject:
   m_ObjectHideFlags: 0

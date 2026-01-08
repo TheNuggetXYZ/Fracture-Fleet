@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ScrapStation : MonoBehaviour
@@ -11,7 +12,8 @@ public class ScrapStation : MonoBehaviour
     [SerializeField] private float reachDistance = 10;
     [SerializeField] private float grabDistance = 0.2f;
 
-    private List<SpaceshipPart> scrapParts = new();
+    private List<SpaceshipPart> foundScrapParts = new();
+    public List<SpaceshipPart> storedScrapParts { get; private set; } = new();
     
     private SpaceshipPart currentScrapPart;
 
@@ -20,31 +22,34 @@ public class ScrapStation : MonoBehaviour
         if (armKinematics.isBusy)
             return;
         
-        scrapParts = GetAllParts();
+        foundScrapParts = GetAllParts();
 
-        if (scrapParts.Count == 0)
+        if (foundScrapParts.Count == 0)
             return;
         
-        SpaceshipPart part = scrapParts[0];
+        SpaceshipPart part = foundScrapParts[0];
 
         armKinematics.MoveGoalPosition(part.transform.position, moveSpeed);
 
-        if (!currentScrapPart && Vector3.Distance(part.transform.position, armKinematics.goalPosition) <= grabDistance)
+        if (part && !currentScrapPart && Vector3.Distance(part.transform.position, armKinematics.goalPosition) <= grabDistance)
         {
             currentScrapPart = part;
             currentScrapPart.RemoveRigidbody();
             currentScrapPart.TurnOffCollisions();
 
-            float time = armKinematics.SetGoalPositionSmooth(scrapStoringPlace.position, moveSpeed,
-                (deltaPos, i) => { currentScrapPart.transform.position += deltaPos;});
-            
-            Invoke(nameof(HideCurrentScrapPart), time);
+            armKinematics.SetGoalPositionSmooth(scrapStoringPlace.position, moveSpeed,
+                (deltaPos, i) => { currentScrapPart.transform.position += deltaPos;}, StoreCurrentScrapPart);
         }
     }
 
-    private void HideCurrentScrapPart()
+    private void StoreCurrentScrapPart()
     {
         currentScrapPart.gameObject.SetActive(false);
+        
+        storedScrapParts.Add(currentScrapPart);
+        
+        Debug.Log("Stored part of type " + currentScrapPart.gameObject);
+        
         currentScrapPart = null;
     }
 
@@ -61,5 +66,19 @@ public class ScrapStation : MonoBehaviour
         }
         
         return list;
+    }
+
+    public void UnstoreScrapParts(List<SpaceshipPart> scrapPartsToUnstore)
+    {
+        foreach (SpaceshipPart part in storedScrapParts.ToList())
+        {
+            foreach (SpaceshipPart unstorePart in scrapPartsToUnstore)
+            {
+                if (part == unstorePart)
+                {
+                    storedScrapParts.Remove(unstorePart);
+                }
+            }
+        }
     }
 }

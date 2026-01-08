@@ -129,6 +129,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &595365913451292306
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1969530229228072301}
+  m_Layer: 0
+  m_Name: ShipBuildPlace
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1969530229228072301
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595365913451292306}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.085, z: -0.212}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3144672366959427228}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1392279776429358121
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +557,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3144672366959427228}
   - component: {fileID: 1220354473738252406}
+  - component: {fileID: 3672464565232356720}
+  - component: {fileID: 6336415722740975544}
   m_Layer: 0
   m_Name: RepairStation
   m_TagString: Untagged
@@ -552,6 +585,7 @@ Transform:
   - {fileID: 5400922740489425242}
   - {fileID: 1332665320150668982}
   - {fileID: 543332474449226116}
+  - {fileID: 1969530229228072301}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1220354473738252406
@@ -566,11 +600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0efab838f04d95eaf279f626faa3ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  armKinematics: {fileID: 1305848209780076244}
   player: {fileID: 0}
   partSpawnPlace: {fileID: 543332474449226116}
-  repairStationCenter: {fileID: 3144672366959427228}
-  armKinematics: {fileID: 1305848209780076244}
-  partMoveSpeed: 5
+  moveSpeed: 5
   triggerUIPopupDistance: 15
   repairDistance: 15
   playerTargetRotation: {x: 0, y: 0, z: 0}
@@ -578,6 +611,46 @@ MonoBehaviour:
   PlayerMoveSFX: {fileID: 2759083978446050573}
   PartGrabSFX: {fileID: 567965227656027793}
   PartPutSFX: {fileID: 4756175480672154597}
+--- !u!114 &3672464565232356720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363815289997750753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebafacf8e2173538996d9481bda9bd5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armKinematics: {fileID: 1305848209780076244}
+  scrapStoringPlace: {fileID: 543332474449226116}
+  scrapMask:
+    serializedVersion: 2
+    m_Bits: 256
+  moveSpeed: 5
+  reachDistance: 10
+  grabDistance: 0.2
+--- !u!114 &6336415722740975544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363815289997750753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee84858c4b5442c028d91b00fc3a5505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  armKinematics: {fileID: 1305848209780076244}
+  scrapStoringPlace: {fileID: 543332474449226116}
+  shipBuildPlace: {fileID: 1969530229228072301}
+  scrapStation: {fileID: 3672464565232356720}
+  shipModelsSO: {fileID: 11400000, guid: 0e6dc912fb1bdba6c9bc5f54964dfc93, type: 2}
+  moveSpeed: 5
+  tryBuildModel: 0
+  modelNumber: 0
 --- !u!1 &8235167112691386768
 GameObject:
   m_ObjectHideFlags: 0

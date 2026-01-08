@@ -151,6 +151,7 @@ GameObject:
   - component: {fileID: 8141232665934747230}
   - component: {fileID: 8132971327555779556}
   - component: {fileID: 5959467478154827416}
+  - component: {fileID: 3941472673668545639}
   m_Layer: 0
   m_Name: MainBody13_Mirrored
   m_TagString: Untagged
@@ -239,10 +240,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainPart: {fileID: 0}
+  <prefabInfo>k__BackingField: {fileID: 3941472673668545639}
+  unkillable: 0
+  _mainPart: {fileID: 0}
   partCollider: {fileID: 8098730326472386546}
   partHealth: 2
   partMass: 2
   onKillModifier: 2
   onKillModifierValue: 1.1
   partToAlsoKill: {fileID: 0}
+--- !u!114 &3941472673668545639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8109707735324806988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 5cbd57453b239bd4893bd85ef8768c85

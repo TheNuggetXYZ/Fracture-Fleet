@@ -14,6 +14,8 @@ public class ShipModelsSO : ScriptableObject
         {
             this.partModels = partModels;
         }
+        
+        public ShipPartModel[] PartModels => partModels;
     }
     
     [System.Serializable]
@@ -23,5 +25,6 @@ public class ShipModelsSO : ScriptableObject
         public Quaternion rotation;
         public Vector3 lossyScale;
         public GameObject prefab;
+        public PrefabInfo prefabInfo;
     }
 }

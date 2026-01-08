@@ -34,6 +34,7 @@ public class ShipModelScanner : MonoBehaviour
             partModels[i].rotation = t.rotation;
             partModels[i].lossyScale =  t.lossyScale;
             partModels[i].prefab = PrefabUtility.GetCorrespondingObjectFromOriginalSource(part.gameObject);
+            partModels[i].prefabInfo = partModels[i].prefab.GetComponent<PrefabInfo>();
             if (partModels[i].prefab == null)
                 Debug.LogError("Prefab not found");
             

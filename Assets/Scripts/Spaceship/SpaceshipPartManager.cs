@@ -29,6 +29,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private Transform childPartsParent;
     [FormerlySerializedAs("killableParts")] [SerializeField] private SpaceshipPart[] allParts;
     [SerializeField] private bool debug_killAllParts;
+    [SerializeField] private bool debug_killShip;
     
     private bool shipDead;
     private int maxShipHealth;
@@ -108,6 +109,9 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             DestructionImminentLogic();
         
         Debug_KillAllPartsCheck();
+
+        if (debug_killShip)
+            KillShip();
     }
 
     private void DestructionImminentLogic()

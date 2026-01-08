@@ -28,6 +28,7 @@ public class FloatingOrigin : MonoBehaviour
         
         hangar.position += positionOffset;
         game.hierarchyManager.folder_enemies.position += positionOffset;
+        game.hierarchyManager.folder_createdShips.position += positionOffset;
         game.hierarchyManager.folder_scrap.position += positionOffset;
         game.hierarchyManager.folder_solarSystem.position += positionOffset;
         MoveObjects(game.hierarchyManager.GetOPMFolders(), positionOffset); // ERRORS AFTER DYING AND SCENE RELOAD

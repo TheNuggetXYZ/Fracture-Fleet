@@ -3,11 +3,12 @@ using UnityEngine;
 
 public class SpaceshipPart : MonoBehaviour
 {
-    [field: SerializeField] public int ID { get; private set; }
+    [field: SerializeField] public PrefabInfo prefabInfo { get; private set; }
     [SerializeField] private bool unkillable;
     
     [SerializeField] private Transform _mainPart;
     [SerializeField] private Collider partCollider;
+    [SerializeField] private Collider[] allColliders;
     
     [SerializeField] private int partHealth = 1;
     [SerializeField] private float partMass = 1;
@@ -50,6 +51,12 @@ public class SpaceshipPart : MonoBehaviour
     protected void Awake()
     {
         game = GameManager.I;
+
+        if (allColliders == null || allColliders.Length == 0)
+        {
+            allColliders = new Collider[1];
+            allColliders[0] = partCollider;
+        }
     }
 
     public void TakeDamage(int damage)
@@ -81,12 +88,13 @@ public class SpaceshipPart : MonoBehaviour
             addedRb.transform.parent = game.hierarchyManager.folder_scrap;
         }
         
+        SetCollidersLayer(SCRAP_LAYER);
+        
         if (partCollider)
         {
             originalIsTrigger = partCollider.isTrigger;
             
             partCollider.isTrigger = false; // make sure it now has collisions if it didn't previously
-            partCollider.gameObject.layer = SCRAP_LAYER;
         }
         
         ObjectPoolManager.SpawnObject(game.prefabs.partLostSFX, mainPart.position);
@@ -95,6 +103,14 @@ public class SpaceshipPart : MonoBehaviour
         successfullyKilled = true;
         
         partToAlsoKill?.Kill(velocity, false, out bool _);
+    }
+
+    private void SetCollidersLayer(int layer)
+    {
+        foreach (var col in allColliders)
+        {
+            col.gameObject.layer = layer;
+        }
     }
 
     public void GetOnKillModifiers(out OnKillModifierType[] _onKillModifiers, out float[] _onKillModifierValues)
@@ -110,11 +126,13 @@ public class SpaceshipPart : MonoBehaviour
         }
     }
 
-    public void Repair(bool setPosition)
+    public void Repair(bool setPosition, bool setParent = true)
     {
         isKilled = false;
 
-        mainPart.parent = originalParent;
+        if (setParent)
+            mainPart.parent = originalParent;
+        
         mainPart.gameObject.layer = originalLayer;
         
         if (setPosition)
@@ -125,10 +143,11 @@ public class SpaceshipPart : MonoBehaviour
 
         RemoveRigidbody();
         
+        SetCollidersLayer(originalLayer);
+        
         if (partCollider)
         {
             partCollider.isTrigger = originalIsTrigger;
-            partCollider.gameObject.layer = originalLayer;
         }
         
         killedParts.Clear();

@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 33575212921176900}
   - component: {fileID: 23676270725572456}
   - component: {fileID: 7087004010471195308}
+  - component: {fileID: -7853653140146072040}
   m_Layer: 0
   m_Name: Big_Launcher
   m_TagString: Untagged
@@ -133,14 +134,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <prefabInfo>k__BackingField: {fileID: -7853653140146072040}
   unkillable: 1
-  mainPart: {fileID: 0}
-  partCollider: {fileID: 0}
+  _mainPart: {fileID: 0}
+  partCollider: {fileID: 65886618777432010}
   partHealth: 1
   partMass: 2
   onKillModifier: 0
   onKillModifierValue: 0
   partToAlsoKill: {fileID: 0}
+--- !u!114 &-7853653140146072040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308823675597282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 44a3e2dbd3d4b5b029e5f0875b76e431
 --- !u!1 &1341712623725502
 GameObject:
   m_ObjectHideFlags: 0

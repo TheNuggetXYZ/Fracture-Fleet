@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 23117732509612808}
   - component: {fileID: 5253418293274395028}
   - component: {fileID: -3947723211921547796}
+  - component: {fileID: -4293923977711128697}
   m_Layer: 0
   m_Name: Engine1
   m_TagString: Untagged
@@ -274,15 +275,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fd31b7149cb761a5a678f1940e7fa7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <prefabInfo>k__BackingField: {fileID: -4293923977711128697}
   unkillable: 1
   _mainPart: {fileID: 0}
-  partCollider: {fileID: 0}
+  partCollider: {fileID: 65437815982372122}
   partHealth: 1
   partMass: 9
   onKillModifier: 0
   onKillModifierValue: 0
   partToAlsoKill: {fileID: 0}
-  controller: {fileID: 0}
   audioSource: {fileID: -3947723211921547796}
   thrusterTexture: {fileID: 4977278546497330}
   thrusterEffect: {fileID: 3175011293466028508}
@@ -383,6 +384,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4293923977711128697
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1758563075571458}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 9717f5e2e776749dfaee454e46f4cc68
 --- !u!1001 &3179451688923040078
 PrefabInstance:
   m_ObjectHideFlags: 0

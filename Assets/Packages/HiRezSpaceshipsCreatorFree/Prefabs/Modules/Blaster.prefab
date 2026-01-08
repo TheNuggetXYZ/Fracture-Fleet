@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 33701974692451124}
   - component: {fileID: 23723116163346886}
   - component: {fileID: 8167375532819441675}
+  - component: {fileID: -4699645010163754359}
   m_Layer: 0
   m_Name: Blaster
   m_TagString: Untagged
@@ -185,11 +186,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <prefabInfo>k__BackingField: {fileID: -4699645010163754359}
   unkillable: 1
-  mainPart: {fileID: 0}
-  partCollider: {fileID: 0}
+  _mainPart: {fileID: 0}
+  partCollider: {fileID: 65635897931260994}
   partHealth: 1
   partMass: 0.5
   onKillModifier: 0
   onKillModifierValue: 0
   partToAlsoKill: {fileID: 0}
+--- !u!114 &-4699645010163754359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718390857548102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: d58e707fbc3a320088eedfde6d00afc3

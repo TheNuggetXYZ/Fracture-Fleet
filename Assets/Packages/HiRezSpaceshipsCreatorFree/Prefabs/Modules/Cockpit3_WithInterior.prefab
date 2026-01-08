@@ -870,6 +870,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4633844506500618}
   - component: {fileID: 5632778059655144163}
+  - component: {fileID: 279358536085348027}
   m_Layer: 0
   m_Name: Cockpit3_WithInterior
   m_TagString: Untagged
@@ -909,14 +910,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de2502ea96b365e849cc2123090a534d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <prefabInfo>k__BackingField: {fileID: 279358536085348027}
   unkillable: 1
-  mainPart: {fileID: 0}
+  _mainPart: {fileID: 0}
   partCollider: {fileID: 0}
+  allColliders:
+  - {fileID: 679881503018347118}
+  - {fileID: 7571582399952815760}
+  - {fileID: 5171091119182713902}
   partHealth: 1
   partMass: 6
   onKillModifier: 0
   onKillModifierValue: 0
   partToAlsoKill: {fileID: 0}
+--- !u!114 &279358536085348027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1168450754309862}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91fb87ed5a3cde14e99625a55562b399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: de213e7703c7e0485849a8966c774414
 --- !u!1 &1173266449836490
 GameObject:
   m_ObjectHideFlags: 0
