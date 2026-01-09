@@ -10,7 +10,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [field: SerializeField] public SpaceshipController spaceshipController {get; private set;}
     
     [Header("Ship Condition")]
-    [SerializeField] private bool playerShip;
+    [SerializeField] private ShipType shipType;
     [SerializeField] private int shipHealth;
     [SerializeField] private int lostHealthOnPartKill;
     [SerializeField] private float onDeathExplosionForce;
@@ -38,6 +38,13 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     private AudioObject metalSparkSFX;
     
     private Rigidbody spaceshipRigidbody;
+    
+    private enum ShipType
+    {
+        enemy,
+        comrade,
+        player,
+    }
     
     GameManager game;
 
@@ -103,7 +110,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     {
         UpdateEngineVolumes();
         
-        if (playerShip)
+        if (shipType == ShipType.player)
             DestructionImminentLogic();
         
         Debug_KillAllPartsCheck();
@@ -141,7 +148,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
                     // kill part
                     part.Kill(GetSpaceshipVelocity() + hitVelocity, false, out bool successfullyKilled);
 
-                    if (playerShip)
+                    if (shipType == ShipType.player)
                         game.popupListHandler.ShowPopup(game.popupListHandler.warning_ShipModuleLost, true, 0, 2);
                     
                     // damage ship and apply modifiers (usually debuffs)
@@ -176,7 +183,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         TurnOffEngines();
         SpawnScrap();
 
-        if (!playerShip)
+        if (shipType == ShipType.enemy)
         {
             game.popupListHandler.ShowPopup(game.popupListHandler.popup_EnemyNeutralized, true, 0.5f, 2);
             game.waveManager.EnemyDefeated();
@@ -310,7 +317,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         {
             metalSparkEffectList.Add(Instantiate(game.prefabs.metalSparkVFX, cp.point, Quaternion.LookRotation(-cp.normal), cp.thisCollider.transform));
             
-            if (playerShip)
+            if (shipType == ShipType.player)
                 game.popupListHandler.ShowPopup(game.popupListHandler.popup_ShipSustainedDamage, true, 0, 2);
 
             if (metalSparkEffectList.Count == 1 && !metalSparkSFX)
@@ -325,7 +332,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             
             //TODO: damage the ship, maybe kill a random part, or damage all parts by 1
             
-            if (playerShip)
+            if (shipType == ShipType.player)
                 game.popupListHandler.ShowPopup(game.popupListHandler.warning_ImpactDamage, true, 0, 2);
         }
         else if (collisionMagnitude >= mediumHitCollisionMagnitudeThreshold)
@@ -363,7 +370,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     {
         shipHealth = maxShipHealth;
         
-        if (playerShip)
+        if (shipType == ShipType.player)
             game.popupListHandler.ShowPopup(game.popupListHandler.popup_IntegrityRestored, true, 0, 2);
     }
 
