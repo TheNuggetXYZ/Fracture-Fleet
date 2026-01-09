@@ -226,4 +226,14 @@ public static class Utils
             }
         }
     }
+
+    public static bool IsInRange(float value, Vector2 range, bool inclusive = true)
+    {
+        return IsInRange(value, range.x, range.y, inclusive);
+    }
+
+    public static bool IsInRange(float value, float min, float max, bool inclusive = true)
+    {
+        return value >= min && value <= max;
+    }
 }
