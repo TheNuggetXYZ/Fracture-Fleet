@@ -84,20 +84,18 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         spaceshipRigidbody = GetComponent<Rigidbody>();
         maxShipHealth = shipHealth;
 
-        FindEnginesFromAllParts();
+        if (engines == null || engines.Count == 0 || engines[0] == null)
+            FindEnginesFromAllParts();
     }
 
     private void FindEnginesFromAllParts()
     {
-        if (engines.Count == 0 || engines[0] == null)
+        engines = new();
+        foreach (SpaceshipPart part in allParts)
         {
-            engines = new();
-            foreach (SpaceshipPart part in allParts)
-            {
-                var engine = part as SpaceshipEngine;
-                if (engine)
-                    engines.Add(engine);
-            }
+            var engine = part as SpaceshipEngine;
+            if (engine)
+                engines.Add(engine);
         }
     }
 
@@ -175,8 +173,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         shipDead = true;
         spaceshipController.KillShip();
         GetComponent<AIBrain>()?.ShipDied();
-        SpawnScrap();
         TurnOffEngines();
+        SpawnScrap();
 
         if (!playerShip)
         {
