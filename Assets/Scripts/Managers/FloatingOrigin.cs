@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class FloatingOrigin : MonoBehaviour
 {
-    [SerializeField] private Transform origin;
+    [field: SerializeField] public Transform origin {get; private set;}
+    [field: SerializeField, Tooltip("Empty transform")] public Transform originalOrigin {get; private set;}
     [SerializeField] private Transform hangar;
 
     public Vector3 totalPositionOffset {get; private set;}
@@ -26,6 +27,7 @@ public class FloatingOrigin : MonoBehaviour
         Vector3 positionOffset = -origin.position;
         totalPositionOffset += positionOffset;
         
+        originalOrigin.position += positionOffset;
         hangar.position += positionOffset;
         game.hierarchyManager.folder_enemies.position += positionOffset;
         game.hierarchyManager.folder_createdShips.position += positionOffset;

@@ -123,6 +123,15 @@ public class AIBrain : MonoBehaviour, IShootInput
             newTransformUp = transform.position - target.position;
         }
     }
+
+    private void WIP_method()
+    {
+        Vector3 toZoomTarget = (zoomTargetPosition - transform.position).normalized;
+        Vector3 currentDirection = transform.forward;
+        
+        float dot = Vector3.Dot(toZoomTarget, currentDirection);
+        float rotationAmount = -dot + 1;
+    }
     
     private Vector3 RandomPointInFollowSphere()
     {

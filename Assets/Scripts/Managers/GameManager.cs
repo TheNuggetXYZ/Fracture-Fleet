@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public EnemyWaveManager waveManager {get; private set;}
     [field: SerializeField] public HierarchyManager hierarchyManager {get; private set;}
     [field: SerializeField] public new AudioManager audio {get; private set;}
-    [field: SerializeField] public FloatingOrigin fOrigin {get; private set;}
+    [field: SerializeField] public FloatingOrigin floatingOrigin {get; private set;}
     
     public InputSystem_Actions input {get; private set;}
     public PlayerController player {get; private set;}
@@ -106,13 +106,13 @@ public class GameManager : MonoBehaviour
     /// Converts the actual position, which is altered by FloatingOrigin, into the position the object would have without FloatingOrigin acting on the object.
     public Vector3 ToOriginalPosition(Vector3 transformDotPosition)
     {
-        return transformDotPosition - fOrigin.totalPositionOffset;
+        return transformDotPosition - floatingOrigin.totalPositionOffset;
     }
 
     /// Opposite of "ToOriginalPosition". Returns the same value as "Transform.position" on an object the FloatingOrigin is moving.
     public Vector3 ToActualPosition(Vector3 position)
     {
-        return position + fOrigin.totalPositionOffset;
+        return position + floatingOrigin.totalPositionOffset;
     }
 }
 

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1962321969204841685}
   - component: {fileID: 226402761239131727}
   - component: {fileID: 6387296362596389654}
+  - component: {fileID: 6050047730579834737}
   m_Layer: 0
   m_Name: DustTrail
   m_TagString: Untagged
@@ -4833,6 +4834,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6050047730579834737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109489443504706930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67a57df5c84c5239875ada60511e4f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleSystem: {fileID: 0}
+  overrideLocalSimulationSpace: 0
 --- !u!1 &5894489747602739193
 GameObject:
   m_ObjectHideFlags: 0
@@ -4942,6 +4957,7 @@ GameObject:
   - component: {fileID: 1382332538836828686}
   - component: {fileID: 1750695975972451016}
   - component: {fileID: 472799482931732338}
+  - component: {fileID: 3895150444471727639}
   m_Layer: 0
   m_Name: GasTrail
   m_TagString: Untagged
@@ -9764,6 +9780,20 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &3895150444471727639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7959697019819517131}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a67a57df5c84c5239875ada60511e4f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleSystem: {fileID: 0}
+  overrideLocalSimulationSpace: 0
 --- !u!1001 &8772820686579492459
 PrefabInstance:
   m_ObjectHideFlags: 0
