@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class SunEngulfing : MonoBehaviour
+public class MoltenObject : MonoBehaviour
 {
     [SerializeField] private float drag;
     
