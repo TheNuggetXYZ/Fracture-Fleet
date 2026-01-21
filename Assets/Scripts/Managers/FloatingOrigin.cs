@@ -6,7 +6,7 @@ public class FloatingOrigin : MonoBehaviour
 {
     [field: SerializeField] public Transform origin {get; private set;}
     [field: SerializeField, Tooltip("Empty transform")] public Transform originalOrigin {get; private set;}
-    [SerializeField] private Transform hangar;
+    [SerializeField] private Transform[] moveTransforms;
 
     public Vector3 totalPositionOffset {get; private set;}
     
@@ -28,11 +28,11 @@ public class FloatingOrigin : MonoBehaviour
         totalPositionOffset += positionOffset;
         
         originalOrigin.position += positionOffset;
-        hangar.position += positionOffset;
         game.hierarchyManager.folder_enemies.position += positionOffset;
         game.hierarchyManager.folder_createdShips.position += positionOffset;
         game.hierarchyManager.folder_scrap.position += positionOffset;
         game.hierarchyManager.folder_solarSystem.position += positionOffset;
+        MoveObjects(moveTransforms, positionOffset);
         MoveObjects(game.hierarchyManager.GetOPMFolders(), positionOffset); // ERRORS AFTER DYING AND SCENE RELOAD
         
         origin.position = Vector3.zero;
