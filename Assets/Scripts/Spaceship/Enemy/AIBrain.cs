@@ -5,8 +5,9 @@ public class AIBrain : MonoBehaviour, IShootInput
 {
     [Header("General")]
     [field: SerializeField] public Rigidbody rb { get; private set; }
-    [SerializeField] private Transform target;
-    [SerializeField] private bool findPlayer = true;
+    [SerializeField] private Transform[] targets;
+    [SerializeField] private bool findTarget = true;
+    [SerializeField] private Transform currentTarget;
 
     [Header("Obstacles")]
     [SerializeField] private LayerMask obstacleMask;
@@ -38,6 +39,8 @@ public class AIBrain : MonoBehaviour, IShootInput
     [Header("Output")] 
     public Quaternion targetRotation { get; private set; }
     public int speedTier { get; private set; }
+    public float rotationMultiplier { get; private set; }
+    public float speedMultiplier { get; private set; }
     public AIState currentState { get; private set; }
     
 
@@ -63,19 +66,24 @@ public class AIBrain : MonoBehaviour, IShootInput
     private void Awake()
     {
         game = GameManager.I;
+
+        targets = new Transform[1];
         
-        if (findPlayer)
-            target = game.player.transform;
+        if (findTarget)
+            targets[0] = game.player.transform;
+        
+        currentTarget = targets[0];
     }
 
     private void Update()
     {
-        zoomTargetPosition = zoomTargetPositionLocalToTarget + target.position;
+        zoomTargetPosition = zoomTargetPositionLocalToTarget + currentTarget.position;
         
         Think(out var targetPosition, out var upVector, out var repelVector);
         
         CalculateRotation(targetPosition, upVector, repelVector);
         CalculateSpeed();
+        CalculateMultipliersForPreciseRotation();
         
         targetPosForGizmos = targetPosition;
     }
@@ -93,7 +101,7 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void ControlState(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
     {
-        float playerDistance = Vector3.Distance(transform.position, target.position);
+        float playerDistance = Vector3.Distance(transform.position, currentTarget.position);
         
         if (foundObstacle)
         {
@@ -104,7 +112,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         if (currentState != AIState.zooming && !Utils.IsInRange(playerDistance, noZoomDistanceRange))
         {
             currentState = AIState.zooming;
-            zoomTargetPositionLocalToTarget = RandomPointInFollowSphere() - target.position;
+            zoomTargetPositionLocalToTarget = RandomPointInFollowSphere() - currentTarget.position;
         }
         else if (currentState == AIState.zooming && Vector3.Distance(transform.position, zoomTargetPosition) < zoomTargetStateExitDistance)
         {
@@ -120,23 +128,34 @@ public class AIBrain : MonoBehaviour, IShootInput
         if (currentState == AIState.zooming)
         {
             targetPosition = zoomTargetPosition;
-            newTransformUp = transform.position - target.position;
+            newTransformUp = transform.position - currentTarget.position;
         }
     }
 
-    private void WIP_method()
+    private void CalculateMultipliersForPreciseRotation()
     {
+        if (currentState != AIState.zooming)
+        {
+            rotationMultiplier = 1f;
+            speedMultiplier = 1f;
+        }
+        
         Vector3 toZoomTarget = (zoomTargetPosition - transform.position).normalized;
         Vector3 currentDirection = transform.forward;
         
         float dot = Vector3.Dot(toZoomTarget, currentDirection);
-        float rotationAmount = -dot + 1;
+        
+        float rotationAmount = (-dot + 1) / 2;
+        const float rotationBoost = 2f;
+        rotationMultiplier = rotationAmount * rotationBoost;
+        
+        speedMultiplier = (dot + 1) / 2;
     }
     
     private Vector3 RandomPointInFollowSphere()
     {
-        Vector3 point = Utils.RandomPointInSphere(target.position, noZoomDistanceRange.y);
-        if (Vector3.Distance(target.position, point) > followDistance)
+        Vector3 point = Utils.RandomPointInSphere(currentTarget.position, noZoomDistanceRange.y);
+        if (Vector3.Distance(currentTarget.position, point) > followDistance)
             return point;
         else
             return RandomPointInFollowSphere();
@@ -156,7 +175,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         }
         
         Vector3 forward = transform.forward;
-        Vector3 toTarget = (target.position - transform.position).normalized;
+        Vector3 toTarget = (currentTarget.position - transform.position).normalized;
 
         shouldShoot = Vector3.Dot(forward, toTarget) > differenceInDirectionThatAllowsShooting;
     }
@@ -203,14 +222,14 @@ public class AIBrain : MonoBehaviour, IShootInput
     private void DetectObstacle(out bool foundObstacle, out Vector3 targetPosition, out Vector3 upVector)
     {
         // Default values
-        targetPosition = target.position;
-        upVector = target.up;
+        targetPosition = currentTarget.position;
+        upVector = currentTarget.up;
         
         Vector3 toTarget;
         if (currentState == AIState.zooming)
             toTarget = zoomTargetPosition - transform.position;
         else
-            toTarget = target.position - transform.position;
+            toTarget = currentTarget.position - transform.position;
         
         float distance = toTarget.magnitude;
 

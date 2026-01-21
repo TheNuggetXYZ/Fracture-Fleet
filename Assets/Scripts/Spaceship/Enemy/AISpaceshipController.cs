@@ -24,7 +24,7 @@ public class AISpaceshipController : SpaceshipController
         if (angle > 180f) angle -= 360f;
 
         Vector3 torque = axis * (angle * Mathf.Deg2Rad);
-        Rotate(torque);
+        Rotate(torque * brain.rotationMultiplier);
     }
 
     private void HandleMovement()
@@ -36,6 +36,6 @@ public class AISpaceshipController : SpaceshipController
             actualSpeed = zoomSpeed;
 
         if (actualSpeed != 0)
-            Move(actualSpeed, 1, 0);
+            Move(actualSpeed, 1, 0, brain.speedMultiplier);
     }
 }
