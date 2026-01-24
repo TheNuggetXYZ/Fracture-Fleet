@@ -5,8 +5,6 @@ Shader "Custom/GasGiant"
         _SphereRadius ("Sphere Radius", Float) = 300
         _Density ("Density", Float) = 10
         _Fade ("Fade", Float) = 0.1
-        _DensityNoiseIntensity ("Density Noise Intensity", Float) = 1
-        _DensityNoiseFreq ("Density Noise Freq", Float) = 1
         _ColorNoiseFreq ("Color Noise Freq", Float) = 1
         _ColorNoiseSharpness ("Color Noise Sharpness", Float) = 2
         _ColorNoiseStretching ("Color Noise Stretching", Vector) = (50, 1, 50)
@@ -65,9 +63,6 @@ Shader "Custom/GasGiant"
             float4 _Color;
             float4 _SecondaryColor;
             float4 _SpecialColor;
-
-            float _DensityNoiseFreq;
-            float _DensityNoiseIntensity;
             
             float _ColorNoiseFreq;
             float _ColorNoiseSharpness;
@@ -184,9 +179,10 @@ Shader "Custom/GasGiant"
                 float dotLightBonus = 0.1;
                 float lightFactor = saturate(dot(lightDir, normalize(sphereCenterEntryDir)) + dotLightBonus) + _AmbientLight;
 
-                float3 litColor = col * lightColor * saturate(lightFactor);
+                float3 localLightColor = lerp(lightColor, float3(1,1,1), 1-saturate(lightFactor)); // dont apply light color where the light doesnt shine
+                float3 litColor = col * saturate(lightFactor) * localLightColor;
 
-                return float4(litColor, alpha);
+                return float4(saturate(litColor), alpha);
             }
             ENDHLSL
         }
