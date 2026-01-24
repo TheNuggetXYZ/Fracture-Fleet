@@ -16,6 +16,7 @@ public class EnemyWaveManager : MonoBehaviour
     [SerializeField] private bool debug_spawnEnemy2;
     [SerializeField] private bool debug_spawnEnemy3;
     [SerializeField] private bool debug_killEnemies;
+    [SerializeField] private bool debug_scrapNearPlayer;
     
     
     private Utils.Timer newWaveTimer;
@@ -96,7 +97,7 @@ public class EnemyWaveManager : MonoBehaviour
 
             foreach (var sc in parent.GetComponentsInChildren<SpaceshipPartManager>())
             {
-                sc.Debug_KillShip();
+                sc.Debug_KillShip(debug_scrapNearPlayer);
             }
             
             debug_killEnemies = false;

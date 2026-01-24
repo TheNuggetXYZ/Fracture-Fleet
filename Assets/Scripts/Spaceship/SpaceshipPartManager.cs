@@ -175,19 +175,19 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         }
     }
 
-    public void Debug_KillShip()
+    public void Debug_KillShip(bool spawnScrapNearPlayer)
     {
         Debug.Log("Killed ship with a debug method: " + gameObject);
-        KillShip();
+        KillShip(spawnScrapNearPlayer);
     }
 
-    private void KillShip()
+    private void KillShip(bool spawnScrapNearPlayer = false)
     {
         shipDead = true;
         spaceshipController.KillShip();
         GetComponent<AIBrain>()?.ShipDied();
         TurnOffEngines();
-        SpawnScrap();
+        SpawnScrap(spawnScrapNearPlayer);
 
         if (shipType == ShipType.enemy)
         {
@@ -202,7 +202,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         gameObject.SetActive(false);
     }
 
-    private void SpawnScrap()
+    private void SpawnScrap(bool spawnScrapNearPlayer = false)
     {
         foreach (SpaceshipPart part in allParts)
         {
@@ -210,6 +210,14 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             {
                 Vector3 explosionVelocity = (part.transform.position - transform.position).normalized * onDeathExplosionForce;
                 part.Kill(GetSpaceshipVelocity() + explosionVelocity, true, out bool _);
+
+                if (spawnScrapNearPlayer)
+                {
+                    part.transform.position += (game.player.transform.position - transform.position) + game.player.transform.forward * 10;
+                    
+                    if (part.TryGetComponent(out Rigidbody rb))
+                        rb.linearVelocity = Vector3.zero;
+                }
             }
         }
     }
