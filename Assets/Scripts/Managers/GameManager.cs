@@ -227,13 +227,18 @@ public static class Utils
         }
     }
 
-    public static bool IsInRange(float value, Vector2 range, bool inclusive = true)
+    public static bool IsInRange(float value, Vector2 range)
     {
-        return IsInRange(value, range.x, range.y, inclusive);
+        return IsInRange(value, range.x, range.y);
     }
 
-    public static bool IsInRange(float value, float min, float max, bool inclusive = true)
+    public static bool IsInRange(float value, float min, float max)
     {
         return value >= min && value <= max;
+    }
+    
+    public static bool IsInArrayRange(float value, Array array)
+    {
+        return value >= 0 && value < array.Length;
     }
 }

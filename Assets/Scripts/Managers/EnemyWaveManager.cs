@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class EnemyWaveManager : MonoBehaviour
 {
@@ -10,9 +11,18 @@ public class EnemyWaveManager : MonoBehaviour
     [SerializeField] private float enemySphereCheckRadius;
     [SerializeField] private Vector3 enemySpawnOffset;
     
+    [Header("Debug")]
+    [SerializeField] private bool debug_spawnEnemy1;
+    [SerializeField] private bool debug_spawnEnemy2;
+    [SerializeField] private bool debug_spawnEnemy3;
+    [SerializeField] private bool debug_killEnemies;
+    
+    
     private Utils.Timer newWaveTimer;
     private int currentWave = -1;
     private int enemyAmount;
+    private bool waveTimerStartedThisWave = true;
+    
 
     GameManager game;
     
@@ -26,13 +36,14 @@ public class EnemyWaveManager : MonoBehaviour
         public bool randomizeScattered;
         [Tooltip("Should the ships be scattered through the solar system or together")]
         public bool scattered;
-        public float cooldown;
+        public float startTimer;
     }
 
     private void Awake()
     {
         game = GameManager.I;
-        newWaveTimer = new Utils.Timer(5);
+        float startTimer = waves != null && waves.Length >= 1 && waves[0] != null ? waves[0].startTimer : 0;
+        newWaveTimer = new Utils.Timer(startTimer);
     }
 
     private void Update()
@@ -41,6 +52,7 @@ public class EnemyWaveManager : MonoBehaviour
         
         if (newWaveTimer.IsDoneOnce())
         {
+            waveTimerStartedThisWave = false;
             currentWave++;
             SpawnWave(waves[currentWave]);
 
@@ -50,6 +62,44 @@ public class EnemyWaveManager : MonoBehaviour
                 ObjectPoolManager.SpawnObject(game.prefabs.newWaveSFX2);
             
             game.popupListHandler.ShowPopup(game.popupListHandler.popup_DetectingSignals, true, 0.5f, 8f);
+        }
+
+        if (debug_spawnEnemy1 || debug_spawnEnemy2 || debug_spawnEnemy3)
+        {
+            Vector3 spawnPoint = FindSpawnPoint();
+
+            if (debug_spawnEnemy1)
+            {
+                SpawnEnemy(enemy1, spawnPoint);
+                enemyAmount++;
+                debug_spawnEnemy1 = false;
+            }
+            
+            if (debug_spawnEnemy2)
+            {
+                SpawnEnemy(enemy2, spawnPoint);
+                enemyAmount++;
+                debug_spawnEnemy2 = false;
+            }
+            
+            if (debug_spawnEnemy3)
+            {
+                SpawnEnemy(enemy3, spawnPoint);
+                enemyAmount++;
+                debug_spawnEnemy3 = false;
+            }
+        }
+
+        if (debug_killEnemies)
+        {
+            Transform parent = game.hierarchyManager.folder_enemies;
+
+            foreach (var sc in parent.GetComponentsInChildren<SpaceshipPartManager>())
+            {
+                sc.Debug_KillShip();
+            }
+            
+            debug_killEnemies = false;
         }
     }
 
@@ -109,25 +159,27 @@ public class EnemyWaveManager : MonoBehaviour
         }
     }
 
-    private Vector3 FindSpawnPoint(int radiusMultiplier = 1, Vector3 checkSphereOffset = default)
+    private Vector3 FindSpawnPoint(int checkSphereRadiusMultiplier = 1, Vector3 checkSphereOffset = default)
     {
         Vector3 spawnPoint = Utils.RandomPointInSphere(Vector3.zero, enemySpawnMaxDistanceFromCenter);
 
-        bool clear = !Physics.CheckSphere(spawnPoint + checkSphereOffset, enemySphereCheckRadius * radiusMultiplier);
+        bool clear = !Physics.CheckSphere(spawnPoint + checkSphereOffset, enemySphereCheckRadius * checkSphereRadiusMultiplier);
 
         if (clear)
             return spawnPoint;
         else
-            return FindSpawnPoint(radiusMultiplier);
+            return FindSpawnPoint(checkSphereRadiusMultiplier);
     }
 
     public void EnemyDefeated()
     {
         enemyAmount--;
 
-        if (enemyAmount <= 0)
+        if (enemyAmount <= 0 && Utils.IsInArrayRange(currentWave + 1, waves) && !waveTimerStartedThisWave)
         {
-            newWaveTimer.Reset(waves[currentWave].cooldown);
+            Debug.Log("Starting wave timer");
+            newWaveTimer.Reset(waves[currentWave + 1].startTimer);
+            waveTimerStartedThisWave = true;
         }
     }
 

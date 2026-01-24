@@ -175,6 +175,12 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         }
     }
 
+    public void Debug_KillShip()
+    {
+        Debug.Log("Killed ship with a debug method: " + gameObject);
+        KillShip();
+    }
+
     private void KillShip()
     {
         shipDead = true;
