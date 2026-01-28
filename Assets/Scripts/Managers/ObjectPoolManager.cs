@@ -69,6 +69,22 @@ public class ObjectPoolManager : MonoBehaviour
         }
     }
 
+    // Call on scene reload
+    public static void RemoveDestroyedPools()
+    {
+        List<string> keys = new();
+        foreach (var pool in objectPools)
+        {
+            if (Utils.IsNull(pool.Value.poolParent))
+                keys.Add(pool.Key);
+        }
+
+        foreach (var key in keys)
+        {
+            objectPools.Remove(key);
+        }
+    }
+
     public static Transform[] GetPoolParents()
     {
         Transform[] parents = new Transform[objectPools.Values.Count];

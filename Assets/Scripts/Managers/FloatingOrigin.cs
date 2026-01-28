@@ -33,7 +33,7 @@ public class FloatingOrigin : MonoBehaviour
         game.hierarchyManager.folder_scrap.position += positionOffset;
         game.hierarchyManager.folder_solarSystem.position += positionOffset;
         MoveObjects(moveTransforms, positionOffset);
-        MoveObjects(game.hierarchyManager.GetOPMFolders(), positionOffset); // ERRORS AFTER DYING AND SCENE RELOAD
+        MoveObjects(game.hierarchyManager.GetOPMFolders(), positionOffset);
         
         origin.position = Vector3.zero;
     }

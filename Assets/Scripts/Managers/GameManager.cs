@@ -42,6 +42,8 @@ public class GameManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         
+        ObjectPoolManager.RemoveDestroyedPools();
+        
         player = FindAnyObjectByType<PlayerController>();
         worldMenu = FindAnyObjectByType<WorldMenu>();
         

@@ -93,6 +93,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 
         if (engines == null || engines.Count == 0 || engines[0] == null)
             FindEnginesFromAllParts();
+        
+        // the ship type can change after awake (SetShipToComrade) so keep that in mind
     }
 
     private void FindEnginesFromAllParts()
@@ -277,6 +279,11 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 
             debug_killAllParts = false;
         }
+    }
+
+    public void SetShipToComrade()
+    {
+        shipType = ShipType.comrade;
     }
 
 #region Alarm

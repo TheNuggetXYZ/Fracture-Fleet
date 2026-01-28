@@ -126,7 +126,7 @@ public class SpaceshipPart : MonoBehaviour
         }
     }
 
-    public void Repair(bool setPosition, bool setParent = true)
+    public void Repair(bool setPosition, bool setParent = true, bool setRotation = true)
     {
         isKilled = false;
 
@@ -137,8 +137,9 @@ public class SpaceshipPart : MonoBehaviour
         
         if (setPosition)
             mainPart.localPosition = localOriginalPosition;
-        
-        mainPart.localRotation = originalLocalRotation;
+
+        if (setRotation)
+            mainPart.localRotation = originalLocalRotation;
         
 
         RemoveRigidbody();

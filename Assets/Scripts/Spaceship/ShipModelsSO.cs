@@ -8,6 +8,7 @@ public class ShipModelsSO : ScriptableObject
     [System.Serializable]
     public class ShipModel
     {
+        [field: SerializeField] public SpaceshipPartManager shipPrefab { get; private set; }
         [SerializeField] private ShipPartModel[] partModels;
 
         public void Assign(ShipPartModel[] partModels)
@@ -25,6 +26,6 @@ public class ShipModelsSO : ScriptableObject
         public Quaternion rotation;
         public Vector3 lossyScale;
         public GameObject prefab;
-        public PrefabInfo prefabInfo;
+        public string prefabInfoID;
     }
 }

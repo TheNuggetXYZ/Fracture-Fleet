@@ -63,8 +63,14 @@ public class BuildStation : MonoBehaviour
             
             pair.scrapPart.SetPosition(shipBuildPlace.position + pair.partModel.position);
                 
-            pair.scrapPart.Repair(false, false);
+            pair.scrapPart.Repair(false, false, false);
         }
+        
+        Destroy(ship.gameObject);
+        
+        SpaceshipPartManager spm = Instantiate(shipModelsSO.shipModels[_modelNumber].shipPrefab, shipBuildPlace.position, Quaternion.identity);
+        spm.transform.parent = game.hierarchyManager.folder_createdShips;
+        spm.SetShipToComrade();
     }
 
     private bool TestBuildability(int _modelNumber, out ScrapPartPartModelPair[] pairs, out List<SpaceshipPart> usedScrap)
@@ -128,6 +134,6 @@ public class BuildStation : MonoBehaviour
 
     private bool IsSamePart(SpaceshipPart scrapPart, ShipModelsSO.ShipPartModel partModel)
     {
-        return scrapPart.prefabInfo.id == partModel.prefabInfo.id && scrapPart.transform.lossyScale == partModel.lossyScale;
+        return scrapPart.prefabInfo.id == partModel.prefabInfoID && scrapPart.transform.lossyScale == partModel.lossyScale;
     }
 }
