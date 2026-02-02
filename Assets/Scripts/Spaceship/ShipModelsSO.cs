@@ -8,7 +8,7 @@ public class ShipModelsSO : ScriptableObject
     [System.Serializable]
     public class ShipModel
     {
-        [field: SerializeField] public SpaceshipPartManager shipPrefab { get; private set; }
+        [field: SerializeField] public GameObject shipPrefab { get; private set; }
         [SerializeField] private ShipPartModel[] partModels;
 
         public void Assign(ShipPartModel[] partModels)

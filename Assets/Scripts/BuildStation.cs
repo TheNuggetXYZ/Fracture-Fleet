@@ -66,11 +66,13 @@ public class BuildStation : MonoBehaviour
             pair.scrapPart.Repair(false, false, false);
         }
         
+        // destroy the built ship and instantiate a fresh prefab one
         Destroy(ship.gameObject);
         
-        SpaceshipPartManager spm = Instantiate(shipModelsSO.shipModels[_modelNumber].shipPrefab, shipBuildPlace.position, Quaternion.identity);
-        spm.transform.parent = game.hierarchyManager.folder_createdShips;
-        spm.SetShipToComrade();
+        GameObject workingShip = Instantiate(shipModelsSO.shipModels[_modelNumber].shipPrefab, shipBuildPlace.position, Quaternion.identity);
+        workingShip.transform.parent = game.hierarchyManager.folder_createdShips;
+        SpaceshipPartManager workingShipSPM = workingShip.GetComponent<SpaceshipPartManager>();
+        workingShipSPM.SetShipToComrade();
     }
 
     private bool TestBuildability(int _modelNumber, out ScrapPartPartModelPair[] pairs, out List<SpaceshipPart> usedScrap)
