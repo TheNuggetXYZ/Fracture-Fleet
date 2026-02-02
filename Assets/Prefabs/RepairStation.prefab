@@ -605,7 +605,7 @@ MonoBehaviour:
   partSpawnPlace: {fileID: 543332474449226116}
   moveSpeed: 5
   triggerUIPopupDistance: 15
-  repairDistance: 15
+  repairDistance: 20
   playerTargetRotation: {x: 0, y: 0, z: 0}
   PlayerGrabSFX: {fileID: 3324895078337421644}
   PlayerMoveSFX: {fileID: 2759083978446050573}
@@ -628,7 +628,7 @@ MonoBehaviour:
   scrapMask:
     serializedVersion: 2
     m_Bits: 256
-  moveSpeed: 15
+  moveSpeed: 30
   reachDistance: 10
   grabDistance: 0.2
 --- !u!114 &6336415722740975544
@@ -648,7 +648,7 @@ MonoBehaviour:
   shipBuildPlace: {fileID: 1969530229228072301}
   scrapStation: {fileID: 3672464565232356720}
   shipModelsSO: {fileID: 11400000, guid: 0e6dc912fb1bdba6c9bc5f54964dfc93, type: 2}
-  moveSpeed: 5
+  moveSpeed: 30
   tryBuildModel: 0
   modelNumber: 0
 --- !u!1 &8235167112691386768
