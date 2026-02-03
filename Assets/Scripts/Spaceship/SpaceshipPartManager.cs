@@ -10,7 +10,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [field: SerializeField] public SpaceshipController spaceshipController {get; private set;}
     
     [Header("Ship Condition")]
-    [SerializeField] private ShipType shipType;
+    [field: SerializeField] public ShipType shipType {get; private set;} = ShipType.enemy;
     [SerializeField] private int shipHealth;
     [SerializeField] private int lostHealthOnPartKill;
     [SerializeField] private float onDeathExplosionForce;
@@ -31,7 +31,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     [SerializeField] private bool debug_killAllParts;
     [SerializeField] private bool debug_killShip;
     
-    private bool shipDead;
+    public bool shipDead {get; private set;}
     private int maxShipHealth;
     private List<SpaceshipEngine> engines = new();
     private List<Transform> metalSparkEffectList = new();
@@ -39,7 +39,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     
     private Rigidbody spaceshipRigidbody;
     
-    private enum ShipType
+    public enum ShipType
     {
         enemy,
         comrade,

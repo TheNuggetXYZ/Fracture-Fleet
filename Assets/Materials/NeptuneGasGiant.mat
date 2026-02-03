@@ -35,9 +35,9 @@ Material:
     - _SpecialColorNoiseFreq: 6.57
     - _SphereRadius: 400
     m_Colors:
-    - _Color: {r: 0.023307383, g: 0.43896592, b: 1, a: 1}
+    - _Color: {r: 0, g: 0.35353863, b: 0.8343509, a: 1}
     - _ColorNoiseStretching: {r: 20, g: 1, b: 20, a: 1}
-    - _SecondaryColor: {r: 0, g: 0.41486025, b: 1, a: 1}
-    - _SpecialColor: {r: 0, g: 0.7261375, b: 0.028663388, a: 1}
+    - _SecondaryColor: {r: 0, g: 0.3956174, b: 0.95172036, a: 1}
+    - _SpecialColor: {r: 0, g: 0.5865706, b: 0.02373411, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
