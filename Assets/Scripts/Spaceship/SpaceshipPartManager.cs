@@ -196,7 +196,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
             game.popupListHandler.ShowPopup(game.popupListHandler.popup_EnemyNeutralized, true, 0.5f, 2);
             game.waveManager.EnemyDefeated();
         }
-        else
+        else if (shipType == ShipType.player)
             game.PlayerDied();
         
         ObjectPoolManager.SpawnObject(game.prefabs.shipDeathExplosionVFX, transform.position, default, onDeathExplosionSize * Vector3.one);
