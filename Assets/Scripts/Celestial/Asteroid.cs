@@ -11,6 +11,9 @@ public class Asteroid : MonoBehaviour
         SpaceGravitySimulator.I.AddAsteroid(this);
         
         speed = Random.Range(randomSpeed.x, randomSpeed.y);
+
+        if (TryGetComponent(out AstroData astroData))
+            Destroy(astroData);
     }
 
     public void UpdatePosition()
