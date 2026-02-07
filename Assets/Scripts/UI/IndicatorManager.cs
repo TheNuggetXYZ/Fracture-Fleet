@@ -15,37 +15,10 @@ public class IndicatorManager : MonoBehaviour
     {
         game = GameManager.I;
     }
-
-    private void OnEnable()
-    {
-        game.hierarchyManager.OnEnemiesChanged += UpdateShipList;
-        game.hierarchyManager.OnCreatedShipsChanged += UpdateShipList;
-    }
-
-    private void OnDisable()
-    {
-        game.hierarchyManager.OnEnemiesChanged -= UpdateShipList;
-        game.hierarchyManager.OnCreatedShipsChanged -= UpdateShipList;
-    }
     
     private void LateUpdate()
     {
-        UpdateIndicators(ships);
-    }
-
-    private void UpdateShipList()
-    {
-        ships = new List<SpaceshipPartManager>();
-        
-        for (int i = 0; i < game.hierarchyManager.folder_enemies.childCount; i++)
-        {
-            ships.Add(game.hierarchyManager.folder_enemies.GetChild(i).GetComponent<SpaceshipPartManager>());
-        }
-
-        for (int i = 0; i < game.hierarchyManager.folder_createdShips.childCount; i++)
-        {
-            ships.Add(game.hierarchyManager.folder_createdShips.GetChild(i).GetComponent<SpaceshipPartManager>());
-        }
+        UpdateIndicators(game.spaceshipTracker.shipList);
     }
 
     private void UpdateIndicators(List<SpaceshipPartManager> ships)

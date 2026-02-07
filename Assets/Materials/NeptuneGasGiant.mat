@@ -25,13 +25,14 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _AmbientLight: 0.02
+    - _AmbientLight: 0.005
     - _ColorNoiseFreq: 15.36
     - _ColorNoiseSharpness: 3
     - _Density: 200
     - _DensityNoiseFreq: 0
     - _DensityNoiseIntensity: 0
     - _Fade: 0.8
+    - _LightAbsorption: 0.0004
     - _SpecialColorNoiseFreq: 6.57
     - _SphereRadius: 400
     m_Colors:

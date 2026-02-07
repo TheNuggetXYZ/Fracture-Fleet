@@ -51,8 +51,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <rb>k__BackingField: {fileID: 5060459390915151261}
-  target: {fileID: 0}
-  findPlayer: 1
+  findTarget: 1
+  currentTarget: {fileID: 0}
+  spaceshipManager: {fileID: 5044842523480001411}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 183
@@ -125,7 +126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <spaceshipController>k__BackingField: {fileID: 6093665237802927870}
-  playerShip: 0
+  <shipType>k__BackingField: 0
   shipHealth: 500
   lostHealthOnPartKill: 10
   onDeathExplosionForce: 10
@@ -161,6 +162,7 @@ MonoBehaviour:
   - {fileID: 2148759396004627243}
   - {fileID: 2148759396129098211}
   debug_killAllParts: 0
+  debug_killShip: 0
 --- !u!54 &5060459390915151261
 Rigidbody:
   m_ObjectHideFlags: 0

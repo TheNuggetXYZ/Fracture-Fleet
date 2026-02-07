@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public HierarchyManager hierarchyManager {get; private set;}
     [field: SerializeField] public new AudioManager audio {get; private set;}
     [field: SerializeField] public FloatingOrigin floatingOrigin {get; private set;}
+    [field: SerializeField] public SpaceshipTracker spaceshipTracker {get; private set;}
     
     public InputSystem_Actions input {get; private set;}
     public PlayerController player {get; private set;}
