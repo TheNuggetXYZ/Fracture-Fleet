@@ -7,7 +7,7 @@ public class IndicatorManager : MonoBehaviour
     [SerializeField] private Indicator indicatorPrefab;
     
     private List<Indicator> indicators = new();
-    private List<SpaceshipPartManager> ships;
+    private List<SpaceshipPartManager> shipList = new();
 
     GameManager game;
 
@@ -18,7 +18,9 @@ public class IndicatorManager : MonoBehaviour
     
     private void LateUpdate()
     {
-        UpdateIndicators(game.spaceshipTracker.shipList);
+        shipList.Clear();
+        shipList.AddRange(game.spaceshipTracker.shipList); // prevent errors caused by tracker's list being modified while indicators are being updated
+        UpdateIndicators(shipList);
     }
 
     private void UpdateIndicators(List<SpaceshipPartManager> ships)
@@ -51,7 +53,7 @@ public class IndicatorManager : MonoBehaviour
 
             if (screenPos.z >= 0 && !ships[i].shipDead)
             {
-                indicators[i].transform.position = screenPos;
+                indicators[i].transform.position = new Vector3(screenPos.x, screenPos.y, 0);
                 indicators[i].gameObject.SetActive(true);
 
                 if (ships[i].shipType == SpaceshipPartManager.ShipType.enemy)
