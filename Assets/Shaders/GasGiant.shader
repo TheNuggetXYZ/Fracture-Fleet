@@ -179,7 +179,7 @@ Shader "Custom/GasGiant"
 
                 //lighting
                 Light mainLight = GetMainLight();
-                float3 lightDir = normalize(_OmniLightPos - sphereCenter); //normalize(mainLight.direction);
+                float3 lightDir = normalize(_OmniLightPos - entryPos); //normalize(mainLight.direction);
                 float3 lightColor = mainLight.color;
 
                 float3 sphereCenterEntryDir = entryPos - sphereCenter;
