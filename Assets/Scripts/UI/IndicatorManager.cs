@@ -15,15 +15,25 @@ public class IndicatorManager : MonoBehaviour
     {
         game = GameManager.I;
     }
-    
-    private void Update()
-    {
-        UpdateShips();
 
+    private void OnEnable()
+    {
+        game.hierarchyManager.OnEnemiesChanged += UpdateShipList;
+        game.hierarchyManager.OnCreatedShipsChanged += UpdateShipList;
+    }
+
+    private void OnDisable()
+    {
+        game.hierarchyManager.OnEnemiesChanged -= UpdateShipList;
+        game.hierarchyManager.OnCreatedShipsChanged -= UpdateShipList;
+    }
+    
+    private void LateUpdate()
+    {
         UpdateIndicators(ships);
     }
 
-    private void UpdateShips()
+    private void UpdateShipList()
     {
         ships = new List<SpaceshipPartManager>();
         
