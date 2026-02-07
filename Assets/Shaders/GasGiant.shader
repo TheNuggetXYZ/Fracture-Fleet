@@ -5,6 +5,7 @@ Shader "Custom/GasGiant"
         _SphereRadius ("Sphere Radius", Float) = 300
         _Density ("Density", Float) = 10
         _Fade ("Fade", Float) = 0.1
+        _LightAbsorption ("Light Absorption", Float) = 0.5
         _ColorNoiseFreq ("Color Noise Freq", Float) = 1
         _ColorNoiseSharpness ("Color Noise Sharpness", Float) = 2
         _ColorNoiseStretching ("Color Noise Stretching", Vector) = (50, 1, 50)
@@ -59,6 +60,7 @@ Shader "Custom/GasGiant"
             float _SphereRadius;
             float _Density;
             float _Fade;
+            float _LightAbsorption;
 
             float4 _Color;
             float4 _SecondaryColor;
@@ -83,6 +85,11 @@ Shader "Custom/GasGiant"
                 distanceToEntry = -b - h; // distance from origin to entry
                 distanceToExit = -b + h; // distance from origin to exit
                 return true;
+            }
+
+            float getLocalDensity(float density, float3 position, float3 sphereCenter, float sphereRadius, float fade)
+            {
+                return density * (1 - (length(position - sphereCenter) / sphereRadius)) - fade;
             }
 
             void getDepthPixelWorldPos(float2 UV, out float3 depthWorldPos)
@@ -121,7 +128,7 @@ Shader "Custom/GasGiant"
                 float3 rayOrigin = _WorldSpaceCameraPos;
                 float3 rayDirection = normalize(i.worldPos - rayOrigin);
                 float3 sphereCenter = unity_ObjectToWorld._m03_m13_m23;
-                float3 sphereRadius = _SphereRadius;
+                float sphereRadius = _SphereRadius;
 
                 float entry, exit;
                 if (!raySphere(rayOrigin, rayDirection, sphereCenter, sphereRadius, entry, exit))
@@ -147,7 +154,7 @@ Shader "Custom/GasGiant"
                 float gasDepth = min(exit - entry, maxGasDepth);
                 float gasDepth01 = gasDepth / maxGasDepth;
 
-                float localDensity = _Density * (1 - (length(midTPos - sphereCenter) / sphereRadius)) - _Fade;
+                float localDensity = getLocalDensity(_Density, midTPos, sphereCenter, sphereRadius, _Fade);
 
                 //alpha
                 float alpha = gasDepth01 * localDensity;
@@ -179,8 +186,14 @@ Shader "Custom/GasGiant"
                 float dotLightBonus = 0.1;
                 float lightFactor = saturate(dot(lightDir, normalize(sphereCenterEntryDir)) + dotLightBonus) + _AmbientLight;
 
-                float3 localLightColor = lerp(lightColor, float3(1,1,1), 1-saturate(lightFactor)); // dont apply light color where the light doesnt shine
-                float3 litColor = col * saturate(lightFactor) * localLightColor;
+                /*float lightEntry, lightTravelDistance;
+                raySphere(entryPos, lightDir, sphereCenter, sphereRadius, lightEntry, lightTravelDistance);
+                float lightMidT = lightEntry + max(0, lightTravelDistance - lightEntry) * 0.5;
+                float3 lightMidTPos = entryPos + lightDir * lightMidT;
+                float lightAvgPassthroughDensity = getLocalDensity(_Density, lightMidTPos, sphereCenter, sphereRadius, _Fade);
+                float trueLightFactor = exp(-_LightAbsorption * lightAvgPassthroughDensity * lightTravelDistance);*/
+                
+                float3 litColor = col * saturate(lightFactor) * lightColor;
 
                 return float4(saturate(litColor), alpha);
             }
