@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class SpaceshipTracker : MonoBehaviour
 {
-    private List<SpaceshipPartManager> spaceships;
+    [SerializeField] private List<SpaceshipPartManager> spaceships = new();
+
+    public Action OnListUpdated;
 
     GameManager game;
 
@@ -12,32 +15,46 @@ public class SpaceshipTracker : MonoBehaviour
     {
         game = GameManager.I;
     }
+
+    public void ShipSpawned(SpaceshipPartManager ship)
+    {
+        Debug.Log("Ship spawned");
+        UpdateShipList();
+        OnListUpdated?.Invoke();
+    }
     
-    private void OnEnable()
+    // destroy as in 'Destroy()' not kill
+    public void ShipDestroyed()
     {
-        game.hierarchyManager.OnEnemiesChanged += UpdateShipList;
-        game.hierarchyManager.OnCreatedShipsChanged += UpdateShipList;
+        Debug.Log("Ship destroyed");
+        UpdateShipList();
+        OnListUpdated?.Invoke();
     }
-
-    private void OnDisable()
-    {
-        game.hierarchyManager.OnEnemiesChanged -= UpdateShipList;
-        game.hierarchyManager.OnCreatedShipsChanged -= UpdateShipList;
-    }
-
+    
     private void UpdateShipList()
     {
-        spaceships = new List<SpaceshipPartManager>();
-        
+        spaceships.Clear();
+        Debug.Log(game.hierarchyManager.folder_enemies.childCount);
         for (int i = 0; i < game.hierarchyManager.folder_enemies.childCount; i++)
         {
-            spaceships.Add(game.hierarchyManager.folder_enemies.GetChild(i).GetComponent<SpaceshipPartManager>());
+            Debug.Log(i);
+            if (game.hierarchyManager.folder_enemies.GetChild(i).TryGetComponent(out SpaceshipPartManager spm))
+            {
+                spaceships.Add(spm);
+                Debug.Log("Added to spaceship list, current count: " + spaceships.Count);
+            }
         }
 
         for (int i = 0; i < game.hierarchyManager.folder_createdShips.childCount; i++)
         {
-            spaceships.Add(game.hierarchyManager.folder_createdShips.GetChild(i).GetComponent<SpaceshipPartManager>());
+            if (game.hierarchyManager.folder_createdShips.GetChild(i).TryGetComponent(out SpaceshipPartManager spm))
+            {
+                spaceships.Add(spm);
+                Debug.Log("Added to spaceship list, current count: " + spaceships.Count);
+            }
         }
+        
+        Debug.Log("Updated spaceship list, current count: " + spaceships.Count);
     }
 
     public List<SpaceshipPartManager> shipList

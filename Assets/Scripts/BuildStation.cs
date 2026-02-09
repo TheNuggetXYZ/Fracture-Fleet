@@ -69,8 +69,8 @@ public class BuildStation : MonoBehaviour
         // destroy the built ship and instantiate a fresh prefab one
         Destroy(ship.gameObject);
         
-        GameObject workingShip = Instantiate(shipModelsSO.shipModels[_modelNumber].shipPrefab, shipBuildPlace.position, Quaternion.identity);
-        workingShip.transform.parent = game.hierarchyManager.folder_createdShips;
+        GameObject workingShip = Instantiate(shipModelsSO.shipModels[_modelNumber].shipPrefab, game.hierarchyManager.folder_createdShips);
+        workingShip.transform.position = shipBuildPlace.position;
         SpaceshipPartManager workingShipSPM = workingShip.GetComponent<SpaceshipPartManager>();
         workingShipSPM.SetShipToComrade();
     }

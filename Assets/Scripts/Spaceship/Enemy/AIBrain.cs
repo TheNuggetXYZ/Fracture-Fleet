@@ -80,14 +80,12 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void OnEnable()
     {
-        game.hierarchyManager.OnEnemiesChanged += DecideTargetIfNullOrDead;
-        game.hierarchyManager.OnCreatedShipsChanged += DecideTargetIfNullOrDead;
+        game.spaceshipTracker.OnListUpdated += DecideTargetIfNullOrDead;
     }
 
     private void OnDisable()
     {
-        game.hierarchyManager.OnEnemiesChanged -= DecideTargetIfNullOrDead;
-        game.hierarchyManager.OnCreatedShipsChanged -= DecideTargetIfNullOrDead;
+        game.spaceshipTracker.OnListUpdated -= DecideTargetIfNullOrDead;
     }
 
     private void Update()

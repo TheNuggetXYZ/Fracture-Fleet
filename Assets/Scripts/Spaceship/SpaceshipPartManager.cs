@@ -88,7 +88,11 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
     private void Awake()
     {
         game = GameManager.I;
+        
+        game.spaceshipTracker.ShipSpawned(this);
+        
         spaceshipRigidbody = GetComponent<Rigidbody>();
+        
         maxShipHealth = shipHealth;
 
         if (engines == null || engines.Count == 0 || engines[0] == null)
@@ -96,6 +100,8 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         
         // the ship type can change after awake (SetShipToComrade) so keep that in mind
     }
+
+    private void OnDestroy() => game.spaceshipTracker.ShipDestroyed();
 
     private void FindEnginesFromAllParts()
     {

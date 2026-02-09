@@ -27,8 +27,10 @@ public class IndicatorManager : MonoBehaviour
     {
         if (indicators.Count < ships.Count)
         {
-            for (int i = 0; i < ships.Count - indicators.Count; i++)
+            Debug.Log("Not enough indicators, missing:" + (ships.Count - indicators.Count));
+            for (int i = 0; i < ships.Count - indicators.Count + 1; i++)
             {
+                Debug.Log("Added indicator");
                 indicators.Add(Instantiate(indicatorPrefab, transform));
             }
         }
@@ -43,6 +45,9 @@ public class IndicatorManager : MonoBehaviour
         
         for (int i = 0; i < ships.Count; i++)
         {
+            Debug.Log($"Is i >= indicator amount: {i >= indicators.Count}");
+            Debug.Log($"indicators: {indicators.Count}; ships: {ships.Count}; i: {i}; indicator child index: {indicators[i].transform.GetSiblingIndex()}; ship child index: {ships[i].transform.GetSiblingIndex()};");
+            
             if (ships[i] == null)
             {
                 indicators[i].gameObject.SetActive(false);
