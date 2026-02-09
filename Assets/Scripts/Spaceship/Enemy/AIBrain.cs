@@ -215,7 +215,7 @@ public class AIBrain : MonoBehaviour, IShootInput
     {
         repelVector = Vector3.zero;
 
-        if (currentState == AIState.idle || currentTarget.shipDead || !currentTarget)
+        if (currentState == AIState.idle || !currentTarget || currentTarget.shipDead)
             return; // no need for repelling
         
         // repel from other AIs
