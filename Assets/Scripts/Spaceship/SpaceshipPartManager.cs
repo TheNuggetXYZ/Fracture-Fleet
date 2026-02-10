@@ -101,8 +101,6 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         // the ship type can change after awake (SetShipToComrade) so keep that in mind
     }
 
-    private void OnDestroy() => game.spaceshipTracker.ShipDestroyed();
-
     private void FindEnginesFromAllParts()
     {
         engines = new();

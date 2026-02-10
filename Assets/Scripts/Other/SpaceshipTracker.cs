@@ -18,15 +18,7 @@ public class SpaceshipTracker : MonoBehaviour
 
     public void ShipSpawned(SpaceshipPartManager ship)
     {
-        Debug.Log("Ship spawned");
-        UpdateShipList();
-        OnListUpdated?.Invoke();
-    }
-    
-    // destroy as in 'Destroy()' not kill
-    public void ShipDestroyed()
-    {
-        Debug.Log("Ship destroyed");
+        Debug.Log("SpaceshipTracker: ShipSpawned");
         UpdateShipList();
         OnListUpdated?.Invoke();
     }
@@ -34,14 +26,13 @@ public class SpaceshipTracker : MonoBehaviour
     private void UpdateShipList()
     {
         spaceships.Clear();
-        Debug.Log(game.hierarchyManager.folder_enemies.childCount);
+        
         for (int i = 0; i < game.hierarchyManager.folder_enemies.childCount; i++)
         {
             Debug.Log(i);
             if (game.hierarchyManager.folder_enemies.GetChild(i).TryGetComponent(out SpaceshipPartManager spm))
             {
                 spaceships.Add(spm);
-                Debug.Log("Added to spaceship list, current count: " + spaceships.Count);
             }
         }
 
@@ -50,7 +41,6 @@ public class SpaceshipTracker : MonoBehaviour
             if (game.hierarchyManager.folder_createdShips.GetChild(i).TryGetComponent(out SpaceshipPartManager spm))
             {
                 spaceships.Add(spm);
-                Debug.Log("Added to spaceship list, current count: " + spaceships.Count);
             }
         }
         
