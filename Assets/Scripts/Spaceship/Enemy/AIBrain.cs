@@ -7,7 +7,7 @@ public class AIBrain : MonoBehaviour, IShootInput
     [Header("General")]
     [field: SerializeField] public Rigidbody rb { get; private set; }
     [SerializeField] private bool findTarget = true;
-    [SerializeField] private SpaceshipPartManager currentTarget;
+    [SerializeField] private SpaceshipPartManager targetShip;
     [SerializeField] private SpaceshipPartManager spaceshipManager;
 
     [Header("Obstacles")]
@@ -54,6 +54,8 @@ public class AIBrain : MonoBehaviour, IShootInput
     private Vector3 zoomTargetPositionLocalToTarget;
     private Utils.Timer zoomTimer;
     private Vector3 targetPosForGizmos;
+    private Transform interiorExit;
+    private Vector3 currentTarget;
 
     private bool shipDied;
     
@@ -64,6 +66,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         following = 0,
         zooming = 1,
         idle = 2,
+        interiorExiting = 3
     }
 
     private void Awake()
@@ -92,8 +95,8 @@ public class AIBrain : MonoBehaviour, IShootInput
     {
         zoomTimer.Decrement();
         
-        if (currentTarget)
-            zoomTargetPosition = zoomTargetPositionLocalToTarget + currentTarget.transform.position;
+        if (targetShip)
+            zoomTargetPosition = zoomTargetPositionLocalToTarget + targetShip.transform.position;
         
         Think(out var targetPosition, out var upVector, out var repelVector);
         
@@ -110,8 +113,15 @@ public class AIBrain : MonoBehaviour, IShootInput
         upVector = transform.up;
         repelVector = Vector3.zero;
         
-        if (currentTarget && currentTarget.shipDead)
+        if (targetShip && targetShip.shipDead)
             DecideTarget();
+
+        if (currentState == AIState.zooming)
+            currentTarget = zoomTargetPosition;
+        else if (currentState == AIState.interiorExiting)
+            currentTarget = interiorExit.transform.position;
+        else if (targetShip && !targetShip.shipDead)
+            currentTarget = targetShip.transform.position;
             
         DetectObstacle(out bool foundObstacle, out targetPosition, out upVector);
         
@@ -125,12 +135,19 @@ public class AIBrain : MonoBehaviour, IShootInput
     private void ControlState(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
     {
         float targetDistance = 0;
-        if (currentTarget && !currentTarget.shipDead)
-            targetDistance = Vector3.Distance(transform.position, currentTarget.transform.position);
+        if (targetShip && !targetShip.shipDead)
+            targetDistance = Vector3.Distance(transform.position, targetShip.transform.position);
         
-        if (!currentTarget || currentTarget.shipDead)
+        if (!targetShip || targetShip.shipDead)
         {
             currentState = AIState.idle;
+        }
+        else if (currentState == AIState.interiorExiting)
+        {
+            if (!foundObstacle)
+            {
+                targetPosition = interiorExit.position;
+            }
         }
         else if (foundObstacle)
         {
@@ -139,7 +156,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         else if (currentState != AIState.zooming && !Utils.IsInRange(targetDistance, noZoomDistanceRange))
         {
             currentState = AIState.zooming;
-            zoomTargetPositionLocalToTarget = RandomPointInFollowSphere() - currentTarget.transform.position;
+            zoomTargetPositionLocalToTarget = RandomPointInFollowSphere() - targetShip.transform.position;
             zoomTimer.Reset();
         }
         else if (currentState == AIState.zooming && (Vector3.Distance(transform.position, zoomTargetPosition) < zoomTargetStateExitDistance || (Utils.IsInRange(targetDistance, noZoomDistanceRange) && zoomTimer.IsDone())))
@@ -156,7 +173,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         if (currentState == AIState.zooming)
         {
             targetPosition = zoomTargetPosition;
-            newTransformUp = transform.position - currentTarget.transform.position;
+            newTransformUp = transform.position - targetShip.transform.position;
         }
     }
 
@@ -183,8 +200,8 @@ public class AIBrain : MonoBehaviour, IShootInput
     
     private Vector3 RandomPointInFollowSphere()
     {
-        Vector3 point = Utils.RandomPointInSphere(currentTarget.transform.position, noZoomDistanceRange.y);
-        if (Vector3.Distance(currentTarget.transform.position, point) > followDistance)
+        Vector3 point = Utils.RandomPointInSphere(targetShip.transform.position, noZoomDistanceRange.y);
+        if (Vector3.Distance(targetShip.transform.position, point) > followDistance)
             return point;
         else
             return RandomPointInFollowSphere();
@@ -192,7 +209,7 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void DecideShooting(bool foundObstacle)
     {
-        if (foundObstacle || currentState == AIState.zooming || !currentTarget || currentTarget.shipDead)
+        if (foundObstacle || currentState == AIState.zooming || !targetShip || targetShip.shipDead)
         {
             shouldShoot = false;
             return;
@@ -204,7 +221,7 @@ public class AIBrain : MonoBehaviour, IShootInput
             wantsToShoot = false;
         
         Vector3 forward = transform.forward;
-        Vector3 toTarget = (currentTarget.transform.position - transform.position).normalized;
+        Vector3 toTarget = (targetShip.transform.position - transform.position).normalized;
 
         shouldShoot = Vector3.Dot(forward, toTarget) > differenceInDirectionThatAllowsShooting;
     }
@@ -213,7 +230,7 @@ public class AIBrain : MonoBehaviour, IShootInput
     {
         repelVector = Vector3.zero;
 
-        if (currentState == AIState.idle || !currentTarget || currentTarget.shipDead)
+        if (currentState == AIState.idle || !targetShip || targetShip.shipDead)
             return; // no need for repelling
         
         // repel from other AIs
@@ -251,7 +268,7 @@ public class AIBrain : MonoBehaviour, IShootInput
     private void DetectObstacle(out bool foundObstacle, out Vector3 targetPosition, out Vector3 upVector)
     {
 
-        if (!currentTarget || currentTarget.shipDead)
+        if (!targetShip || targetShip.shipDead)
         {
             targetPosition = transform.position;
             upVector = transform.up;
@@ -260,14 +277,10 @@ public class AIBrain : MonoBehaviour, IShootInput
         }
         
         // Default values
-        targetPosition = currentTarget.transform.position;
-        upVector = currentTarget.transform.up;
-        
-        Vector3 toTarget;
-        if (currentState == AIState.zooming)
-            toTarget = zoomTargetPosition - transform.position;
-        else
-            toTarget = currentTarget.transform.position - transform.position;
+        targetPosition = targetShip.transform.position;
+        upVector = targetShip.transform.up;
+
+        Vector3 toTarget = currentTarget - transform.position;
         
         float distance = toTarget.magnitude;
 
@@ -283,14 +296,11 @@ public class AIBrain : MonoBehaviour, IShootInput
         }
         else
             foundObstacle = false;
-
-        if (foundObstacle)
-            currentState = AIState.following;
     }
 
     private void DecideTargetIfNullOrDead()
     {
-        if (!currentTarget || currentTarget.shipDead)
+        if (!targetShip || targetShip.shipDead)
             DecideTarget();
     }
 
@@ -309,7 +319,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         ComputePotentialTargetScoreAndAssignCurrentTarget(game.player.GetComponent<SpaceshipPartManager>(), ref bestScore);
 
         if (bestScore == -1)
-            currentTarget = null;
+            targetShip = null;
     }
 
     private void ComputePotentialTargetScoreAndAssignCurrentTarget(SpaceshipPartManager ship, ref float bestScore)
@@ -322,7 +332,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         if (score > bestScore)
         {
             bestScore = score;
-            currentTarget = ship;
+            targetShip = ship;
         }
     }
 
@@ -342,9 +352,9 @@ public class AIBrain : MonoBehaviour, IShootInput
     {
         speedTier = currentState switch
         {
-            AIState.following => 1,
+            AIState.idle => 0,
             AIState.zooming => 2,
-            _ => 0
+            _ => 1
         };
     }
 
@@ -354,6 +364,27 @@ public class AIBrain : MonoBehaviour, IShootInput
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, targetPosForGizmos);
+    }
+
+    private void OnTriggerEnter(Collider other) // gets triggered for every collider on this ship
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Interior"))
+        {
+            if (other.TryGetComponent(out InteriorShipGuidance isg))
+            {
+                Debug.Log("Ship exiting interior");
+                interiorExit = isg.interiorExit.transform;
+                currentState = AIState.interiorExiting;
+            }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Interior"))
+        {
+            currentState = AIState.idle;
+        }
     }
 
     public void ShipDied()
