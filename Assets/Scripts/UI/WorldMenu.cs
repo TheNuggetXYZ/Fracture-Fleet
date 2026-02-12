@@ -43,6 +43,8 @@ public class WorldMenu : MonoBehaviour
 
     private void Update()
     {
+        ShowObject(interactPopup, false);
+        
         if (!lastCurrentMenuItem && currentMenuItem)
         {
             OnMenuOpen?.Invoke();
