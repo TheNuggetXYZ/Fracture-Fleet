@@ -39,7 +39,7 @@ public class RepairStation : MonoBehaviour
     
     private void Update()
     {
-        game.worldMenu.ShowObject(game.worldMenu.repairKeyPopup, Vector3.Distance(game.player.transform.position, transform.position) < triggerUIPopupDistance);
+        game.worldMenu.ShowObject(game.worldMenu.interactPopup, Vector3.Distance(game.player.transform.position, transform.position) < triggerUIPopupDistance);
     }
 
     private void OnPlayerArrived(InputAction.CallbackContext cc)
