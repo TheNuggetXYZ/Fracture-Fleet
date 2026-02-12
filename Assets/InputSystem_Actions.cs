@@ -190,6 +190,33 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuildShipZero"",
+                    ""type"": ""Button"",
+                    ""id"": ""3b8571b4-a8bc-4f91-ab88-4d3b908f2982"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuildShipOne"",
+                    ""type"": ""Button"",
+                    ""id"": ""f7b86ed7-d714-4d3e-9457-035aa3ae9256"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""BuildShipTwo"",
+                    ""type"": ""Button"",
+                    ""id"": ""c580bbb7-4cbb-4c9a-945d-ed72665f711e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -619,6 +646,39 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""RepairStation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9f7a9f0d-e8e3-4a37-a2fe-e709a4485bf8"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""BuildShipZero"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e407481-dcdb-4ddc-bd6c-111f3e605711"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""BuildShipOne"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72b84771-3118-4b42-8692-d0dba786e08f"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""BuildShipTwo"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1217,6 +1277,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_VerticalMovement = m_Player.FindAction("VerticalMovement", throwIfNotFound: true);
         m_Player_RepairStation = m_Player.FindAction("RepairStation", throwIfNotFound: true);
+        m_Player_BuildShipZero = m_Player.FindAction("BuildShipZero", throwIfNotFound: true);
+        m_Player_BuildShipOne = m_Player.FindAction("BuildShipOne", throwIfNotFound: true);
+        m_Player_BuildShipTwo = m_Player.FindAction("BuildShipTwo", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1321,6 +1384,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_VerticalMovement;
     private readonly InputAction m_Player_RepairStation;
+    private readonly InputAction m_Player_BuildShipZero;
+    private readonly InputAction m_Player_BuildShipOne;
+    private readonly InputAction m_Player_BuildShipTwo;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1376,6 +1442,18 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/RepairStation".
         /// </summary>
         public InputAction @RepairStation => m_Wrapper.m_Player_RepairStation;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/BuildShipZero".
+        /// </summary>
+        public InputAction @BuildShipZero => m_Wrapper.m_Player_BuildShipZero;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/BuildShipOne".
+        /// </summary>
+        public InputAction @BuildShipOne => m_Wrapper.m_Player_BuildShipOne;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/BuildShipTwo".
+        /// </summary>
+        public InputAction @BuildShipTwo => m_Wrapper.m_Player_BuildShipTwo;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1435,6 +1513,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RepairStation.started += instance.OnRepairStation;
             @RepairStation.performed += instance.OnRepairStation;
             @RepairStation.canceled += instance.OnRepairStation;
+            @BuildShipZero.started += instance.OnBuildShipZero;
+            @BuildShipZero.performed += instance.OnBuildShipZero;
+            @BuildShipZero.canceled += instance.OnBuildShipZero;
+            @BuildShipOne.started += instance.OnBuildShipOne;
+            @BuildShipOne.performed += instance.OnBuildShipOne;
+            @BuildShipOne.canceled += instance.OnBuildShipOne;
+            @BuildShipTwo.started += instance.OnBuildShipTwo;
+            @BuildShipTwo.performed += instance.OnBuildShipTwo;
+            @BuildShipTwo.canceled += instance.OnBuildShipTwo;
         }
 
         /// <summary>
@@ -1479,6 +1566,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @RepairStation.started -= instance.OnRepairStation;
             @RepairStation.performed -= instance.OnRepairStation;
             @RepairStation.canceled -= instance.OnRepairStation;
+            @BuildShipZero.started -= instance.OnBuildShipZero;
+            @BuildShipZero.performed -= instance.OnBuildShipZero;
+            @BuildShipZero.canceled -= instance.OnBuildShipZero;
+            @BuildShipOne.started -= instance.OnBuildShipOne;
+            @BuildShipOne.performed -= instance.OnBuildShipOne;
+            @BuildShipOne.canceled -= instance.OnBuildShipOne;
+            @BuildShipTwo.started -= instance.OnBuildShipTwo;
+            @BuildShipTwo.performed -= instance.OnBuildShipTwo;
+            @BuildShipTwo.canceled -= instance.OnBuildShipTwo;
         }
 
         /// <summary>
@@ -1856,6 +1952,27 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnRepairStation(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BuildShipZero" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBuildShipZero(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BuildShipOne" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBuildShipOne(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "BuildShipTwo" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnBuildShipTwo(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

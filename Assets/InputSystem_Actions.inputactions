@@ -104,6 +104,33 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "BuildShipZero",
+                    "type": "Button",
+                    "id": "3b8571b4-a8bc-4f91-ab88-4d3b908f2982",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BuildShipOne",
+                    "type": "Button",
+                    "id": "f7b86ed7-d714-4d3e-9457-035aa3ae9256",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "BuildShipTwo",
+                    "type": "Button",
+                    "id": "c580bbb7-4cbb-4c9a-945d-ed72665f711e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -533,6 +560,39 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "RepairStation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f7a9f0d-e8e3-4a37-a2fe-e709a4485bf8",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "BuildShipZero",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2e407481-dcdb-4ddc-bd6c-111f3e605711",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "BuildShipOne",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "72b84771-3118-4b42-8692-d0dba786e08f",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "BuildShipTwo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

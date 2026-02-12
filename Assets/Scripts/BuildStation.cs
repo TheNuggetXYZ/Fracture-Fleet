@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BuildStation : MonoBehaviour
 {
@@ -28,6 +29,24 @@ public class BuildStation : MonoBehaviour
     {
         game = GameManager.I;
     }
+
+    private void OnEnable()
+    {
+        game.input.Player.BuildShipZero.performed += BuildShipZero;
+        game.input.Player.BuildShipOne.performed += BuildShipOne;
+        game.input.Player.BuildShipTwo.performed += BuildShipTwo;
+    }
+
+    private void OnDisable()
+    {
+        game.input.Player.BuildShipZero.performed -= BuildShipZero;
+        game.input.Player.BuildShipOne.performed -= BuildShipOne;
+        game.input.Player.BuildShipTwo.performed -= BuildShipTwo;
+    }
+
+    private void BuildShipZero(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(0));
+    private void BuildShipOne(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(1));
+    private void BuildShipTwo(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(2));
 
     private void Update()
     {
