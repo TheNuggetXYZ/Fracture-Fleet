@@ -29,21 +29,21 @@ public class RepairStation : MonoBehaviour
 
     private void OnEnable()
     {
-        game.input.Player.RepairStation.performed += OnPlayerArrived;
+        game.input.Player.RepairStation.performed += OnRepairTriggered;
     }
     
     private void OnDisable()
     {
-        game.input.Player.RepairStation.performed -= OnPlayerArrived;
+        game.input.Player.RepairStation.performed -= OnRepairTriggered;
     }
     
     private void Update()
     {
         if (Vector3.Distance(game.player.transform.position, transform.position) < triggerUIPopupDistance)
-            game.worldMenu.ShowObject(game.worldMenu.interactPopup, true);
+            game.worldMenu.ShowObject(game.worldMenu.repairKey, true);
     }
 
-    private void OnPlayerArrived(InputAction.CallbackContext cc)
+    private void OnRepairTriggered(InputAction.CallbackContext cc)
     {
         if (isRepairing)
             return;

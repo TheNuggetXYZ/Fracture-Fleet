@@ -14,6 +14,7 @@ public class BuildStation : MonoBehaviour
     [SerializeField] private ScrapStation scrapStation;
     [SerializeField] private ShipModelsSO shipModelsSO;
     [SerializeField] private float moveSpeed = 5;
+    [SerializeField] private float enableBuildUIPlayerDistance = 20;
     [SerializeField] private bool tryBuildModel;
     [SerializeField] private int modelNumber;
 
@@ -35,6 +36,8 @@ public class BuildStation : MonoBehaviour
         game.input.Player.BuildShipZero.performed += BuildShipZero;
         game.input.Player.BuildShipOne.performed += BuildShipOne;
         game.input.Player.BuildShipTwo.performed += BuildShipTwo;
+
+        game.input.Player.BuildStation.performed += OnBuildTriggered;
     }
 
     private void OnDisable()
@@ -42,14 +45,26 @@ public class BuildStation : MonoBehaviour
         game.input.Player.BuildShipZero.performed -= BuildShipZero;
         game.input.Player.BuildShipOne.performed -= BuildShipOne;
         game.input.Player.BuildShipTwo.performed -= BuildShipTwo;
+        
+        game.input.Player.BuildStation.performed -= OnBuildTriggered;
     }
 
     private void BuildShipZero(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(0));
     private void BuildShipOne(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(1));
     private void BuildShipTwo(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(2));
 
+    private void OnBuildTriggered(InputAction.CallbackContext cc)
+    {
+        game.worldMenu.ToggleBuildMenu();
+    }
+    
     private void Update()
     {
+        if (Vector3.Distance(game.player.transform.position, transform.position) <= enableBuildUIPlayerDistance)
+        {
+            game.worldMenu.ShowObject(game.worldMenu.buildKey, true);
+        }
+        
         if (tryBuildModel)
         {
             tryBuildModel = false;

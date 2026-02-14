@@ -8,11 +8,16 @@ using UnityEngine.SceneManagement;
 public class WorldMenu : MonoBehaviour
 {
     [SerializeField] private CanvasGroup fadeInPanelPrefab;
-    [field: SerializeField] public Transform interactPopup {get; private set;}
     [field: SerializeField] public Transform menu {get; private set;}
+    [field: SerializeField] public Transform buildMenu {get; private set;}
     [field: SerializeField] public CanvasGroup deathScreen {get; private set;}
     [field: SerializeField] public TextMeshProUGUI deathScreenText {get; private set;}
     [field: SerializeField] public float deathScreenFadeDuration {get; private set;}
+    
+    [Header("Keys")]
+    [field: SerializeField] public Transform repairKey {get; private set;}
+    [field: SerializeField] public Transform buildKey {get; private set;}
+    [field: SerializeField] public Transform doorKey {get; private set;}
 
     private GameObject currentMenuItem;
     private bool canEnableObjects;
@@ -43,7 +48,9 @@ public class WorldMenu : MonoBehaviour
 
     private void Update()
     {
-        ShowObject(interactPopup, false);
+        ShowObject(repairKey, false);
+        ShowObject(buildKey, false);
+        ShowObject(doorKey, false);
         
         if (!lastCurrentMenuItem && currentMenuItem)
         {
@@ -55,7 +62,8 @@ public class WorldMenu : MonoBehaviour
         else if (lastCurrentMenuItem && !currentMenuItem)
         {
             OnMenuClose?.Invoke();
-            CursorAim();
+            if (!buildMenu.gameObject.activeInHierarchy)
+                CursorAim();
             UnpauseAllAudio();
             game.UnpauseGame();
         }
@@ -73,13 +81,28 @@ public class WorldMenu : MonoBehaviour
         if (currentMenuItem)
             currentMenuItem.SetActive(false);
 
-        if (!currentMenuItem || !currentMenuItem.transform.Equals(menu))
+        if (buildMenu.gameObject.activeInHierarchy)
+            ToggleBuildMenu();
+        else if (!currentMenuItem || !currentMenuItem.transform.Equals(menu))
             menu.gameObject.SetActive(!menu.gameObject.activeInHierarchy);
         
         if (menu.gameObject.activeInHierarchy)
             currentMenuItem = menu.gameObject;
         else
             currentMenuItem = null;
+    }
+
+    public void ToggleBuildMenu()
+    {
+        if (!currentMenuItem) // if menu isn't open
+        {
+            buildMenu.gameObject.SetActive(!buildMenu.gameObject.activeInHierarchy);
+
+            if (buildMenu.gameObject.activeInHierarchy)
+                CursorClear();
+            else
+                CursorAim();
+        }
     }
 
     private void FadeInDeathScreen()
