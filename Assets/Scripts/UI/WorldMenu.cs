@@ -9,7 +9,9 @@ public class WorldMenu : MonoBehaviour
 {
     [SerializeField] private CanvasGroup fadeInPanelPrefab;
     [field: SerializeField] public Transform menu {get; private set;}
-    [field: SerializeField] public Transform buildMenu {get; private set;}
+    [field: SerializeField] public Transform buildMenuVisual {get; private set;}
+    [field: SerializeField] public Transform buildMenuScrapReportVisual {get; private set;}
+    [field: SerializeField] public BuildMenu buildMenuScript {get; private set;}
     [field: SerializeField] public CanvasGroup deathScreen {get; private set;}
     [field: SerializeField] public TextMeshProUGUI deathScreenText {get; private set;}
     [field: SerializeField] public float deathScreenFadeDuration {get; private set;}
@@ -62,7 +64,7 @@ public class WorldMenu : MonoBehaviour
         else if (lastCurrentMenuItem && !currentMenuItem)
         {
             OnMenuClose?.Invoke();
-            if (!buildMenu.gameObject.activeInHierarchy)
+            if (!buildMenuVisual.gameObject.activeInHierarchy)
                 CursorAim();
             UnpauseAllAudio();
             game.UnpauseGame();
@@ -81,7 +83,7 @@ public class WorldMenu : MonoBehaviour
         if (currentMenuItem)
             currentMenuItem.SetActive(false);
 
-        if (buildMenu.gameObject.activeInHierarchy)
+        if (buildMenuVisual.gameObject.activeInHierarchy)
             ToggleBuildMenu();
         else if (!currentMenuItem || !currentMenuItem.transform.Equals(menu))
             menu.gameObject.SetActive(!menu.gameObject.activeInHierarchy);
@@ -96,9 +98,10 @@ public class WorldMenu : MonoBehaviour
     {
         if (!currentMenuItem) // if menu isn't open
         {
-            buildMenu.gameObject.SetActive(!buildMenu.gameObject.activeInHierarchy);
+            buildMenuVisual.gameObject.SetActive(!buildMenuVisual.gameObject.activeInHierarchy);
+            buildMenuScrapReportVisual.gameObject.SetActive(false);
 
-            if (buildMenu.gameObject.activeInHierarchy)
+            if (buildMenuVisual.gameObject.activeInHierarchy)
                 CursorClear();
             else
                 CursorAim();

@@ -33,27 +33,17 @@ public class BuildStation : MonoBehaviour
 
     private void OnEnable()
     {
-        game.input.Player.BuildShipZero.performed += BuildShipZero;
-        game.input.Player.BuildShipOne.performed += BuildShipOne;
-        game.input.Player.BuildShipTwo.performed += BuildShipTwo;
-
-        game.input.Player.BuildStation.performed += OnBuildTriggered;
+        game.input.Player.BuildStation.performed += OnBuildMenuTriggered;
+        game.worldMenu.buildMenuScript.onBuildShip += TryBuildModel;
     }
 
     private void OnDisable()
     {
-        game.input.Player.BuildShipZero.performed -= BuildShipZero;
-        game.input.Player.BuildShipOne.performed -= BuildShipOne;
-        game.input.Player.BuildShipTwo.performed -= BuildShipTwo;
-        
-        game.input.Player.BuildStation.performed -= OnBuildTriggered;
+        game.input.Player.BuildStation.performed -= OnBuildMenuTriggered;
+        game.worldMenu.buildMenuScript.onBuildShip -= TryBuildModel;
     }
 
-    private void BuildShipZero(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(0));
-    private void BuildShipOne(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(1));
-    private void BuildShipTwo(InputAction.CallbackContext cc) => StartCoroutine(TryBuildModel(2));
-
-    private void OnBuildTriggered(InputAction.CallbackContext cc)
+    private void OnBuildMenuTriggered(InputAction.CallbackContext cc)
     {
         game.worldMenu.ToggleBuildMenu();
     }
@@ -68,14 +58,25 @@ public class BuildStation : MonoBehaviour
         if (tryBuildModel)
         {
             tryBuildModel = false;
-            StartCoroutine(TryBuildModel(modelNumber));
+            TryBuildModel(modelNumber);
         }
     }
 
-    private IEnumerator TryBuildModel(int _modelNumber)
+    private void TryBuildModel(int _modelNumber)
     {
-        if (!TestBuildability(_modelNumber, out var pairs, out var scrap))
+        StartCoroutine(TryBuildModelCoroutine(_modelNumber));
+    }
+
+    private IEnumerator TryBuildModelCoroutine(int _modelNumber)
+    {
+        if (!TestBuildability(_modelNumber, out var pairs, out var scrap, out string report))
+        {
+            game.worldMenu.buildMenuScript.OnFailBuildShip(report);
             yield break;
+        }
+        
+        if (game.worldMenu.buildMenuVisual.gameObject.activeInHierarchy)
+            game.worldMenu.ToggleBuildMenu();
         
         scrapStation.UnstoreScrapParts(scrap);
 
@@ -109,10 +110,11 @@ public class BuildStation : MonoBehaviour
         workingShipSPM.SetShipToComrade();
     }
 
-    private bool TestBuildability(int _modelNumber, out ScrapPartPartModelPair[] pairs, out List<SpaceshipPart> usedScrap)
+    private bool TestBuildability(int _modelNumber, out ScrapPartPartModelPair[] pairs, out List<SpaceshipPart> usedScrap, out string report)
     {
         pairs = null;
         usedScrap = new();
+        report = "";
         
         if (shipModelsSO.shipModels.Length <= _modelNumber || _modelNumber < 0)
             return false;
@@ -142,8 +144,7 @@ public class BuildStation : MonoBehaviour
             if (!found)
             {
                 canBuild = false;
-                Debug.Log("Missing part: " + partModel.prefab.name);
-                break;
+                report += "Missing part: " + partModel.prefab.name + "\n";
             }
 
             i++;
@@ -152,7 +153,7 @@ public class BuildStation : MonoBehaviour
         if (canBuild)
             Debug.Log("Can build model number " + _modelNumber);
         else
-            Debug.Log("Can't build model number " + _modelNumber);
+            Debug.Log("Can't build model number " + _modelNumber + "\n" + report);
             
         return canBuild;
     }
