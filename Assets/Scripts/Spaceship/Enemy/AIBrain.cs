@@ -55,7 +55,7 @@ public class AIBrain : MonoBehaviour, IShootInput
     private Utils.Timer zoomTimer;
     private Vector3 targetPosForGizmos;
     private Transform interiorExit;
-    private Vector3 currentTarget;
+    private Vector3 currentTargetPosition;
 
     private bool shipDied;
     
@@ -98,10 +98,10 @@ public class AIBrain : MonoBehaviour, IShootInput
         if (targetShip)
             zoomTargetPosition = zoomTargetPositionLocalToTarget + targetShip.transform.position;
         
-        Think(out var targetPosition, out var upVector, out var repelVector);
+        Think(out Vector3 targetPosition, out Vector3 upVector, out Vector3 repelVector);
         
         CalculateRotation(targetPosition, upVector, repelVector);
-        CalculateSpeed();
+        CalculateSpeed(targetPosition);
         CalculateMultipliersForPreciseRotation();
         
         targetPosForGizmos = targetPosition;
@@ -109,27 +109,38 @@ public class AIBrain : MonoBehaviour, IShootInput
 
     private void Think(out Vector3 targetPosition, out Vector3 upVector, out Vector3 repelVector)
     {
-        targetPosition = transform.position;
-        upVector = transform.up;
+        DecideCurrentTargetPosition(out upVector);
+        
+        targetPosition = currentTargetPosition;
         repelVector = Vector3.zero;
         
         if (targetShip && targetShip.shipDead)
             DecideTarget();
 
-        if (currentState == AIState.zooming)
-            currentTarget = zoomTargetPosition;
-        else if (currentState == AIState.interiorExiting)
-            currentTarget = interiorExit.transform.position;
-        else if (targetShip && !targetShip.shipDead)
-            currentTarget = targetShip.transform.position;
             
-        DetectObstacle(out bool foundObstacle, out targetPosition, out upVector);
+        DetectObstacle(out bool foundObstacle, ref targetPosition, ref upVector);
         
         RepelFromOthers(foundObstacle, upVector, out repelVector);
 
         DecideShooting(foundObstacle);
         
         ControlState(ref targetPosition, ref upVector, foundObstacle);
+    }
+
+    private void DecideCurrentTargetPosition(out Vector3 upVector)
+    {
+        upVector = transform.up;
+        currentTargetPosition = transform.position;
+        
+        if (currentState == AIState.zooming)
+            currentTargetPosition = zoomTargetPosition;
+        else if (currentState == AIState.interiorExiting)
+            currentTargetPosition = interiorExit.transform.position;
+        else if (targetShip && !targetShip.shipDead)
+        {
+            currentTargetPosition = targetShip.transform.position;
+            upVector = targetShip.transform.up;
+        }
     }
 
     private void ControlState(ref Vector3 targetPosition, ref Vector3 newTransformUp, bool foundObstacle)
@@ -148,6 +159,8 @@ public class AIBrain : MonoBehaviour, IShootInput
             {
                 targetPosition = interiorExit.position;
             }
+            else
+                targetPosition = transform.position;
         }
         else if (foundObstacle)
         {
@@ -265,27 +278,18 @@ public class AIBrain : MonoBehaviour, IShootInput
         previousRepelVector = repelVector;
     }
 
-    private void DetectObstacle(out bool foundObstacle, out Vector3 targetPosition, out Vector3 upVector)
+    private void DetectObstacle(out bool foundObstacle, ref Vector3 targetPosition, ref Vector3 upVector)
     {
-
-        if (!targetShip || targetShip.shipDead)
+        if ((!targetShip || targetShip.shipDead) && currentState != AIState.interiorExiting)
         {
-            targetPosition = transform.position;
-            upVector = transform.up;
             foundObstacle = false;
             return;
         }
         
-        // Default values
-        targetPosition = targetShip.transform.position;
-        upVector = targetShip.transform.up;
-
-        Vector3 toTarget = currentTarget - transform.position;
-        
-        float distance = toTarget.magnitude;
+        Vector3 toTargetDir = currentTargetPosition - transform.position;
 
         // Obstacle avoidance
-        if (Physics.Raycast(transform.position, toTarget.normalized, out var hit, distance, obstacleMask))
+        if (Physics.Raycast(transform.position, toTargetDir.normalized, out var hit, toTargetDir.magnitude, obstacleMask))
         {
             Vector3 obstacleCenterDir = hit.point - hit.transform.position;
 
@@ -348,7 +352,7 @@ public class AIBrain : MonoBehaviour, IShootInput
         targetRotation = Quaternion.LookRotation(combined, upVector);
     }
 
-    private void CalculateSpeed()
+    private void CalculateSpeed(Vector3 targetPosition)
     {
         speedTier = currentState switch
         {
@@ -356,6 +360,9 @@ public class AIBrain : MonoBehaviour, IShootInput
             AIState.zooming => 2,
             _ => 1
         };
+
+        if (targetPosition == transform.position)
+            speedTier = 0;
     }
 
     public bool IsShooting() => shouldShoot && wantsToShoot;
