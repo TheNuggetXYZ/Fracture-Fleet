@@ -11,6 +11,8 @@ public class BuildStation : MonoBehaviour
     [SerializeField] private CCDKinematics armKinematics;
     [SerializeField] private Transform scrapStoringPlace;
     [SerializeField] private Transform shipBuildPlace;
+    [SerializeField] private Transform shipRotationReferenceObject;
+    [SerializeField] private Vector3 shipRotationOffset;
     [SerializeField] private ScrapStation scrapStation;
     [SerializeField] private ShipModelsSO shipModelsSO;
     [SerializeField] private float moveSpeed = 5;
@@ -82,21 +84,31 @@ public class BuildStation : MonoBehaviour
 
         Transform ship = new GameObject("new ship").transform;
         ship.parent = game.hierarchyManager.folder_createdShips;
+        ship.position = shipBuildPlace.position;
+        ship.rotation = shipRotationReferenceObject.rotation;
+        ship.Rotate(shipRotationOffset);
         
         foreach (var pair in pairs)
         {
+            // "reach" for the part
             yield return new WaitForSeconds(armKinematics.SetGoalPositionSmooth(scrapStoringPlace.position,
                 moveSpeed));
             
+            // prepare the part
             pair.scrapPart.gameObject.SetActive(true);
             pair.scrapPart.transform.parent = ship;
             pair.scrapPart.transform.position = scrapStoringPlace.position;
             pair.scrapPart.transform.rotation = pair.partModel.rotation;
+            pair.scrapPart.transform.Rotate(ship.rotation.eulerAngles);
             
-            yield return new WaitForSeconds(armKinematics.SetGoalPositionSmooth(shipBuildPlace.position + pair.partModel.position,
+            // move it to the right place
+            Vector3 desiredPartPosition = ship.TransformPoint(pair.partModel.position);
+            
+            yield return new WaitForSeconds(armKinematics.SetGoalPositionSmooth(desiredPartPosition,
                 moveSpeed, (deltaPos, i) => { pair.scrapPart.transform.position += deltaPos; }));
             
-            pair.scrapPart.SetPosition(shipBuildPlace.position + pair.partModel.position);
+            // ensure its exactly in the right position, position has to be recalculated!!
+            pair.scrapPart.SetPosition(ship.TransformPoint(pair.partModel.position));
                 
             pair.scrapPart.Repair(false, false, false);
         }
@@ -106,6 +118,8 @@ public class BuildStation : MonoBehaviour
         
         GameObject workingShip = Instantiate(shipModelsSO.shipModels[_modelNumber].shipPrefab, game.hierarchyManager.folder_createdShips);
         workingShip.transform.position = shipBuildPlace.position;
+        workingShip.transform.rotation = shipRotationReferenceObject.rotation;
+        workingShip.transform.Rotate(shipRotationOffset);
         SpaceshipPartManager workingShipSPM = workingShip.GetComponent<SpaceshipPartManager>();
         workingShipSPM.SetShipToComrade();
     }
