@@ -227,6 +227,9 @@ public class AIBrain : MonoBehaviour, IShootInput
             shouldShoot = false;
             return;
         }
+
+        if (stopShootingRatePerMinute == 0)
+            wantsToShoot = true;
         
         if (Utils.RandomEventInTime(startShootingRatePerMinute))
             wantsToShoot = true;
