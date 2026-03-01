@@ -10,6 +10,7 @@ public class UIPopupListHandler : MonoBehaviour
     [field: SerializeField] public Transform popup_ShipSustainedDamage {get; private set;}
     [field: SerializeField] public Transform popup_EnemyNeutralized {get; private set;}
     [field: SerializeField] public Transform popup_DetectingSignals {get; private set;}
+    [field: SerializeField] public Transform popup_GravityStabilization {get; private set;}
     
     [field: SerializeField] public Transform warning_ShipModuleLost {get; private set;}
     [field: SerializeField] public Transform warning_ImpactDamage {get; private set;}

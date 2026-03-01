@@ -104,18 +104,25 @@ public class PlayerController : SpaceshipController
         float forwardMovement = state == State.Warp ? 1 : input.forwardMovement;
         float verticalMovement = state == State.Warp ? 0 : input.verticalMovement;
 
-        Vector3 antiGravityForce = Vector3.ClampMagnitude(-gravity.totalGravity, MovementSpeed);
-        
-        if (input.isStabilizingGravity)
-            FreeMove(antiGravityForce);
-        else
-            antiGravityForce = Vector3.zero;
+        game.popupListHandler.ShowPopup(game.popupListHandler.popup_GravityStabilization, input.isStabilizingGravity);
+        ApplyAntiGravityForce(out float enginePowerLeft);
 
-        float enginePowerLeft = MovementSpeed - antiGravityForce.magnitude;
         Move(enginePowerLeft, 
             forwardMovement, 
             verticalMovement, 
             forwardMovementMultiplier);
+    }
+
+    private void ApplyAntiGravityForce(out float enginePowerLeft)
+    {
+        Vector3 antiGravityForce = Vector3.ClampMagnitude(-gravity.totalGravity, MovementSpeed);
+
+        if (input.isStabilizingGravity)
+            FreeMove(antiGravityForce);
+        else
+            antiGravityForce = Vector3.zero;
+        
+        enginePowerLeft = MovementSpeed - antiGravityForce.magnitude;
     }
 
     private void HandleRotation()
