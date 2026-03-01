@@ -104,7 +104,15 @@ public class PlayerController : SpaceshipController
         float forwardMovement = state == State.Warp ? 1 : input.forwardMovement;
         float verticalMovement = state == State.Warp ? 0 : input.verticalMovement;
 
-        Move(MovementSpeed, 
+        Vector3 antiGravityForce = Vector3.ClampMagnitude(-gravity.totalGravity, MovementSpeed);
+        
+        if (input.isStabilizingGravity)
+            FreeMove(antiGravityForce);
+        else
+            antiGravityForce = Vector3.zero;
+
+        float enginePowerLeft = MovementSpeed - antiGravityForce.magnitude;
+        Move(enginePowerLeft, 
             forwardMovement, 
             verticalMovement, 
             forwardMovementMultiplier);

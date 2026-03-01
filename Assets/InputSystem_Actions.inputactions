@@ -149,6 +149,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleGravityStabilization",
+                    "type": "Button",
+                    "id": "f97e7bed-2a20-4cd5-a63d-f062486c7b3f",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -633,6 +642,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "CargoshipHatch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d4f2bfd4-f848-4103-9bd8-fe2965ebb6d1",
+                    "path": "<Keyboard>/alt",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "ToggleGravityStabilization",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

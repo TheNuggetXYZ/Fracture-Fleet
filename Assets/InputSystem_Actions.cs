@@ -235,6 +235,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ToggleGravityStabilization"",
+                    ""type"": ""Button"",
+                    ""id"": ""f97e7bed-2a20-4cd5-a63d-f062486c7b3f"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -719,6 +728,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""CargoshipHatch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d4f2bfd4-f848-4103-9bd8-fe2965ebb6d1"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""ToggleGravityStabilization"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1322,6 +1342,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_BuildShipTwo = m_Player.FindAction("BuildShipTwo", throwIfNotFound: true);
         m_Player_BuildStation = m_Player.FindAction("BuildStation", throwIfNotFound: true);
         m_Player_CargoshipHatch = m_Player.FindAction("CargoshipHatch", throwIfNotFound: true);
+        m_Player_ToggleGravityStabilization = m_Player.FindAction("ToggleGravityStabilization", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1431,6 +1452,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_BuildShipTwo;
     private readonly InputAction m_Player_BuildStation;
     private readonly InputAction m_Player_CargoshipHatch;
+    private readonly InputAction m_Player_ToggleGravityStabilization;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1507,6 +1529,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @CargoshipHatch => m_Wrapper.m_Player_CargoshipHatch;
         /// <summary>
+        /// Provides access to the underlying input action "Player/ToggleGravityStabilization".
+        /// </summary>
+        public InputAction @ToggleGravityStabilization => m_Wrapper.m_Player_ToggleGravityStabilization;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1580,6 +1606,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @CargoshipHatch.started += instance.OnCargoshipHatch;
             @CargoshipHatch.performed += instance.OnCargoshipHatch;
             @CargoshipHatch.canceled += instance.OnCargoshipHatch;
+            @ToggleGravityStabilization.started += instance.OnToggleGravityStabilization;
+            @ToggleGravityStabilization.performed += instance.OnToggleGravityStabilization;
+            @ToggleGravityStabilization.canceled += instance.OnToggleGravityStabilization;
         }
 
         /// <summary>
@@ -1639,6 +1668,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @CargoshipHatch.started -= instance.OnCargoshipHatch;
             @CargoshipHatch.performed -= instance.OnCargoshipHatch;
             @CargoshipHatch.canceled -= instance.OnCargoshipHatch;
+            @ToggleGravityStabilization.started -= instance.OnToggleGravityStabilization;
+            @ToggleGravityStabilization.performed -= instance.OnToggleGravityStabilization;
+            @ToggleGravityStabilization.canceled -= instance.OnToggleGravityStabilization;
         }
 
         /// <summary>
@@ -2051,6 +2083,13 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCargoshipHatch(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "ToggleGravityStabilization" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleGravityStabilization(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.
