@@ -374,7 +374,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Sun"))
+        if (other.gameObject.layer == LayerMask.NameToLayer("MoltenCore"))
         {
             KillShip();
         }

@@ -198,6 +198,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Moving Directional Light
       objectReference: {fileID: 0}
+    - target: {fileID: 8528478150541663310, guid: ef8c95e9e6dcc3b05a587072c341dfa9, type: 3}
+      propertyPath: m_ColorTemperature
+      value: 3000
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
