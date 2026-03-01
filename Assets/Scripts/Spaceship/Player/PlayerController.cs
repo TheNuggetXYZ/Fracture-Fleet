@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputHandler), typeof(Rigidbody))]
@@ -13,6 +14,7 @@ public class PlayerController : SpaceshipController
     [SerializeField] private float warpCancelCollisionMagnitudeThreshold = 10;
     [SerializeField] private float warpChargeRotationSpeedMultiplier = 0.2f;
     [SerializeField] private AudioSource warpChargeSFX;
+    [SerializeField] private TextMeshProUGUI engineUsageText;
     
     public float fullSpeedFactor {get; private set;}
     public float warpSpeedFactor {get; private set;}
@@ -111,6 +113,9 @@ public class PlayerController : SpaceshipController
             forwardMovement, 
             verticalMovement, 
             forwardMovementMultiplier);
+        
+        engineUsageText.text =
+            (int)Mathf.Abs(((MovementSpeed - enginePowerLeft) + (enginePowerLeft * forwardMovement * forwardMovementMultiplier)) / MovementSpeed * 100) + "%";
     }
 
     private void ApplyAntiGravityForce(out float enginePowerLeft)
