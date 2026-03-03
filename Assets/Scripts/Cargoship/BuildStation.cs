@@ -47,7 +47,8 @@ public class BuildStation : MonoBehaviour
 
     private void OnBuildMenuTriggered(InputAction.CallbackContext cc)
     {
-        game.worldMenu.ToggleBuildMenu();
+        if (Vector3.Distance(game.player.transform.position, transform.position) <= enableBuildUIPlayerDistance || game.worldMenu.buildMenuVisual.gameObject.activeInHierarchy)
+            game.worldMenu.ToggleBuildMenu();
     }
     
     private void Update()

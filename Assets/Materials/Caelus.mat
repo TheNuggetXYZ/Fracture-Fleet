@@ -108,7 +108,7 @@ Material:
     - _ColorNoiseSharpness: 1.67
     - _Cull: 2
     - _Cutoff: 0.5
-    - _Density: 8
+    - _Density: 80
     - _DensityNoiseFreq: 1
     - _DensityNoiseIntensity: 5
     - _DetailAlbedoMapScale: 1
