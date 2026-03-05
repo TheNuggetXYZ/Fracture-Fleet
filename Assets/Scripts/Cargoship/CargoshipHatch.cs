@@ -17,6 +17,8 @@ public class CargoshipHatch : MonoBehaviour
     private void Awake()
     {
         game = GameManager.I;
+        
+        rb.sleepThreshold = 0;
     }
 
     private void OnEnable()
