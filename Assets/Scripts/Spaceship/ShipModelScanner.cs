@@ -8,6 +8,8 @@ public class ShipModelScanner : MonoBehaviour
     [SerializeField] private int modelNumber;
     [SerializeField] private bool scan;
 
+#if UNITY_EDITOR
+    
     private void OnValidate()
     {
         if (scan)
@@ -43,4 +45,5 @@ public class ShipModelScanner : MonoBehaviour
         
         shipModels.shipModels[modelNumber].Assign(partModels);
     }
+#endif
 }
