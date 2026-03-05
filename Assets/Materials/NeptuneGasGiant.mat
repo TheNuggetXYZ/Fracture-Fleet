@@ -31,7 +31,7 @@ Material:
     - _Density: 200
     - _DensityNoiseFreq: 0
     - _DensityNoiseIntensity: 0
-    - _Fade: 0.8
+    - _Fade: 2
     - _LightAbsorption: 0.0004
     - _SpecialColorNoiseFreq: 6.57
     - _SphereRadius: 400
