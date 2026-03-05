@@ -36,6 +36,8 @@ public class FloatingOrigin : MonoBehaviour
         MoveObjects(game.hierarchyManager.GetOPMFolders(), positionOffset);
         
         origin.position = Vector3.zero;
+        
+        Physics.SyncTransforms();
     }
 
     private void MoveObjects(Transform[] objects, Vector3 move)
