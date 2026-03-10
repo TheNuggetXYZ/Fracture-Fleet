@@ -84,7 +84,7 @@ public class BuildStation : MonoBehaviour
         scrapStation.UnstoreScrapParts(scrap);
 
         Transform ship = new GameObject("new ship").transform;
-        ship.parent = game.hierarchyManager.folder_createdShips;
+        ship.parent = shipRotationReferenceObject;
         ship.position = shipBuildPlace.position;
         ship.rotation = shipRotationReferenceObject.rotation;
         ship.Rotate(shipRotationOffset);
@@ -106,7 +106,9 @@ public class BuildStation : MonoBehaviour
             Vector3 desiredPartPosition = ship.TransformPoint(pair.partModel.position);
             
             yield return new WaitForSeconds(armKinematics.SetGoalPositionSmooth(desiredPartPosition,
-                moveSpeed, (deltaPos, i) => { pair.scrapPart.transform.position += deltaPos; pair.scrapPart.transform.rotation = pair.partModel.rotation * ship.rotation; }));
+                moveSpeed, (deltaPos, i) => { pair.scrapPart.transform.position += deltaPos;
+                    pair.scrapPart.transform.rotation = Quaternion.Euler(pair.partModel.rotation.eulerAngles + ship.rotation.eulerAngles);
+                }));
             
             // ensure its exactly in the right position, position has to be recalculated!!
             pair.scrapPart.SetPosition(ship.TransformPoint(pair.partModel.position));
