@@ -99,14 +99,14 @@ public class BuildStation : MonoBehaviour
             pair.scrapPart.gameObject.SetActive(true);
             pair.scrapPart.transform.parent = ship;
             pair.scrapPart.transform.position = scrapStoringPlace.position;
-            pair.scrapPart.transform.rotation = pair.partModel.rotation;
-            pair.scrapPart.transform.Rotate(ship.rotation.eulerAngles);
+            pair.scrapPart.transform.rotation = pair.partModel.rotation * ship.rotation;
+            //pair.scrapPart.transform.Rotate(ship.rotation.eulerAngles);
             
             // move it to the right place
             Vector3 desiredPartPosition = ship.TransformPoint(pair.partModel.position);
             
             yield return new WaitForSeconds(armKinematics.SetGoalPositionSmooth(desiredPartPosition,
-                moveSpeed, (deltaPos, i) => { pair.scrapPart.transform.position += deltaPos; }));
+                moveSpeed, (deltaPos, i) => { pair.scrapPart.transform.position += deltaPos; pair.scrapPart.transform.rotation = pair.partModel.rotation * ship.rotation; }));
             
             // ensure its exactly in the right position, position has to be recalculated!!
             pair.scrapPart.SetPosition(ship.TransformPoint(pair.partModel.position));

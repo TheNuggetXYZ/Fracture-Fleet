@@ -149,11 +149,8 @@ public class AIBrain : MonoBehaviour, IShootInput
         if (targetShip && !targetShip.shipDead)
             targetDistance = Vector3.Distance(transform.position, targetShip.transform.position);
         
-        if (!targetShip || targetShip.shipDead)
-        {
-            currentState = AIState.idle;
-        }
-        else if (currentState == AIState.interiorExiting)
+        
+        if (currentState == AIState.interiorExiting)
         {
             if (!foundObstacle)
             {
@@ -161,6 +158,10 @@ public class AIBrain : MonoBehaviour, IShootInput
             }
             else
                 targetPosition = transform.position;
+        }
+        else if (!targetShip || targetShip.shipDead)
+        {
+            currentState = AIState.idle;
         }
         else if (foundObstacle)
         {
