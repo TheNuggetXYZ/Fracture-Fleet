@@ -67,7 +67,7 @@ Material:
     - _QueueOffset: 0
     - _VertexDisplacementStrength: 0.03
     m_Colors:
-    - _Color: {r: 59.017696, g: 27.809383, b: 4.016911, a: 1}
+    - _Color: {r: 29.508848, g: 13.904692, b: 2.0084555, a: 1}
     - _HighDetailScaleRange: {r: 20, g: 1000, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
