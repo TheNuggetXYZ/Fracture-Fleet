@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     [field: SerializeField] public UIPopupListHandler popupListHandler {get; private set;}
     [field: SerializeField] public EnemyWaveManager waveManager {get; private set;}
     [field: SerializeField] public HierarchyManager hierarchyManager {get; private set;}
+    [field: SerializeField] public CameraManager cameraManager {get; private set;}
     [field: SerializeField] public new AudioManager audio {get; private set;}
     [field: SerializeField] public FloatingOrigin floatingOrigin {get; private set;}
     [field: SerializeField] public SpaceshipTracker spaceshipTracker {get; private set;}
