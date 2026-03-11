@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
         input = new InputSystem_Actions();
         input.Enable();
         input.Player.Enable();
+        input.Cargoship.Enable();
         input.UI.Enable();
         
         player.gameObject.SetActive(false);
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour
     {
         input.Disable();
         input.Player.Disable();
+        input.Cargoship.Disable();
         input.UI.Disable();
         input.Dispose();
         I = null;
