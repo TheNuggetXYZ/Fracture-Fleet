@@ -147,28 +147,10 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Previous"",
-                    ""type"": ""Button"",
-                    ""id"": ""2776c80d-3c14-4091-8c56-d04ced07a2b0"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Next"",
-                    ""type"": ""Button"",
-                    ""id"": ""b7230bb6-fc9b-4f52-8b25-f5e19cb2c2ba"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Sprint"",
                     ""type"": ""Button"",
                     ""id"": ""641cd816-40e6-41b4-8c3d-04687c349290"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -240,15 +222,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""name"": ""ToggleGravityStabilization"",
                     ""type"": ""Button"",
                     ""id"": ""f97e7bed-2a20-4cd5-a63d-f062486c7b3f"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ToggleToCargoship"",
-                    ""type"": ""Button"",
-                    ""id"": ""e1454f52-aec0-4135-8198-b909876dc174"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -489,28 +462,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""cbac6039-9c09-46a1-b5f2-4e5124ccb5ed"",
-                    ""path"": ""<Keyboard>/2"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Next"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""e15ca19d-e649-4852-97d5-7fe8ccc44e94"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Next"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""f2e9ba44-c423-42a7-ad56-f20975884794"",
                     ""path"": ""<Keyboard>/leftShift"",
                     ""interactions"": """",
@@ -572,28 +523,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""XR"",
                     ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""1534dc16-a6aa-499d-9c3a-22b47347b52a"",
-                    ""path"": ""<Keyboard>/1"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Previous"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""25060bbd-a3a6-476e-8fba-45ae484aad05"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Previous"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -748,17 +677,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""ToggleGravityStabilization"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""60528a8d-afc1-42db-a1c9-09a33c68fca5"",
-                    ""path"": ""<Keyboard>/tab"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""ToggleToCargoship"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1448,6 +1366,34 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""World"",
+            ""id"": ""0e8e8341-316d-45ba-abea-cab87a8fe6fb"",
+            ""actions"": [
+                {
+                    ""name"": ""ToggleToCargoship"",
+                    ""type"": ""Button"",
+                    ""id"": ""7142c07f-6cf4-4661-9bbe-6b72a5ebb8d5"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6f2e4a68-b39d-41e9-84ca-af6fe6f387d9"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""ToggleToCargoship"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1521,8 +1467,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
         m_Player_Crouch = m_Player.FindAction("Crouch", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
-        m_Player_Previous = m_Player.FindAction("Previous", throwIfNotFound: true);
-        m_Player_Next = m_Player.FindAction("Next", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_VerticalMovement = m_Player.FindAction("VerticalMovement", throwIfNotFound: true);
         m_Player_RepairStation = m_Player.FindAction("RepairStation", throwIfNotFound: true);
@@ -1532,7 +1476,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_BuildStation = m_Player.FindAction("BuildStation", throwIfNotFound: true);
         m_Player_CargoshipHatch = m_Player.FindAction("CargoshipHatch", throwIfNotFound: true);
         m_Player_ToggleGravityStabilization = m_Player.FindAction("ToggleGravityStabilization", throwIfNotFound: true);
-        m_Player_ToggleToCargoship = m_Player.FindAction("ToggleToCargoship", throwIfNotFound: true);
         // Cargoship
         m_Cargoship = asset.FindActionMap("Cargoship", throwIfNotFound: true);
         m_Cargoship_Move = m_Cargoship.FindAction("Move", throwIfNotFound: true);
@@ -1549,6 +1492,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_UI_ScrollWheel = m_UI.FindAction("ScrollWheel", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // World
+        m_World = asset.FindActionMap("World", throwIfNotFound: true);
+        m_World_ToggleToCargoship = m_World.FindAction("ToggleToCargoship", throwIfNotFound: true);
     }
 
     ~@InputSystem_Actions()
@@ -1556,6 +1502,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_Cargoship.enabled, "This will cause a leak and performance issues, InputSystem_Actions.Cargoship.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputSystem_Actions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_World.enabled, "This will cause a leak and performance issues, InputSystem_Actions.World.Disable() has not been called.");
     }
 
     /// <summary>
@@ -1637,8 +1584,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Interact;
     private readonly InputAction m_Player_Crouch;
     private readonly InputAction m_Player_Jump;
-    private readonly InputAction m_Player_Previous;
-    private readonly InputAction m_Player_Next;
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_VerticalMovement;
     private readonly InputAction m_Player_RepairStation;
@@ -1648,7 +1593,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_BuildStation;
     private readonly InputAction m_Player_CargoshipHatch;
     private readonly InputAction m_Player_ToggleGravityStabilization;
-    private readonly InputAction m_Player_ToggleToCargoship;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1685,14 +1629,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         /// <summary>
-        /// Provides access to the underlying input action "Player/Previous".
-        /// </summary>
-        public InputAction @Previous => m_Wrapper.m_Player_Previous;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/Next".
-        /// </summary>
-        public InputAction @Next => m_Wrapper.m_Player_Next;
-        /// <summary>
         /// Provides access to the underlying input action "Player/Sprint".
         /// </summary>
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
@@ -1728,10 +1664,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/ToggleGravityStabilization".
         /// </summary>
         public InputAction @ToggleGravityStabilization => m_Wrapper.m_Player_ToggleGravityStabilization;
-        /// <summary>
-        /// Provides access to the underlying input action "Player/ToggleToCargoship".
-        /// </summary>
-        public InputAction @ToggleToCargoship => m_Wrapper.m_Player_ToggleToCargoship;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1776,12 +1708,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @Previous.started += instance.OnPrevious;
-            @Previous.performed += instance.OnPrevious;
-            @Previous.canceled += instance.OnPrevious;
-            @Next.started += instance.OnNext;
-            @Next.performed += instance.OnNext;
-            @Next.canceled += instance.OnNext;
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
@@ -1809,9 +1735,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ToggleGravityStabilization.started += instance.OnToggleGravityStabilization;
             @ToggleGravityStabilization.performed += instance.OnToggleGravityStabilization;
             @ToggleGravityStabilization.canceled += instance.OnToggleGravityStabilization;
-            @ToggleToCargoship.started += instance.OnToggleToCargoship;
-            @ToggleToCargoship.performed += instance.OnToggleToCargoship;
-            @ToggleToCargoship.canceled += instance.OnToggleToCargoship;
         }
 
         /// <summary>
@@ -1841,12 +1764,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @Previous.started -= instance.OnPrevious;
-            @Previous.performed -= instance.OnPrevious;
-            @Previous.canceled -= instance.OnPrevious;
-            @Next.started -= instance.OnNext;
-            @Next.performed -= instance.OnNext;
-            @Next.canceled -= instance.OnNext;
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
@@ -1874,9 +1791,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @ToggleGravityStabilization.started -= instance.OnToggleGravityStabilization;
             @ToggleGravityStabilization.performed -= instance.OnToggleGravityStabilization;
             @ToggleGravityStabilization.canceled -= instance.OnToggleGravityStabilization;
-            @ToggleToCargoship.started -= instance.OnToggleToCargoship;
-            @ToggleToCargoship.performed -= instance.OnToggleToCargoship;
-            @ToggleToCargoship.canceled -= instance.OnToggleToCargoship;
         }
 
         /// <summary>
@@ -2212,6 +2126,102 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="UIActions" /> instance referencing this action map.
     /// </summary>
     public UIActions @UI => new UIActions(this);
+
+    // World
+    private readonly InputActionMap m_World;
+    private List<IWorldActions> m_WorldActionsCallbackInterfaces = new List<IWorldActions>();
+    private readonly InputAction m_World_ToggleToCargoship;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "World".
+    /// </summary>
+    public struct WorldActions
+    {
+        private @InputSystem_Actions m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public WorldActions(@InputSystem_Actions wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "World/ToggleToCargoship".
+        /// </summary>
+        public InputAction @ToggleToCargoship => m_Wrapper.m_World_ToggleToCargoship;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_World; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="WorldActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(WorldActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="WorldActions" />
+        public void AddCallbacks(IWorldActions instance)
+        {
+            if (instance == null || m_Wrapper.m_WorldActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_WorldActionsCallbackInterfaces.Add(instance);
+            @ToggleToCargoship.started += instance.OnToggleToCargoship;
+            @ToggleToCargoship.performed += instance.OnToggleToCargoship;
+            @ToggleToCargoship.canceled += instance.OnToggleToCargoship;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="WorldActions" />
+        private void UnregisterCallbacks(IWorldActions instance)
+        {
+            @ToggleToCargoship.started -= instance.OnToggleToCargoship;
+            @ToggleToCargoship.performed -= instance.OnToggleToCargoship;
+            @ToggleToCargoship.canceled -= instance.OnToggleToCargoship;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="WorldActions.UnregisterCallbacks(IWorldActions)" />.
+        /// </summary>
+        /// <seealso cref="WorldActions.UnregisterCallbacks(IWorldActions)" />
+        public void RemoveCallbacks(IWorldActions instance)
+        {
+            if (m_Wrapper.m_WorldActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="WorldActions.AddCallbacks(IWorldActions)" />
+        /// <seealso cref="WorldActions.RemoveCallbacks(IWorldActions)" />
+        /// <seealso cref="WorldActions.UnregisterCallbacks(IWorldActions)" />
+        public void SetCallbacks(IWorldActions instance)
+        {
+            foreach (var item in m_Wrapper.m_WorldActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_WorldActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="WorldActions" /> instance referencing this action map.
+    /// </summary>
+    public WorldActions @World => new WorldActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     /// <summary>
     /// Provides access to the input control scheme.
@@ -2327,20 +2337,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
         /// <summary>
-        /// Method invoked when associated input action "Previous" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnPrevious(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Next" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnNext(InputAction.CallbackContext context);
-        /// <summary>
         /// Method invoked when associated input action "Sprint" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
@@ -2403,13 +2399,6 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnToggleGravityStabilization(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "ToggleToCargoship" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnToggleToCargoship(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Cargoship" which allows adding and removing callbacks.
@@ -2510,5 +2499,20 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "World" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="WorldActions.AddCallbacks(IWorldActions)" />
+    /// <seealso cref="WorldActions.RemoveCallbacks(IWorldActions)" />
+    public interface IWorldActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "ToggleToCargoship" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnToggleToCargoship(InputAction.CallbackContext context);
     }
 }
