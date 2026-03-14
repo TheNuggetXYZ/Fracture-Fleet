@@ -20,7 +20,8 @@ public class SpaceshipController : MonoBehaviour
     private float torqueForceMultiplier = 1f;
     private float unstabilityAmount = 0;
     
-    public float speedFactor {get; private set;}
+    public float normalSpeedFactor {get; private set;}
+    public float fullSpeedFactor {get; protected set;} // example: includes warp speed
     
     protected float MovementSpeed => movementSpeed;
     protected float VerticalMovementSpeed => verticalMovementSpeed;
@@ -34,7 +35,7 @@ public class SpaceshipController : MonoBehaviour
     protected void Update()
     {
         velocity = rb.linearVelocity.magnitude;
-        speedFactor = Mathf.InverseLerp(0, MovementSpeed, velocity); // stationary - 0, max speed - 1
+        normalSpeedFactor = Mathf.InverseLerp(0, MovementSpeed, velocity); // stationary - 0, max speed - 1
     }
 
     protected void FreeMove(Vector3 force)

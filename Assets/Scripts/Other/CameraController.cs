@@ -1,6 +1,7 @@
 using System;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraController : MonoBehaviour
 {
@@ -10,9 +11,10 @@ public class CameraController : MonoBehaviour
     
     [SerializeField] private CinemachineCamera cinemachineCamera;
     [SerializeField] private Vector2 FOVRange;
-    [SerializeField] private int WarpFOV;
+    [FormerlySerializedAs("WarpFOV")]
+    [SerializeField] private int SpecialFOV;
 
-    private PlayerController player;
+    [SerializeField] private SpaceshipController target;
     
     GameManager game;
 
@@ -21,17 +23,12 @@ public class CameraController : MonoBehaviour
         game = GameManager.I;
     }
     
-    private void Start()
-    {
-        player = game.player;
-    }
-    
     private void Update()
     {
-        noiseModule.AmplitudeGain = noiseAmplitudeAtMaxSpeed * player.speedFactor;
-        noiseModule.FrequencyGain = noiseFrequencyAtMaxSpeed * player.speedFactor;
+        noiseModule.AmplitudeGain = noiseAmplitudeAtMaxSpeed * target.normalSpeedFactor;
+        noiseModule.FrequencyGain = noiseFrequencyAtMaxSpeed * target.normalSpeedFactor;
         
-        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, FOVRange.y, player.speedFactor);
-        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, WarpFOV, player.fullSpeedFactor);
+        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, FOVRange.y, target.normalSpeedFactor);
+        cinemachineCamera.Lens.FieldOfView = Mathf.Lerp(FOVRange.x, SpecialFOV, target.fullSpeedFactor);
     }
 }

@@ -16,7 +16,6 @@ public class PlayerController : SpaceshipController
     [SerializeField] private AudioSource warpChargeSFX;
     [SerializeField] private TextMeshProUGUI engineUsageText;
     
-    public float fullSpeedFactor {get; private set;}
     public float warpSpeedFactor {get; private set;}
 
     private State state;

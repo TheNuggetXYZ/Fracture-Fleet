@@ -233,7 +233,7 @@ public class SpaceshipPartManager : MonoBehaviour, ITakeDamage
         foreach (SpaceshipEngine engine in engines)
         {
             //TODO: not only boost the volume for player warping, but for AI zooming since they have a zooming speed!!!
-            engine.SetVolume(spaceshipController.speedFactor);
+            engine.SetVolume(spaceshipController.normalSpeedFactor);
         }
     }
     
