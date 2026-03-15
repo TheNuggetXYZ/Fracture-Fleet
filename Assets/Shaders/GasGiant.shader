@@ -170,8 +170,8 @@ Shader "Custom/GasGiant"
                 colorNoiseSamplePos.y /= _ColorNoiseStretching.y;
                 colorNoiseSamplePos.z /= _ColorNoiseStretching.z;
 
-                float colorNoise = saturate(pow(snoise(colorNoiseSamplePos * _ColorNoiseFreq), _ColorNoiseSharpness));
-                float specialColorNoise = saturate(pow(snoise(colorNoiseSamplePos * _SpecialColorNoiseFreq), _ColorNoiseSharpness));
+                float colorNoise = saturate(pow(abs(snoise(colorNoiseSamplePos * _ColorNoiseFreq)), _ColorNoiseSharpness));
+                float specialColorNoise = saturate(pow(abs(snoise(colorNoiseSamplePos * _SpecialColorNoiseFreq)), _ColorNoiseSharpness));
                 
                 float3 col = _Color.rgb * (1 - colorNoise) + _SecondaryColor.rgb * colorNoise;
                 float3 specialCol = _SpecialColor * specialColorNoise;
